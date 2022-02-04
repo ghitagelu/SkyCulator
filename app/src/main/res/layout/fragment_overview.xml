@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/navBar_color"
+    android:gravity="center"
+    tools:context=".Fragments.OverviewFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <SeekBar
+            android:id="@+id/seekBar_weight"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:max="265"
+            android:min="99"
+            android:progress="1"
+            android:progressTint="#FFFFFF"
+            android:thumb="@drawable/bar_0_weight"
+            tools:layout_editor_absoluteX="0dp"
+            tools:layout_editor_absoluteY="106dp" />
+
+        <SeekBar
+            android:id="@+id/seekBar_equipment"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:max="265"
+            android:min="99"
+            android:progress="1"
+            android:progressTint="#FFFFFF"
+            android:thumb="@drawable/bar_0_weight"
+            tools:layout_editor_absoluteX="-16dp"
+            tools:layout_editor_absoluteY="215dp" />
+
+        <SeekBar
+            android:id="@+id/seekBar_canopy"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:max="265"
+            android:min="99"
+            android:progress="1"
+            android:progressTint="#FFFFFF"
+            android:thumb="@drawable/bar_0_weight"
+            tools:layout_editor_absoluteX="0dp"
+            tools:layout_editor_absoluteY="322dp" />
+
+        <SeekBar
+            android:id="@+id/seekBar_load"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:max="265"
+            android:min="99"
+            android:progress="1"
+            android:progressTint="#FFFFFF"
+            android:thumb="@drawable/bar_0_weight"
+            tools:layout_editor_absoluteX="0dp"
+            tools:layout_editor_absoluteY="401dp" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/textView_NE_units"
+                android:layout_width="75dp"
+                android:layout_height="match_parent"
+                android:text="Units"
+                android:textAlignment="center"
+                android:textColor="#000000"
+                android:textSize="25dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <RadioButton
+                android:id="@+id/radioButton_KG"
+                android:layout_width="75dp"
+                android:layout_height="match_parent"
+                android:text="KG"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/textView_NE_units"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <RadioButton
+                android:id="@+id/radioButton_LBS"
+                android:layout_width="75dp"
+                android:layout_height="match_parent"
+                android:text="LBS"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/radioButton_KG"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <CheckBox
+                android:id="@+id/checkBox_tandem"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="5dp"
+                android:text="Tandem"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</RelativeLayout>

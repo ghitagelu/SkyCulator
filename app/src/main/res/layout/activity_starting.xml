@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".StartingActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/navigation_bar_shape"
+        android:padding="5dp"
+        android:layout_margin="10dp"
+        android:gravity="start"
+        android:orientation="horizontal"
+        android:layout_alignParentStart="true"
+        android:elevation="5dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="15dp"
+
+        tools:ignore="UselessParent"
+        >
+
+        <ImageButton
+            android:id="@+id/homeBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:padding="10dp"
+            android:background="#001472BD"
+            android:src="@drawable/ic_pie_chart_default_24dp"
+            android:contentDescription="@string/switch_to_overview">
+        </ImageButton>
+
+        <ImageButton
+            android:id="@+id/listBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:padding="10dp"
+            android:background="#001472BD"
+            android:src="@drawable/ic_view_list_default_24dp"
+
+            android:contentDescription="@string/switch_to_list_view">
+        </ImageButton>
+
+        <LinearLayout
+            android:layout_weight="1"
+            android:layout_height="fill_parent"
+            android:layout_width="0dp"/>
+
+        <ImageButton
+            android:id="@+id/addBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_margin="5dp"
+            android:background="#001472BD"
+            android:contentDescription="@string/switch_to_overview"
+            android:padding="10dp"
+            android:src="@drawable/ic_add_circle_outline_default_24dp"
+            android:visibility="invisible"
+            >
+
+        </ImageButton>
+
+
+    </LinearLayout>
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/mViewPager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</RelativeLayout>

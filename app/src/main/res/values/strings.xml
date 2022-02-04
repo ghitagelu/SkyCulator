@@ -1,3 +1,25 @@
 <resources>
     <string name="app_name">SkyDiver</string>
+    <string name="button">Button</string>
+    <string name="gotolist">GoToList</string>
+    <string name="go_to_list">go to list</string>
+    <string name="add_item">Add item</string>
+    <string name="add_reminder">Add reminder</string>
+    <string name="add_income_of_expense">ADD INCOME OF EXPENSE</string>
+    <string name="save">SAVE</string>
+    <string name="ammount">Ammount</string>
+    <string name="amount">Amount</string>
+    <string name="cancel">Cancel</string>
+    <string name="title">Title</string>
+    <string name="date">Date</string>
+    <string name="list">List</string>
+    <string name="overview">Overview</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="switch_to_list_view">Switch to list view</string>
+    <string name="switch_to_overview">Switch to Overview</string>
+    <string name="overview_fragment">overview_fragment</string>
+    <string name="todo">TODO</string>
+    <!-- Strings used for fragments for navigation -->
+
 </resources>

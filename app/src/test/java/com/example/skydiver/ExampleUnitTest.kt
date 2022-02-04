@@ -1,4 +1,4 @@
-package com.example.skydiver
+package com.example.SkyDiver
 
 import org.junit.Test
 

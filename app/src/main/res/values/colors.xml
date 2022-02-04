@@ -1,10 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="purple_200">#FFBB86FC</color>
-    <color name="purple_500">#FF6200EE</color>
-    <color name="purple_700">#FF3700B3</color>
-    <color name="teal_200">#FF03DAC5</color>
-    <color name="teal_700">#FF018786</color>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <color name="colorPrimary">#000</color>
+    <color name="colorPrimaryDark">#000</color>
+    <color name="colorAccent">#02E2FF</color>
+
+    <!--    // Transparent colors-->
+    <color name="transparent_green">#7525d366</color>
+    <color name="transparent_red">#73FF1100</color>
+    <color name="transparent_blue">#D000E2FF</color>
+    <color name="transparent_purple">#65673AB7</color>
+    <color name="transparent_yellow">#7CFFBF00</color>
+
+
+<!--  B O T T O M     N A V     B A R  -->
+    <!--    // NavBar color (navigation_bar_shape.xml) -->
+        <color name="navBar_color">#ED1472BD</color>
+    <!--    // Icon colors -->
+        <!--    //Default -->
+        <color name="default_icons_color">#000000</color>
+        <!--    //Selected -->
+        <color name="selected_icons_color">#8C6FFF00</color>
+
 </resources>

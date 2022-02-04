@@ -1,2 +1,2 @@
-rootProject.name = "SkyDiver"
+rootProject.name='Income_Status'
 include ':app'
