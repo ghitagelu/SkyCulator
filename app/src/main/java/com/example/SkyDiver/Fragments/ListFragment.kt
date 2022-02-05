@@ -30,6 +30,7 @@ class ListFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
         viewOfLayout =inflater.inflate(R.layout.fragment_list, container, false)
 
 //get data from database

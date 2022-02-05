@@ -61,6 +61,7 @@
             tools:layout_editor_absoluteY="401dp" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginTop="8dp"
@@ -68,10 +69,39 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
+            <RadioGroup
+                android:id="@+id/radioGroup"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/textView_NE_units"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <RadioButton
+                    android:id="@+id/radioButton_KG"
+                    android:layout_width="75dp"
+                    android:layout_height="match_parent"
+                    android:buttonTint="@color/selected_icons_color"
+                    android:checked="true"
+                    android:text="KG"
+                    android:textColor="#000000" />
+
+                <RadioButton
+                    android:id="@+id/radioButton_LBS"
+                    android:layout_width="75dp"
+                    android:layout_height="match_parent"
+                    android:buttonTint="@color/default_icons_color"
+                    android:text="LBS"
+                    android:textColor="#000000"
+                    android:textColorLink="@color/selected_icons_color" />
+            </RadioGroup>
+
             <TextView
                 android:id="@+id/textView_NE_units"
                 android:layout_width="75dp"
                 android:layout_height="match_parent"
+                android:paddingTop="5dp"
                 android:text="@string/units"
                 android:textAlignment="center"
                 android:textColor="#000000"
@@ -80,33 +110,15 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <RadioButton
-                android:id="@+id/radioButton_KG"
-                android:layout_width="75dp"
-                android:layout_height="match_parent"
-                android:text="KG"
-                android:textColor="#000000"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/textView_NE_units"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <RadioButton
-                android:id="@+id/radioButton_LBS"
-                android:layout_width="75dp"
-                android:layout_height="match_parent"
-                android:text="LBS"
-                android:textColor="#000000"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/radioButton_KG"
-                app:layout_constraintTop_toTopOf="parent" />
-
             <CheckBox
                 android:id="@+id/checkBox_tandem"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginEnd="5dp"
+                android:buttonTint="@color/default_icons_color"
                 android:text="@string/tandem"
                 android:textColor="#000000"
+                android:textColorLink="@color/selected_icons_color"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -120,6 +132,14 @@
             app:layout_constraintStart_toStartOf="parent">
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <Button
+            android:id="@+id/button_test"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Button"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
