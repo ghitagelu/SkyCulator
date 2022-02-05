@@ -20,6 +20,8 @@
     <string name="switch_to_overview">Switch to Overview</string>
     <string name="overview_fragment">overview_fragment</string>
     <string name="todo">TODO</string>
+    <string name="units">Units</string>
+    <string name="tandem">Tandem</string>
     <!-- Strings used for fragments for navigation -->
 
 </resources>

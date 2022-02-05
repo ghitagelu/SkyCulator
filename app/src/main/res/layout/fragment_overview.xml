@@ -62,7 +62,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="50dp"
             android:layout_marginTop="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -72,10 +72,10 @@
                 android:id="@+id/textView_NE_units"
                 android:layout_width="75dp"
                 android:layout_height="match_parent"
-                android:text="Units"
+                android:text="@string/units"
                 android:textAlignment="center"
                 android:textColor="#000000"
-                android:textSize="25dp"
+                android:textSize="25sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -85,6 +85,7 @@
                 android:layout_width="75dp"
                 android:layout_height="match_parent"
                 android:text="KG"
+                android:textColor="#000000"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/textView_NE_units"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -94,6 +95,7 @@
                 android:layout_width="75dp"
                 android:layout_height="match_parent"
                 android:text="LBS"
+                android:textColor="#000000"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/radioButton_KG"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -103,7 +105,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginEnd="5dp"
-                android:text="Tandem"
+                android:text="@string/tandem"
+                android:textColor="#000000"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
