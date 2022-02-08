@@ -82,7 +82,7 @@
                     android:id="@+id/radioButton_KG"
                     android:layout_width="75dp"
                     android:layout_height="match_parent"
-                    android:buttonTint="@color/selected_icons_color"
+                    android:buttonTint="@drawable/button_states"
                     android:checked="true"
                     android:text="KG"
                     android:textColor="#000000" />
@@ -91,7 +91,7 @@
                     android:id="@+id/radioButton_LBS"
                     android:layout_width="75dp"
                     android:layout_height="match_parent"
-                    android:buttonTint="@color/default_icons_color"
+                    android:buttonTint="@drawable/button_states"
                     android:text="LBS"
                     android:textColor="#000000"
                     android:textColorLink="@color/selected_icons_color" />
@@ -115,10 +115,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginEnd="5dp"
-                android:buttonTint="@color/default_icons_color"
+
+                android:buttonTint="@drawable/button_states"
+                android:checked="false"
                 android:text="@string/tandem"
-                android:textColor="#000000"
-                android:textColorLink="@color/selected_icons_color"
+
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -132,14 +133,6 @@
             app:layout_constraintStart_toStartOf="parent">
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <Button
-            android:id="@+id/button_test"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Button"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

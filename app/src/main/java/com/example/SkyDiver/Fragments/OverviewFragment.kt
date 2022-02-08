@@ -50,14 +50,7 @@ class OverviewFragment : Fragment() {
                 Toast.LENGTH_SHORT
             ).show()
         }
-        viewOfLayout.button_test.setOnClickListener {
-            Toast.makeText(
-                activity!!.applicationContext,
-                "BUTTONN: ",
 
-                Toast.LENGTH_SHORT
-            ).show()
-        }
 //        viewOfLayout.radioGroup.setOnCheckedChangeListener { buttonView, isChecked ->
 //            if(isChecked == radioButton_KG.)
 //            Toast.makeText(activity,
