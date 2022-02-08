@@ -12,56 +12,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <SeekBar
-            android:id="@+id/seekBar_weight"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:max="265"
-            android:min="99"
-            android:progress="1"
-            android:progressTint="#FFFFFF"
-            android:thumb="@drawable/bar_0_weight"
-            tools:layout_editor_absoluteX="0dp"
-            tools:layout_editor_absoluteY="106dp" />
-
-        <SeekBar
-            android:id="@+id/seekBar_equipment"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:max="265"
-            android:min="99"
-            android:progress="1"
-            android:progressTint="#FFFFFF"
-            android:thumb="@drawable/bar_0_weight"
-            tools:layout_editor_absoluteX="-16dp"
-            tools:layout_editor_absoluteY="215dp" />
-
-        <SeekBar
-            android:id="@+id/seekBar_canopy"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:max="265"
-            android:min="99"
-            android:progress="1"
-            android:progressTint="#FFFFFF"
-            android:thumb="@drawable/bar_0_weight"
-            tools:layout_editor_absoluteX="0dp"
-            tools:layout_editor_absoluteY="322dp" />
-
-        <SeekBar
-            android:id="@+id/seekBar_load"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:max="265"
-            android:min="99"
-            android:progress="1"
-            android:progressTint="#FFFFFF"
-            android:thumb="@drawable/bar_0_weight"
-            tools:layout_editor_absoluteX="0dp"
-            tools:layout_editor_absoluteY="401dp" />
-
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/constraintLayout"
+            android:id="@+id/Radio_constraintLayout"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginTop="8dp"
@@ -126,11 +78,268 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/Weight_constraintLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            app:layout_constraintTop_toBottomOf="@+id/Radio_constraintLayout"
+            tools:layout_editor_absoluteX="0dp">
+
+            <TextView
+                android:id="@+id/textView_weight"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:layout_marginTop="4dp"
+                android:paddingTop="5dp"
+                android:text="Weight"
+                android:textAlignment="center"
+                android:textSize="15sp"
+                app:layout_constraintBottom_toTopOf="@+id/seekBar_weight"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <EditText
+                android:id="@+id/editNumber_weight"
+                android:layout_width="100dp"
+                android:layout_height="35dp"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/navigation_bar_shape"
+                android:backgroundTint="@color/selected_icons_color"
+                android:contentDescription="Human weight"
+                android:editable="false"
+                android:ems="10"
+                android:includeFontPadding="false"
+                android:paddingVertical="10dp"
+                android:text="number"
+                android:textAlignment="center"
+                android:textSize="15sp"
+                app:layout_constraintBottom_toTopOf="@+id/seekBar_weight"
+                app:layout_constraintStart_toEndOf="@+id/textView_weight"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textView_weight_units"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:layout_marginTop="4dp"
+                android:paddingTop="5dp"
+                android:text=" kg"
+                android:textAlignment="center"
+                android:textSize="15sp"
+                app:layout_constraintBottom_toTopOf="@+id/seekBar_weight"
+                app:layout_constraintStart_toEndOf="@+id/editNumber_weight"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <SeekBar
+                android:id="@+id/seekBar_weight"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:max="265"
+                android:min="99"
+                android:progress="1"
+                android:progressBackgroundTint="@color/default_icons_color"
+                android:progressTint="@color/selected_icons_color"
+                android:thumb="@drawable/bar_0_weight"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/Equipment_constraintLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            app:layout_constraintTop_toBottomOf="@+id/Weight_constraintLayout"
+            tools:layout_editor_absoluteX="0dp">
+
+            <TextView
+                android:id="@+id/textView_equipment"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:layout_marginTop="4dp"
+                android:paddingTop="5dp"
+                android:text="Equipment"
+                android:textAlignment="center"
+                android:textSize="15sp"
+                app:layout_constraintBottom_toTopOf="@+id/seekBar_equipment"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="1.0" />
+
+            <EditText
+                android:id="@+id/editNumber_equipment"
+                android:layout_width="100dp"
+                android:layout_height="35dp"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/navigation_bar_shape"
+                android:backgroundTint="@color/selected_icons_color"
+                android:contentDescription="Equipment weight"
+                android:editable="false"
+                android:ems="10"
+                android:includeFontPadding="false"
+                android:paddingVertical="10dp"
+                android:textAlignment="center"
+                android:textSize="15sp"
+                app:layout_constraintBottom_toTopOf="@+id/seekBar_equipment"
+                app:layout_constraintStart_toEndOf="@+id/textView_equipment"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textView_equipment_units"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:layout_marginTop="4dp"
+                android:paddingTop="5dp"
+                android:text=" kg"
+                android:textAlignment="center"
+                android:textSize="15sp"
+                app:layout_constraintBottom_toTopOf="@+id/seekBar_equipment"
+                app:layout_constraintStart_toEndOf="@+id/editNumber_equipment"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <SeekBar
+                android:id="@+id/seekBar_equipment"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:max="265"
+                android:min="99"
+                android:progress="1"
+                android:progressBackgroundTint="@color/default_icons_color"
+                android:progressTint="@color/selected_icons_color"
+                android:thumb="@drawable/bar_0_weight"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/Canopy_constraintLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            app:layout_constraintTop_toBottomOf="@+id/Equipment_constraintLayout"
+            tools:layout_editor_absoluteX="0dp">
+
+            <TextView
+                android:id="@+id/textView_canopy"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:layout_marginTop="4dp"
+                android:paddingTop="5dp"
+                android:text="Canopy"
+                android:textAlignment="center"
+                android:textSize="15sp"
+                app:layout_constraintBottom_toTopOf="@+id/seekBar_canopy"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <EditText
+                android:id="@+id/editNumber_canopy"
+                android:layout_width="100dp"
+                android:layout_height="35dp"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/navigation_bar_shape"
+                android:backgroundTint="@color/selected_icons_color"
+                android:contentDescription="Canopy size"
+                android:editable="false"
+                android:ems="10"
+                android:paddingVertical="10dp"
+                android:textAlignment="center"
+                android:textSize="15sp"
+                app:layout_constraintBottom_toTopOf="@+id/seekBar_canopy"
+                app:layout_constraintStart_toEndOf="@+id/textView_canopy"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textView_canopy_units"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:layout_marginTop="4dp"
+                android:paddingTop="5dp"
+                android:text=" sq ft"
+                android:textAlignment="center"
+                android:textSize="15sp"
+                app:layout_constraintBottom_toTopOf="@+id/seekBar_canopy"
+                app:layout_constraintStart_toEndOf="@+id/editNumber_canopy"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <SeekBar
+                android:id="@+id/seekBar_canopy"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:max="265"
+                android:min="99"
+                android:progress="1"
+                android:progressBackgroundTint="@color/default_icons_color"
+                android:progressTint="@color/selected_icons_color"
+                android:thumb="@drawable/bar_0_weight"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/Load_constraintLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            app:layout_constraintTop_toBottomOf="@+id/Canopy_constraintLayout"
+            tools:layout_editor_absoluteX="0dp">
+
+            <TextView
+                android:id="@+id/textView_load"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:layout_marginTop="4dp"
+                android:paddingTop="5dp"
+                android:text="Load"
+                android:textAlignment="center"
+                android:textSize="15sp"
+                app:layout_constraintBottom_toTopOf="@+id/seekBar_load"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <EditText
+                android:id="@+id/editNumber__load"
+                android:layout_width="100dp"
+                android:layout_height="35dp"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/navigation_bar_shape"
+                android:backgroundTint="@color/selected_icons_color"
+                android:editable="false"
+                android:ems="10"
+                android:paddingVertical="10dp"
+                android:textAlignment="center"
+                android:textSize="15sp"
+                app:layout_constraintBottom_toTopOf="@+id/seekBar_load"
+                app:layout_constraintStart_toEndOf="@+id/textView_load"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <SeekBar
+                android:id="@+id/seekBar_load"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:max="265"
+                android:min="99"
+                android:progress="1"
+                android:progressBackgroundTint="@color/default_icons_color"
+                android:progressTint="@color/selected_icons_color"
+                android:thumb="@drawable/bar_0_weight"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout"
             android:layout_width="match_parent"
             android:layout_height="100dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
+            tools:layout_editor_absoluteY="631dp">
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

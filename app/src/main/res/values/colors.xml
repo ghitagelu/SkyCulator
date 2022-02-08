@@ -17,7 +17,7 @@
         <color name="navBar_color">#ED1472BD</color>
     <!--    // Icon colors -->
         <!--    //Default -->
-        <color name="default_icons_color">#8A8080</color>
+        <color name="default_icons_color">#666161</color>
         <!--    //Selected -->
         <color name="selected_icons_color">#FFFFFF</color>
 

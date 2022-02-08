@@ -25,73 +25,70 @@ class OverviewFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
+        //Make viewOfLayout = this fragment
         viewOfLayout =inflater.inflate(R.layout.fragment_overview, container, false)
-        // Inflate the layout for this fragment
-
-        viewOfLayout.radioButton_KG.setOnClickListener {
 
 
+        //Radio buttons handling
+        viewOfLayout.radioGroup.setOnCheckedChangeListener { buttonView, isChecked ->
+            if(isChecked == radioButton_KG.id) {
+            //Kilograms
+
+                setUnitsKG()
+                Toast.makeText(
+                    activity,
+                    "KG",
+                    Toast.LENGTH_LONG
+                ).show()
+
+
+            }
+            if(isChecked == radioButton_LBS.id) {
+            //LBS
+                setUnitsLBS()
+                Toast.makeText(
+                    activity,
+                    "LBS",
+                    Toast.LENGTH_LONG
+                ).show()
+
+
+            }
         }
-        viewOfLayout.radioButton_LBS.setOnClickListener {
-            Toast.makeText(
-                activity!!.applicationContext,
-                "DELETED: ",
 
-                Toast.LENGTH_SHORT
-            ).show()
-
-        }
+        //Tandem checkbox handling
         viewOfLayout.checkBox_tandem.setOnCheckedChangeListener { buttonView, isChecked ->
 
-            Toast.makeText(
-                activity,
-                "TANDEM: ",
+            //Listeners work if you change radio buttons through code
+//            viewOfLayout.radioButton_LBS.isChecked = true
 
-                Toast.LENGTH_SHORT
-            ).show()
+            if(checkBox_tandem.isChecked) {
+
+
+                Toast.makeText(
+                    activity,
+                    "TANDEM: ",
+
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
         }
 
-//        viewOfLayout.radioGroup.setOnCheckedChangeListener { buttonView, isChecked ->
-//            if(isChecked == radioButton_KG.)
-//            Toast.makeText(activity,
-//                "KG",
-//                Toast.LENGTH_LONG
-//            ).show()
-//            if(isChecked == radioButton_LBS.id)
-//                Toast.makeText(activity,
-//                    "LBS",
-//                    Toast.LENGTH_LONG
-//                ).show()
-//        }
-//        val view: View = inflater!!.inflate(R.layout.fragment_overview, container, false)
-
-//        val radio_KG : RadioButton = findViewById(R.id.radioButton_KG)
-//        viewOfLayout.radioGroup_units.setOnCheckedChangeListener { group, checkedId ->
-//            Toast.makeText(activity,
-//                "CHANGE",
-//                Toast.LENGTH_LONG
-//            ).show()
-//
-//            if(checkedId == R.id.radioButton_KG)
-//                Toast.makeText(activity,
-//                    "KG",
-//                    Toast.LENGTH_LONG
-//                ).show()
-//            if(checkedId ==R.id.radioButton_LBS)
-//                Toast.makeText(activity,
-//                    "LBS",
-//                    Toast.LENGTH_LONG
-//                ).show()
-//        }
-
-
-
-
-
-
+        //required to update fragment
         return viewOfLayout
     }
 
+    //Handling of changing the units types
+    private fun setUnitsKG()
+    {
+        viewOfLayout.textView_weight_units.text=" kg"
+        viewOfLayout.textView_equipment_units.text = " kg"
+    }
+    private fun setUnitsLBS()
+    {
+        viewOfLayout.textView_weight_units.text=" lbs"
+        viewOfLayout.textView_equipment_units.text = " lbs"
+    }
 
-
+    //
 }

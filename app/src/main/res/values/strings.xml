@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SkyDiver</string>
+    <string name="app_name">SkyCulator</string>
     <string name="button">Button</string>
     <string name="gotolist">GoToList</string>
     <string name="go_to_list">go to list</string>
