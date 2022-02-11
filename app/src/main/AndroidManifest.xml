@@ -12,6 +12,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name="com.example.SkyDiver.StartingActivity"
+            android:windowSoftInputMode="adjustPan"
             android:screenOrientation="sensorPortrait"
             tools:ignore="LockedOrientationActivity">
 

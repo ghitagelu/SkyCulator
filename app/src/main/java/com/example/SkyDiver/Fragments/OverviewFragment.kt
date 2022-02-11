@@ -1,16 +1,16 @@
 package com.example.SkyDiver.Fragments
 
 
+import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
+import android.widget.SeekBar
 import android.widget.Toast
-import androidx.appcompat.content.res.AppCompatResources.getColorStateList
 import androidx.core.widget.doAfterTextChanged
-import androidx.core.widget.doOnTextChanged
-
+import androidx.fragment.app.Fragment
 import com.example.SkyDiver.R
 import kotlinx.android.synthetic.main.fragment_overview.*
 import kotlinx.android.synthetic.main.fragment_overview.view.*
@@ -22,12 +22,12 @@ import kotlinx.android.synthetic.main.fragment_overview.view.*
 class OverviewFragment : Fragment() {
     private lateinit var viewOfLayout: View
 
-    private class UserValues(a:Int ,b:Int, c: Int )
+    private class UserValues(a:Int ,b:Int, c: Int, d:Int )
     {
         var weight : Int = a
         var equipment : Int = b
         var canopy : Int = c
-
+        var load : Int = d
     }
 
     override fun onCreateView(
@@ -36,7 +36,7 @@ class OverviewFragment : Fragment() {
     ): View? {
 
 
-var valori = UserValues(100, 20, 100)
+var valori = UserValues(100, 20, 100, 250)
 
         //Make viewOfLayout = this fragment
         viewOfLayout =inflater.inflate(R.layout.fragment_overview, container, false)
@@ -86,11 +86,230 @@ var valori = UserValues(100, 20, 100)
                 ).show()
             }
         }
-//        viewOfLayout.editNumber_weight.doAfterTextChanged {
-//
-//        }
+
+//Weight handling
+
+        viewOfLayout.editNumber_weight.setOnFocusChangeListener { v, hasFocus ->
+            if (hasFocus)
+            {
+
+            }
+            else {
+                viewOfLayout.editNumber_weight.setText(viewOfLayout.seekBar_weight.progress.toString())
+                hideKeyboard(v)
+            }
+        }
+        viewOfLayout.editNumber_equipment.setOnFocusChangeListener { v, hasFocus ->
+            if (hasFocus)
+            {
+
+            }
+            else {
+                viewOfLayout.editNumber_equipment.setText(viewOfLayout.seekBar_equipment.progress.toString())
+                hideKeyboard(v)
+            }
+        }
+        viewOfLayout.editNumber_canopy.setOnFocusChangeListener { v, hasFocus ->
+            if (hasFocus)
+            {
+
+            }
+            else {
+                viewOfLayout.editNumber_canopy.setText(viewOfLayout.seekBar_canopy.progress.toString())
+                hideKeyboard(v)
+            }
+        }
+        viewOfLayout.editNumber_load.setOnFocusChangeListener { v, hasFocus ->
+            if (hasFocus)
+            {
+
+            }
+            else {
+                viewOfLayout.editNumber_load.setText(viewOfLayout.seekBar_load.progress.toString())
+                hideKeyboard(v)
+            }
+        }
+
+
+    //Weight :Text field handling
+        viewOfLayout.editNumber_weight.doAfterTextChanged {
+
+            if(viewOfLayout.editNumber_weight.text.toString()!="") {
+                val value = Integer.parseInt(viewOfLayout.editNumber_weight.text.toString())
+
+                if(value < 99) {
+//                    viewOfLayout.editNumber_weight.setText("99")
+//                    viewOfLayout.seekBar_weight.progress = 99
+                }
+                if(value > 265) {
+                    viewOfLayout.editNumber_weight.setText("265")
+                    viewOfLayout.seekBar_weight.progress = 265
+                }
+                else
+                viewOfLayout.seekBar_weight.progress=value
+            }
+
+        }
+        viewOfLayout.editNumber_equipment.doAfterTextChanged {
+
+            if(viewOfLayout.editNumber_equipment.text.toString()!="") {
+                val value = Integer.parseInt(viewOfLayout.editNumber_equipment.text.toString())
+
+                if(value < 10) {
+//                    viewOfLayout.editNumber_weight.setText("99")
+//                    viewOfLayout.seekBar_weight.progress = 99
+                }
+                if(value > 55) {
+                    viewOfLayout.editNumber_equipment.setText("55")
+                    viewOfLayout.seekBar_equipment.progress = 55
+                }
+                else
+                    viewOfLayout.seekBar_equipment.progress=value
+            }
+
+        }
+
+        viewOfLayout.editNumber_canopy.doAfterTextChanged {
+
+            if(viewOfLayout.editNumber_canopy.text.toString()!="") {
+                val value = Integer.parseInt(viewOfLayout.editNumber_canopy.text.toString())
+
+                if(value < 50) {
+//                    viewOfLayout.editNumber_weight.setText("99")
+//                    viewOfLayout.seekBar_weight.progress = 99
+                }
+                if(value > 350) {
+                    viewOfLayout.editNumber_canopy.setText("350")
+                    viewOfLayout.seekBar_canopy.progress = 350
+                }
+                else
+                    viewOfLayout.seekBar_canopy.progress=value
+            }
+
+        }
+        viewOfLayout.editNumber_load.doAfterTextChanged {
+
+            if(viewOfLayout.editNumber_load.text.toString()!="") {
+                val value = Integer.parseInt(viewOfLayout.editNumber_load.text.toString())
+
+                if(value < 0) {
+//                    viewOfLayout.editNumber_weight.setText("99")
+//                    viewOfLayout.seekBar_weight.progress = 99
+                }
+                if(value > 400) {
+                    viewOfLayout.editNumber_load.setText("400")
+                    viewOfLayout.seekBar_load.progress = 400
+                }
+                else
+                    viewOfLayout.seekBar_load.progress=value
+            }
+
+        }
+
+    //Weight :seek bar handling
+
+        viewOfLayout.seekBar_weight.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                if(fromUser) {
+                    viewOfLayout.editNumber_weight.setText(progress.toString())
+                    viewOfLayout.editNumber_weight.setSelection(viewOfLayout.editNumber_weight.length())
+                    ClearFocusFromButtons()
+                }
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {
+
+            }
+
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {
+
+            }
+        })
+        viewOfLayout.seekBar_equipment.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                if(fromUser) {
+                    viewOfLayout.editNumber_equipment.setText(progress.toString())
+                    viewOfLayout.editNumber_equipment.setSelection(viewOfLayout.editNumber_equipment.length())
+                    ClearFocusFromButtons()
+                }
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {
+
+            }
+
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {
+
+            }
+        })
+        viewOfLayout.seekBar_canopy.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                if(fromUser) {
+                    viewOfLayout.editNumber_canopy.setText(progress.toString())
+                    viewOfLayout.editNumber_canopy.setSelection(viewOfLayout.editNumber_canopy.length())
+                    ClearFocusFromButtons()
+                }
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {
+
+            }
+
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {
+
+            }
+        })
+        viewOfLayout.seekBar_load.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                if(fromUser) {
+                    viewOfLayout.editNumber_load.setText(progress.toString())
+                    viewOfLayout.editNumber_load.setSelection(viewOfLayout.editNumber_load.length())
+                    ClearFocusFromButtons()
+                }
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {
+
+            }
+
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {
+
+            }
+        })
+
+
+
+
+
+        viewOfLayout.setOnClickListener {
+            ClearFocusFromButtons()
+            Toast.makeText(
+                    activity,
+                    "FRAGMENT CLICKED ",
+
+                    Toast.LENGTH_SHORT
+                ).show()
+        }
+
+
+
+        ClearFocusFromButtons()
         //required to update fragment
         return viewOfLayout
+    }
+
+    private fun ClearFocusFromButtons()
+    {
+        viewOfLayout.editNumber_weight.clearFocus()
+        viewOfLayout.editNumber_equipment.clearFocus()
+        viewOfLayout.editNumber_canopy.clearFocus()
+        viewOfLayout.editNumber_load.clearFocus()
+    }
+
+    private fun hideKeyboard(v: View) {
+        val inputManager = v.context
+            .getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputManager.hideSoftInputFromWindow(v.windowToken, 0)
     }
 
     //Handling of changing the units types
@@ -111,6 +330,7 @@ var valori = UserValues(100, 20, 100)
         viewOfLayout.editNumber_weight.setText(valori.weight.toString())
         viewOfLayout.editNumber_equipment.setText(valori.equipment.toString())
         viewOfLayout.editNumber_canopy.setText(valori.canopy.toString())
+        viewOfLayout.editNumber_load.setText(valori.load.toString())
     }
     //
 }

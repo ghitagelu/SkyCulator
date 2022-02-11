@@ -35,7 +35,7 @@
                     android:layout_width="75dp"
                     android:layout_height="match_parent"
                     android:buttonTint="@drawable/button_states"
-                    android:checked="true"
+                    android:checked="false"
                     android:text="KG"
                     android:textColor="#000000" />
 
@@ -44,6 +44,7 @@
                     android:layout_width="75dp"
                     android:layout_height="match_parent"
                     android:buttonTint="@drawable/button_states"
+                    android:checked="true"
                     android:text="LBS"
                     android:textColor="#000000"
                     android:textColorLink="@color/selected_icons_color" />
@@ -115,6 +116,7 @@
                 app:layout_constraintBottom_toTopOf="@+id/seekBar_weight"
                 app:layout_constraintStart_toEndOf="@+id/textView_weight"
                 app:layout_constraintTop_toTopOf="parent" />
+
             <TextView
                 android:id="@+id/textView_weight_units"
                 android:layout_width="wrap_content"
@@ -201,8 +203,8 @@
                 android:id="@+id/seekBar_equipment"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:max="265"
-                android:min="99"
+                android:max="55"
+                android:min="10"
                 android:progress="1"
                 android:progressBackgroundTint="@color/default_icons_color"
                 android:progressTint="@color/selected_icons_color"
@@ -270,8 +272,8 @@
                 android:id="@+id/seekBar_canopy"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:max="265"
-                android:min="99"
+                android:max="350"
+                android:min="50"
                 android:progress="1"
                 android:progressBackgroundTint="@color/default_icons_color"
                 android:progressTint="@color/selected_icons_color"
@@ -304,7 +306,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <EditText
-                android:id="@+id/editNumber__load"
+                android:id="@+id/editNumber_load"
                 android:layout_width="100dp"
                 android:layout_height="35dp"
                 android:layout_marginTop="4dp"
@@ -324,8 +326,8 @@
                 android:id="@+id/seekBar_load"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:max="265"
-                android:min="99"
+                android:max="400"
+                android:min="0"
                 android:progress="1"
                 android:progressBackgroundTint="@color/default_icons_color"
                 android:progressTint="@color/selected_icons_color"
@@ -345,7 +347,6 @@
             app:layout_constraintStart_toStartOf="parent">
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
