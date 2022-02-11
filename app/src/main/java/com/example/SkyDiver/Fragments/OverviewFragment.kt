@@ -22,12 +22,14 @@ import kotlinx.android.synthetic.main.fragment_overview.view.*
 class OverviewFragment : Fragment() {
     private lateinit var viewOfLayout: View
 
-    private class UserValues(a:Int ,b:Int, c: Int, d:Int )
+    private class UserValues(weight:Int ,equipment:Int, canopy: Int, load:Int, kg:Boolean, lbs:Boolean )
     {
-        var weight : Int = a
-        var equipment : Int = b
-        var canopy : Int = c
-        var load : Int = d
+        var weight : Int = weight
+        var equipment : Int = equipment
+        var canopy : Int = canopy
+        var load : Int = load
+        var unit_KG :Boolean = kg
+        var unit_LBS : Boolean = lbs
     }
 
     override fun onCreateView(
@@ -36,11 +38,11 @@ class OverviewFragment : Fragment() {
     ): View? {
 
 
-var valori = UserValues(100, 20, 100, 250)
+var defaultValues = UserValues(184, 28, 278, 250,false, true )
 
         //Make viewOfLayout = this fragment
         viewOfLayout =inflater.inflate(R.layout.fragment_overview, container, false)
-        setDefaultValues(valori)
+        setCalculatorValues(defaultValues)
 
         //Radio buttons handling
         viewOfLayout.radioGroup.setOnCheckedChangeListener { buttonView, isChecked ->
@@ -324,13 +326,27 @@ var valori = UserValues(100, 20, 100, 250)
         viewOfLayout.textView_equipment_units.text = " lbs"
     }
 
-    private fun setDefaultValues(valori:UserValues)
+    private fun setCalculatorValues(values:UserValues)
     {
+//
+        viewOfLayout.editNumber_weight.setText(values.weight.toString())
+        viewOfLayout.editNumber_equipment.setText(values.equipment.toString())
+        viewOfLayout.editNumber_canopy.setText(values.canopy.toString())
+        viewOfLayout.editNumber_load.setText(values.load.toString())
 
-        viewOfLayout.editNumber_weight.setText(valori.weight.toString())
-        viewOfLayout.editNumber_equipment.setText(valori.equipment.toString())
-        viewOfLayout.editNumber_canopy.setText(valori.canopy.toString())
-        viewOfLayout.editNumber_load.setText(valori.load.toString())
+        viewOfLayout.seekBar_weight.progress =values.weight
+        viewOfLayout.seekBar_equipment.progress =values.equipment
+        viewOfLayout.seekBar_canopy.progress =values.canopy
+        viewOfLayout.seekBar_load.progress =values.load
+
+        if(values.unit_KG)
+        {
+            setUnitsKG()
+        }
+        if(values.unit_LBS)
+        {
+            setUnitsLBS()
+        }
     }
     //
 }
