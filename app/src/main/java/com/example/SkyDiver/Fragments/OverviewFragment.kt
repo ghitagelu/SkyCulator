@@ -14,8 +14,6 @@ import androidx.fragment.app.Fragment
 import com.example.SkyDiver.R
 import kotlinx.android.synthetic.main.fragment_overview.*
 import kotlinx.android.synthetic.main.fragment_overview.view.*
-import java.lang.Math.round
-import kotlin.math.roundToInt
 
 
 /**
@@ -24,12 +22,12 @@ import kotlin.math.roundToInt
 class OverviewFragment : Fragment() {
     private lateinit var viewOfLayout: View
 
-    private class UserValues(weight:Int ,equipment:Int, canopy: Int, load:Int, kg:Boolean, lbs:Boolean )
+    private class UserValues(weight:Int, equipment:Int, canopy: Int, load: Double, kg:Boolean, lbs:Boolean )
     {
         var weight : Int = weight
         var equipment : Int = equipment
         var canopy : Int = canopy
-        var load : Int = load
+        var load : Double = load
         var unit_KG :Boolean = kg
         var unit_LBS : Boolean = lbs
     }
@@ -41,7 +39,7 @@ class OverviewFragment : Fragment() {
     ): View? {
 
 
-var defaultValues = UserValues(184, 28, 278, 250,false, true )
+var defaultValues = UserValues(184, 28, 278, 2.50,false, true )
         var jump_Level : Int
 
         //Make viewOfLayout = this fragment
@@ -131,7 +129,7 @@ var defaultValues = UserValues(184, 28, 278, 250,false, true )
 
             }
             else {
-                viewOfLayout.editNumber_load.setText(viewOfLayout.seekBar_load.progress.toString())
+                viewOfLayout.editNumber_load.setText(((viewOfLayout.seekBar_load.progress.toDouble())/100).toString())
                 hideKeyboard(v)
             }
         }
@@ -196,10 +194,10 @@ var defaultValues = UserValues(184, 28, 278, 250,false, true )
         viewOfLayout.editNumber_load.doAfterTextChanged {
 
             if(viewOfLayout.editNumber_load.text.toString()!="") {
-                val value = Integer.parseInt(viewOfLayout.editNumber_load.text.toString())
+                val value = ((viewOfLayout.editNumber_load.text.toString()).toDouble()*100).toInt()
 
                 if(value > 400) {
-                    viewOfLayout.editNumber_load.setText("400")
+                    viewOfLayout.editNumber_load.setText("4.00")
                     viewOfLayout.seekBar_load.progress = 400
                 }
                 else{
@@ -267,7 +265,7 @@ var defaultValues = UserValues(184, 28, 278, 250,false, true )
         viewOfLayout.seekBar_load.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 if(fromUser) {
-                    viewOfLayout.editNumber_load.setText(progress.toString())
+                    viewOfLayout.editNumber_load.setText((progress.toDouble()/100).toString())
                     viewOfLayout.editNumber_load.setSelection(viewOfLayout.editNumber_load.length())
                     ClearFocusFromButtons()
                 }
@@ -340,7 +338,7 @@ var defaultValues = UserValues(184, 28, 278, 250,false, true )
         viewOfLayout.seekBar_weight.progress =values.weight
         viewOfLayout.seekBar_equipment.progress =values.equipment
         viewOfLayout.seekBar_canopy.progress =values.canopy
-        viewOfLayout.seekBar_load.progress =values.load
+        viewOfLayout.seekBar_load.progress =(values.load *100).toInt()
 
         if(values.unit_KG)
         {
@@ -350,7 +348,7 @@ var defaultValues = UserValues(184, 28, 278, 250,false, true )
         {
             setUnitsLBS()
         }
-        handlingOfJumpsConstraintLayout(values.load)
+        handlingOfJumpsConstraintLayout((values.load).toInt())
     }
 
 
@@ -409,14 +407,12 @@ var defaultValues = UserValues(184, 28, 278, 250,false, true )
         var TotalWeight:Double=(weight+equipment).toDouble()
         var kgtolbs=2.20462
 
-
-
         if(unit_KG){
             TotalWeight= weight * kgtolbs
         }
-WingLoading= (TotalWeight/canopy).toFloat()
+        WingLoading= (TotalWeight/canopy).toFloat()
 
-return WingLoading
+        return WingLoading
     }
 
     //

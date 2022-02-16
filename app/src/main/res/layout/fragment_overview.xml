@@ -82,7 +82,7 @@
             android:id="@+id/Weight_constraintLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
+            android:layout_marginTop="2dp"
             app:layout_constraintTop_toBottomOf="@+id/Radio_constraintLayout"
             tools:layout_editor_absoluteX="0dp">
 
@@ -311,7 +311,7 @@
                 android:backgroundTint="@color/selected_icons_color"
                 android:editable="true"
                 android:ems="10"
-                android:inputType="number"
+                android:inputType="numberDecimal"
                 android:paddingVertical="10dp"
                 android:textAlignment="center"
                 android:textSize="15sp"
