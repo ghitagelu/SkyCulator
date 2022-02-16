@@ -21,4 +21,13 @@
         <!--    //Selected -->
         <color name="selected_icons_color">#FFFFFF</color>
 
+<!--  J U M P  L E V E L-->
+<!--    0   -->
+    <color name="jump_level_0">#4CAF50</color>
+<!--    1   -->
+    <color name="jump_level_1">#FFEB3B</color>
+<!--    2   -->
+    <color name="jump_level_2">#FF9800</color>
+<!--    3   -->
+    <color name="jump_level_3">#F44336</color>
 </resources>
