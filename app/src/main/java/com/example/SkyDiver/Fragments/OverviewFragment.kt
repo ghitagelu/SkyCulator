@@ -14,6 +14,8 @@ import androidx.fragment.app.Fragment
 import com.example.SkyDiver.R
 import kotlinx.android.synthetic.main.fragment_overview.*
 import kotlinx.android.synthetic.main.fragment_overview.view.*
+import java.lang.Math.round
+import kotlin.math.roundToInt
 
 
 /**
@@ -348,5 +350,21 @@ var defaultValues = UserValues(184, 28, 278, 250,false, true )
             setUnitsLBS()
         }
     }
+
+    private fun setCalculatorWingLoading(weight:Int, equipment: Int, canopy:Int, unit_KG:Boolean): Float {
+        var WingLoading:Float
+        var TotalWeight:Double=(weight+equipment).toDouble()
+        var kgtolbs=2.20462
+
+
+
+        if(unit_KG){
+            TotalWeight= weight * kgtolbs
+        }
+WingLoading= (TotalWeight/canopy).toFloat()
+
+return WingLoading
+    }
+
     //
 }
