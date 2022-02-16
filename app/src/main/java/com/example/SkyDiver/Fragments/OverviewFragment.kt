@@ -34,6 +34,7 @@ class OverviewFragment : Fragment() {
         var unit_LBS : Boolean = lbs
     }
 
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -41,6 +42,7 @@ class OverviewFragment : Fragment() {
 
 
 var defaultValues = UserValues(184, 28, 278, 250,false, true )
+        var jump_Level : Int
 
         //Make viewOfLayout = this fragment
         viewOfLayout =inflater.inflate(R.layout.fragment_overview, container, false)
@@ -196,16 +198,15 @@ var defaultValues = UserValues(184, 28, 278, 250,false, true )
             if(viewOfLayout.editNumber_load.text.toString()!="") {
                 val value = Integer.parseInt(viewOfLayout.editNumber_load.text.toString())
 
-                if(value < 0) {
-//                    viewOfLayout.editNumber_weight.setText("99")
-//                    viewOfLayout.seekBar_weight.progress = 99
-                }
                 if(value > 400) {
                     viewOfLayout.editNumber_load.setText("400")
                     viewOfLayout.seekBar_load.progress = 400
                 }
-                else
+                else{
                     viewOfLayout.seekBar_load.progress=value
+                }
+
+                handlingOfJumpsConstraintLayout(value)
             }
 
         }
@@ -349,6 +350,58 @@ var defaultValues = UserValues(184, 28, 278, 250,false, true )
         {
             setUnitsLBS()
         }
+        handlingOfJumpsConstraintLayout(values.load)
+    }
+
+
+    private fun handlingOfJumpsConstraintLayout(loadValue:Int)
+    {
+        UpdateJumpValue(loadValue)
+
+
+
+        when(UpdateJumpValue(loadValue)){
+            0->{
+                viewOfLayout.textView_jumps_level.setBackgroundColor(getResources().getColor(R.color.jump_level_0))
+                viewOfLayout.textView_jumps_level.text ="BASIC: 0-200 JUMPS"
+            }
+
+            1->{
+                viewOfLayout.textView_jumps_level.setBackgroundColor(getResources().getColor(R.color.jump_level_1))
+                viewOfLayout.textView_jumps_level.text ="INTERMEDIATE: 200-600 JUMPS"
+            }
+
+            2->{
+                viewOfLayout.textView_jumps_level.setBackgroundColor(getResources().getColor(R.color.jump_level_2))
+                viewOfLayout.textView_jumps_level.text ="ADVANCED: 600-1500 JUMPS"
+            }
+
+            3->{
+                viewOfLayout.textView_jumps_level.setBackgroundColor(getResources().getColor(R.color.jump_level_3))
+                viewOfLayout.textView_jumps_level.text ="EXPERT: 1500+ JUMPS"
+            }
+
+            else -> {
+                //nothing
+            }
+        }
+
+
+    }
+     private fun UpdateJumpValue(loadValue:Int):Int
+    {
+        var result =4
+        if(loadValue in 1..100)
+        {
+            result =0
+        }else if(loadValue in 101..200){
+            result =1
+        }else if(loadValue in 201..300){
+            result =2
+        }else if(loadValue in 301..400){
+            result =3
+        }
+       return result;
     }
 
     private fun setCalculatorWingLoading(weight:Int, equipment: Int, canopy:Int, unit_KG:Boolean): Float {
