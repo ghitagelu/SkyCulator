@@ -106,7 +106,6 @@
                 android:layout_marginTop="4dp"
                 android:background="@drawable/navigation_bar_shape"
                 android:backgroundTint="@color/selected_icons_color"
-                android:contentDescription="Human weight"
                 android:ems="10"
                 android:includeFontPadding="false"
                 android:inputType="number"
@@ -174,7 +173,6 @@
                 android:layout_marginTop="4dp"
                 android:background="@drawable/navigation_bar_shape"
                 android:backgroundTint="@color/selected_icons_color"
-                android:contentDescription="Equipment weight"
                 android:editable="true"
                 android:ems="10"
                 android:includeFontPadding="false"
@@ -244,7 +242,6 @@
                 android:layout_marginTop="4dp"
                 android:background="@drawable/navigation_bar_shape"
                 android:backgroundTint="@color/selected_icons_color"
-                android:contentDescription="Canopy size"
                 android:editable="true"
                 android:ems="10"
                 android:inputType="number"
@@ -335,6 +332,38 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/Jumps_constaintLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/Load_constraintLayout">
+
+            <TextView
+                android:id="@+id/textView_jumps_level"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="1dp"
+                android:text="TextView"
+                android:gravity="center"
+                android:textAlignment="center"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textView_jumps_number"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:text="TextView"
+                android:gravity="center"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView_jumps_level" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
