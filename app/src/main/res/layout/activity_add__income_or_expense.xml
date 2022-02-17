@@ -87,18 +87,23 @@
         android:ems="10"
         android:hint="Your Weight"
         android:inputType="textPersonName"
-        tools:layout_editor_absoluteX="97dp"
-        tools:layout_editor_absoluteY="381dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editText_date" />
 
     <EditText
         android:id="@+id/editTextEquipment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
         android:ems="10"
         android:hint="Equipment weight"
         android:inputType="textPersonName"
-        tools:layout_editor_absoluteX="97dp"
-        tools:layout_editor_absoluteY="437dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextWeight" />
 
     <EditText
         android:id="@+id/editTextCanopySize"
@@ -107,7 +112,11 @@
         android:ems="10"
         android:hint="Canopy Size"
         android:inputType="textPersonName"
-        tools:layout_editor_absoluteX="97dp"
-        tools:layout_editor_absoluteY="491dp" />
+        app:layout_constraintBottom_toTopOf="@+id/editText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextEquipment"
+        app:layout_constraintVertical_bias="0.071" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
