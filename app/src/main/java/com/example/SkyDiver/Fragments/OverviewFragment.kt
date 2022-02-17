@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment
 import com.example.SkyDiver.R
 import kotlinx.android.synthetic.main.fragment_overview.*
 import kotlinx.android.synthetic.main.fragment_overview.view.*
+import kotlin.math.roundToInt
 
 
 /**
@@ -22,15 +23,12 @@ import kotlinx.android.synthetic.main.fragment_overview.view.*
 class OverviewFragment : Fragment() {
     private lateinit var viewOfLayout: View
 
-    private class UserValues(weight:Int, equipment:Int, canopy: Int, load: Double, kg:Boolean, lbs:Boolean )
-    {
-        var weight : Int = weight
-        var equipment : Int = equipment
-        var canopy : Int = canopy
-        var load : Double = load
-        var unit_KG :Boolean = kg
-        var unit_LBS : Boolean = lbs
-    }
+
+
+
+
+
+
 
 
     override fun onCreateView(
@@ -38,49 +36,131 @@ class OverviewFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
+        class SeekBarLimits(
+            var seekBar_weight_min: Int, var seekBar_weight_max: Int,
+            var seekBar_equipment_min :Int, var seekBar_equipment_max :Int,
+            var seekBar_canopy_min :Int, var seekBar_canopy_max :Int
+        )
+         class UserValues(
+            var weight: Int,
+            var equipment: Int,
+            var canopy: Int,
+            var load: Double,
+            var unit_KG: Boolean,
+            var unit_LBS: Boolean
+        )
+        {
+            //Handling of changing the units types
+            fun setCalculatorValues()
+            {
+                if(unit_KG)
+                {
+                    setUnitsKG()
+                }
+                if(unit_LBS)
+                {
+                    setUnitsLBS()
+                }
+//
+                viewOfLayout.editNumber_weight.setText(weight.toString())
+                viewOfLayout.editNumber_equipment.setText(equipment.toString())
+                viewOfLayout.editNumber_canopy.setText(canopy.toString())
+                viewOfLayout.editNumber_load.setText(load.toString())
 
-var defaultValues = UserValues(184, 28, 278, 2.50,false, true )
-        var jump_Level : Int
+                viewOfLayout.seekBar_weight.progress =weight
+                viewOfLayout.seekBar_equipment.progress =equipment
+                viewOfLayout.seekBar_canopy.progress =canopy
+                viewOfLayout.seekBar_load.progress =(load *100).toInt()
+
+
+                handlingOfJumpsConstraintLayout(load.toInt())
+            }
+            fun setUnitsKG()
+            {
+                viewOfLayout.radioButton_KG.isChecked=true
+                viewOfLayout.textView_weight_units.text=" kg"
+                viewOfLayout.textView_equipment_units.text = " kg"
+
+                val defaultSeekBarLimits = SeekBarLimits(
+                    45,120,
+                    5,25,
+                    50,350)
+
+                setSeekBarLimits(defaultSeekBarLimits)
+            }
+
+            fun setUnitsLBS()
+            {
+                viewOfLayout.radioButton_LBS.isChecked=true
+                viewOfLayout.textView_weight_units.text=" lbs"
+                viewOfLayout.textView_equipment_units.text = " lbs"
+
+                val defaultSeekBarLimits = SeekBarLimits(
+                    99,265,
+                    10,55,
+                    50,350)
+
+                setSeekBarLimits(defaultSeekBarLimits)
+            }
+
+            fun setSeekBarLimits(defaultSeekBarLimits:SeekBarLimits)
+            {
+                viewOfLayout.seekBar_weight.min = defaultSeekBarLimits.seekBar_weight_min
+                viewOfLayout.seekBar_weight.max = defaultSeekBarLimits.seekBar_weight_max
+
+                viewOfLayout.seekBar_equipment.min = defaultSeekBarLimits.seekBar_equipment_min
+                viewOfLayout.seekBar_equipment.max= defaultSeekBarLimits.seekBar_equipment_max
+
+                viewOfLayout.seekBar_canopy.min = defaultSeekBarLimits.seekBar_canopy_min
+                viewOfLayout.seekBar_canopy.max = defaultSeekBarLimits.seekBar_canopy_max
+            }
+
+
+        }
+
+        val defaultValues = UserValues(
+            100,
+            10,
+            278,
+            2.50,
+            true,
+            false )
+
 
         //Make viewOfLayout = this fragment
         viewOfLayout =inflater.inflate(R.layout.fragment_overview, container, false)
-        setCalculatorValues(defaultValues)
 
-        //Radio buttons handling
+        //Set default values
+        defaultValues.setCalculatorValues()
+
+//Radio buttons handling
         viewOfLayout.radioGroup.setOnCheckedChangeListener { buttonView, isChecked ->
+
             if(isChecked == radioButton_KG.id) {
             //Kilograms
-
-                setUnitsKG()
-                Toast.makeText(
-                    activity,
-                    "KG",
-                    Toast.LENGTH_LONG
-                ).show()
-
-
+                defaultValues.weight = LBStoKG(defaultValues.weight)
+                defaultValues.equipment = LBStoKG(defaultValues.equipment)
+                defaultValues.unit_KG = true
+                defaultValues.unit_LBS= false
+                defaultValues.setCalculatorValues()
             }
+
             if(isChecked == radioButton_LBS.id) {
             //LBS
-                setUnitsLBS()
-                Toast.makeText(
-                    activity,
-                    "LBS",
-                    Toast.LENGTH_LONG
-                ).show()
-
-
+                defaultValues.weight = KGtoLBS(defaultValues.weight)
+                defaultValues.equipment = KGtoLBS(defaultValues.equipment)
+                defaultValues.unit_KG = false
+                defaultValues.unit_LBS= true
+                defaultValues.setCalculatorValues()
             }
-        }
 
-        //Tandem checkbox handling
+        }
+//*Radio buttons handling
+
+//Tandem checkbox handling
         viewOfLayout.checkBox_tandem.setOnCheckedChangeListener { buttonView, isChecked ->
 
-            //Listeners work if you change radio buttons through code
-//            viewOfLayout.radioButton_LBS.isChecked = true
-
             if(checkBox_tandem.isChecked) {
-
 
                 Toast.makeText(
                     activity,
@@ -89,127 +169,113 @@ var defaultValues = UserValues(184, 28, 278, 2.50,false, true )
                     Toast.LENGTH_SHORT
                 ).show()
             }
-        }
 
-//Weight handling
+        }
+//*Tandem checkbox handling
 
         viewOfLayout.editNumber_weight.setOnFocusChangeListener { v, hasFocus ->
-            if (hasFocus)
+            if (!hasFocus)
             {
-
-            }
-            else {
                 viewOfLayout.editNumber_weight.setText(viewOfLayout.seekBar_weight.progress.toString())
                 hideKeyboard(v)
             }
         }
         viewOfLayout.editNumber_equipment.setOnFocusChangeListener { v, hasFocus ->
-            if (hasFocus)
+            if (!hasFocus)
             {
-
-            }
-            else {
                 viewOfLayout.editNumber_equipment.setText(viewOfLayout.seekBar_equipment.progress.toString())
                 hideKeyboard(v)
             }
         }
         viewOfLayout.editNumber_canopy.setOnFocusChangeListener { v, hasFocus ->
-            if (hasFocus)
+            if (!hasFocus)
             {
-
-            }
-            else {
                 viewOfLayout.editNumber_canopy.setText(viewOfLayout.seekBar_canopy.progress.toString())
                 hideKeyboard(v)
             }
         }
         viewOfLayout.editNumber_load.setOnFocusChangeListener { v, hasFocus ->
-            if (hasFocus)
+            if (!hasFocus)
             {
-
-            }
-            else {
                 viewOfLayout.editNumber_load.setText(((viewOfLayout.seekBar_load.progress.toDouble())/100).toString())
                 hideKeyboard(v)
             }
         }
 
-
-    //Weight :Text field handling
+//Weight handling
+        //Weight :Text field handling
         viewOfLayout.editNumber_weight.doAfterTextChanged {
 
             if(viewOfLayout.editNumber_weight.text.toString()!="") {
-                val value = Integer.parseInt(viewOfLayout.editNumber_weight.text.toString())
+                var value = Integer.parseInt(viewOfLayout.editNumber_weight.text.toString())
 
-                if(value < 99) {
-//                    viewOfLayout.editNumber_weight.setText("99")
-//                    viewOfLayout.seekBar_weight.progress = 99
+                if(value > viewOfLayout.seekBar_weight.max) {
+                    value = viewOfLayout.seekBar_weight.max
+                    viewOfLayout.editNumber_weight.setText(value.toString())
                 }
-                if(value > 265) {
-                    viewOfLayout.editNumber_weight.setText("265")
-                    viewOfLayout.seekBar_weight.progress = 265
-                }
-                else
+
                 viewOfLayout.seekBar_weight.progress=value
+                defaultValues.weight = value
             }
 
         }
+
+        //Equipment :Text field handling
         viewOfLayout.editNumber_equipment.doAfterTextChanged {
 
             if(viewOfLayout.editNumber_equipment.text.toString()!="") {
-                val value = Integer.parseInt(viewOfLayout.editNumber_equipment.text.toString())
+                var value = Integer.parseInt(viewOfLayout.editNumber_equipment.text.toString())
 
-                if(value < 10) {
-//                    viewOfLayout.editNumber_weight.setText("99")
-//                    viewOfLayout.seekBar_weight.progress = 99
+                if(value > viewOfLayout.seekBar_equipment.max) {
+                    value = viewOfLayout.seekBar_equipment.max
+                    viewOfLayout.editNumber_equipment.setText(value.toString())
                 }
-                if(value > 55) {
-                    viewOfLayout.editNumber_equipment.setText("55")
-                    viewOfLayout.seekBar_equipment.progress = 55
-                }
-                else
-                    viewOfLayout.seekBar_equipment.progress=value
+
+                viewOfLayout.seekBar_equipment.progress=value
+                defaultValues.equipment = value
             }
 
         }
 
+        //Canopy :Text field handling
         viewOfLayout.editNumber_canopy.doAfterTextChanged {
 
             if(viewOfLayout.editNumber_canopy.text.toString()!="") {
-                val value = Integer.parseInt(viewOfLayout.editNumber_canopy.text.toString())
+                var value = Integer.parseInt(viewOfLayout.editNumber_canopy.text.toString())
 
-                if(value < 50) {
-//                    viewOfLayout.editNumber_weight.setText("99")
-//                    viewOfLayout.seekBar_weight.progress = 99
+                if(value > viewOfLayout.seekBar_canopy.max) {
+                    value = viewOfLayout.seekBar_canopy.max
+                    viewOfLayout.editNumber_canopy.setText(value.toString())
+
                 }
-                if(value > 350) {
-                    viewOfLayout.editNumber_canopy.setText("350")
-                    viewOfLayout.seekBar_canopy.progress = 350
-                }
-                else
-                    viewOfLayout.seekBar_canopy.progress=value
+
+                viewOfLayout.seekBar_canopy.progress=value
+                defaultValues.canopy = value
             }
 
         }
+
+        //Load :Text field handling
         viewOfLayout.editNumber_load.doAfterTextChanged {
 
             if(viewOfLayout.editNumber_load.text.toString()!="") {
-                val value = ((viewOfLayout.editNumber_load.text.toString()).toDouble()*100).toInt()
+                var value = ((viewOfLayout.editNumber_load.text.toString()).toDouble()*100).toInt()
 
-                if(value > 400) {
-                    viewOfLayout.editNumber_load.setText("4.00")
-                    viewOfLayout.seekBar_load.progress = 400
+                if(value > viewOfLayout.seekBar_load.max) {
+                    value = viewOfLayout.seekBar_load.max
+                    viewOfLayout.editNumber_load.setText(value.toString())
+
                 }
-                else{
-                    viewOfLayout.seekBar_load.progress=value
-                }
+
+                viewOfLayout.seekBar_load.progress=value
 
                 handlingOfJumpsConstraintLayout(value)
             }
 
         }
+//*Weight handling
 
-    //Weight :seek bar handling
+//SeekBar handling
 
         viewOfLayout.seekBar_weight.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
@@ -300,7 +366,8 @@ var defaultValues = UserValues(184, 28, 278, 2.50,false, true )
         //required to update fragment
         return viewOfLayout
     }
-
+//Close onScreen keyboard when user presses something else
+    // clear focus from all 4 edit text items
     private fun ClearFocusFromButtons()
     {
         viewOfLayout.editNumber_weight.clearFocus()
@@ -308,55 +375,22 @@ var defaultValues = UserValues(184, 28, 278, 2.50,false, true )
         viewOfLayout.editNumber_canopy.clearFocus()
         viewOfLayout.editNumber_load.clearFocus()
     }
-
+    //
     private fun hideKeyboard(v: View) {
         val inputManager = v.context
             .getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         inputManager.hideSoftInputFromWindow(v.windowToken, 0)
     }
+//*Close onScreen keyboard when user presses something else
 
-    //Handling of changing the units types
-    private fun setUnitsKG()
-    {
-        viewOfLayout.textView_weight_units.text=" kg"
-        viewOfLayout.textView_equipment_units.text = " kg"
-    }
-    private fun setUnitsLBS()
-    {
-        viewOfLayout.textView_weight_units.text=" lbs"
-        viewOfLayout.textView_equipment_units.text = " lbs"
-    }
 
-    private fun setCalculatorValues(values:UserValues)
-    {
-//
-        viewOfLayout.editNumber_weight.setText(values.weight.toString())
-        viewOfLayout.editNumber_equipment.setText(values.equipment.toString())
-        viewOfLayout.editNumber_canopy.setText(values.canopy.toString())
-        viewOfLayout.editNumber_load.setText(values.load.toString())
 
-        viewOfLayout.seekBar_weight.progress =values.weight
-        viewOfLayout.seekBar_equipment.progress =values.equipment
-        viewOfLayout.seekBar_canopy.progress =values.canopy
-        viewOfLayout.seekBar_load.progress =(values.load *100).toInt()
 
-        if(values.unit_KG)
-        {
-            setUnitsKG()
-        }
-        if(values.unit_LBS)
-        {
-            setUnitsLBS()
-        }
-        handlingOfJumpsConstraintLayout((values.load).toInt())
-    }
 
 
     private fun handlingOfJumpsConstraintLayout(loadValue:Int)
     {
         UpdateJumpValue(loadValue)
-
-
 
         when(UpdateJumpValue(loadValue)){
             0->{
@@ -414,6 +448,17 @@ var defaultValues = UserValues(184, 28, 278, 2.50,false, true )
 
         return WingLoading
     }
+
+    private fun KGtoLBS(value :Int):Int
+    {
+        return (value*2.20462).roundToInt()
+    }
+    private fun LBStoKG(value: Int):Int
+    {
+        return (value/2.20462).roundToInt()
+    }
+
+
 
     //
 }
