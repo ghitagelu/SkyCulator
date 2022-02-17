@@ -160,6 +160,9 @@ class StartingActivity : AppCompatActivity() {
             val tempTitle = (data?.getSerializableExtra( "title")).toString()
             val tempExtraValue = data?.getSerializableExtra("sometingExtra")
             val tempType = data?.getSerializableExtra("Type")
+            val weight = (data?.getSerializableExtra( "weight")).toString()
+            val equipment = (data?.getSerializableExtra( "equipment")).toString()
+            val canopy = (data?.getSerializableExtra( "canopy")).toString()
 
             val text = "Amount ITEM :"
             val duration = Toast.LENGTH_LONG
@@ -170,7 +173,9 @@ class StartingActivity : AppCompatActivity() {
 
 
             val dbHandler = MindOrksDBOpenHelper(this, null)
-            val user = ListItem(tempTitle.plus(" ").plus(tempAmount))
+            val user = ListItem(tempTitle,Integer.parseInt(weight), Integer.parseInt(equipment), Integer.parseInt(canopy)
+               // tempTitle.plus(" ").plus(tempAmount)
+            )
             dbHandler.addName(user)
 
             //REMINDER

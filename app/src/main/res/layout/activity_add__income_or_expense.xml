@@ -49,7 +49,7 @@
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tabLayout_IncomeOrExpense" />
+        tools:layout_editor_absoluteY="72dp" />
 
     <EditText
         android:id="@+id/editText_date"
@@ -66,39 +66,6 @@
         app:layout_constraintTop_toBottomOf="@+id/editText_amount"
         app:layout_constraintVertical_bias="0.002" />
 
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tabLayout_IncomeOrExpense"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="1dp"
-        android:layout_marginEnd="1dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:tabIndicatorColor="#8BC34A"
-        app:tabIndicatorHeight="10px"
-        app:tabMaxWidth="0dp"
-        app:tabGravity="fill"
-        app:tabMode="fixed"
-        >
-
-
-        <com.google.android.material.tabs.TabItem
-            android:id="@+id/TabItem_Expense"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:icon="@mipmap/ic_launcher_round"
-            android:text="Expense(-)" />
-
-        <com.google.android.material.tabs.TabItem
-            android:id="@+id/TabItem_Income"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:icon="@mipmap/ic_launcher"
-            android:text="Income(+)" />
-    </com.google.android.material.tabs.TabLayout>
-
     <EditText
         android:id="@+id/editText"
         android:layout_width="wrap_content"
@@ -112,5 +79,35 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editText_date"
         app:layout_constraintVertical_bias="1.0" />
+
+    <EditText
+        android:id="@+id/editTextWeight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Your Weight"
+        android:inputType="textPersonName"
+        tools:layout_editor_absoluteX="97dp"
+        tools:layout_editor_absoluteY="381dp" />
+
+    <EditText
+        android:id="@+id/editTextEquipment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Equipment weight"
+        android:inputType="textPersonName"
+        tools:layout_editor_absoluteX="97dp"
+        tools:layout_editor_absoluteY="437dp" />
+
+    <EditText
+        android:id="@+id/editTextCanopySize"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Canopy Size"
+        android:inputType="textPersonName"
+        tools:layout_editor_absoluteX="97dp"
+        tools:layout_editor_absoluteY="491dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

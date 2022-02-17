@@ -42,7 +42,7 @@ class ListFragment : Fragment() {
 
 //Add TestingUsernam Database text to Database
 
-            val user = ListItem("TestingUsernam Database")
+            val user = ListItem("TestingUsernam Database", 100, 100, 100)
             dbHandler.addName(user)
             Toast.makeText(
                 activity,
@@ -65,7 +65,7 @@ class ListFragment : Fragment() {
 
             dbHandler.deleteDB()
             mutableListOf<Model_for_CustomListView>().clear()
-            val user = ListItem(" DATABASE DELETED ")
+            //val user = ListItem(" DATABASE DELETED ")
 //            dbHandler.addName(user)
 
             getDataFromDataBase()
