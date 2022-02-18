@@ -16,10 +16,10 @@ class MindOrksDBOpenHelper(context: Context,
         val CREATE_PRODUCTS_TABLE = (
                 "CREATE TABLE " + TABLE_NAME +
                 "(" + COLUMN_ID + " INTEGER PRIMARY KEY," +
-                COLUMN_NAME + " TEXT" +
-                COLUMN_WEIGHT + "TEXT"+
-                COLUMN_EQUIPMENT + "TEXT"+
-                COLUMN_CANOPY + "TEXT" + ")"
+                COLUMN_NAME + " TEXT," +
+                COLUMN_WEIGHT + " INTEGER,"+
+                COLUMN_EQUIPMENT + " INTEGER,"+
+                COLUMN_CANOPY + " INTEGER" + ")"
             )
             db.execSQL(CREATE_PRODUCTS_TABLE)
     }
@@ -60,7 +60,7 @@ class MindOrksDBOpenHelper(context: Context,
     }
 
     companion object {
-        private val DATABASE_VERSION = 1
+        private val DATABASE_VERSION = 3
         private val DATABASE_NAME = "mindorksName.db"
         val TABLE_NAME = "name"
         val COLUMN_ID = "_id"

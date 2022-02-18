@@ -16,14 +16,17 @@ class Model_for_CustomListView_Adapter (var mCtx:Context, var resources:Int, var
         val view:View = layoutInflater.inflate(resources, null)
 
         val imageView:ImageView = view.findViewById(R.id.RowImage)
-        val titleTextView:TextView = view.findViewById(R.id.textView1)
-        val descriptionTextView:TextView = view.findViewById(R.id.textView2)
+        val titleTextView:TextView = view.findViewById(R.id.textView_title)
+        val weight:TextView = view.findViewById(R.id.textView_show_weight)
+        val equipment:TextView = view.findViewById(R.id.textView_show_equipment)
+        val canopy:TextView = view.findViewById(R.id.textView_show_canopy)
 
-        var mItem:Model_for_CustomListView = items[position]
+        val mItem:Model_for_CustomListView = items[position]
         imageView.setImageDrawable(mCtx.resources.getDrawable(mItem.img))
-        titleTextView.text = mItem.title
-        descriptionTextView.text = mItem.description
-
+        titleTextView.text = mItem.description
+        weight.text =  mItem.weight
+        equipment.text =  mItem.equipment
+        canopy.text =  mItem.canopy
         return view
     }
 
