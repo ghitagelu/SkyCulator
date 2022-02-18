@@ -28,8 +28,6 @@ class MindOrksDBOpenHelper(context: Context,
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME)
         onCreate(db)
     }
-
-
     fun addName(name: ListItem) {
         val values = ContentValues()
         values.put(COLUMN_NAME, name.userName)
