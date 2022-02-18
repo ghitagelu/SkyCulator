@@ -13,23 +13,27 @@ class MindOrksDBOpenHelper(context: Context,
 
 
     override fun onCreate(db: SQLiteDatabase) {
-        val CREATE_PRODUCTS_TABLE = ("CREATE TABLE " +
-                TABLE_NAME + "("
-                + COLUMN_ID + " INTEGER PRIMARY KEY," +
-                COLUMN_NAME
-                + " TEXT" + ")")
-        db.execSQL(CREATE_PRODUCTS_TABLE)
+        val CREATE_PRODUCTS_TABLE = (
+                "CREATE TABLE " + TABLE_NAME +
+                "(" + COLUMN_ID + " INTEGER PRIMARY KEY," +
+                COLUMN_NAME + " TEXT," +
+                COLUMN_WEIGHT + " INTEGER,"+
+                COLUMN_EQUIPMENT + " INTEGER,"+
+                COLUMN_CANOPY + " INTEGER" + ")"
+            )
+            db.execSQL(CREATE_PRODUCTS_TABLE)
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME)
         onCreate(db)
     }
-
-
     fun addName(name: ListItem) {
         val values = ContentValues()
         values.put(COLUMN_NAME, name.userName)
+        values.put(COLUMN_WEIGHT, name.userWeight)
+        values.put(COLUMN_EQUIPMENT, name.userEquipment)
+        values.put(COLUMN_CANOPY, name.userCanopy)
         val db = this.writableDatabase
         db.insert(TABLE_NAME, null, values)
         db.close()
@@ -54,10 +58,13 @@ class MindOrksDBOpenHelper(context: Context,
     }
 
     companion object {
-        private val DATABASE_VERSION = 1
+        private val DATABASE_VERSION = 3
         private val DATABASE_NAME = "mindorksName.db"
         val TABLE_NAME = "name"
         val COLUMN_ID = "_id"
         val COLUMN_NAME = "username"
+        val COLUMN_WEIGHT = "weight"
+        val COLUMN_EQUIPMENT = "equipment"
+        val COLUMN_CANOPY = "canopy"
     }
 }

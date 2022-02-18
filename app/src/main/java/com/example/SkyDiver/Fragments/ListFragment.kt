@@ -42,7 +42,7 @@ class ListFragment : Fragment() {
 
 //Add TestingUsernam Database text to Database
 
-            val user = ListItem("TestingUsernam Database")
+            val user = ListItem("Username", 100, 100, 100)
             dbHandler.addName(user)
             Toast.makeText(
                 activity,
@@ -65,7 +65,7 @@ class ListFragment : Fragment() {
 
             dbHandler.deleteDB()
             mutableListOf<Model_for_CustomListView>().clear()
-            val user = ListItem(" DATABASE DELETED ")
+            //val user = ListItem(" DATABASE DELETED ")
 //            dbHandler.addName(user)
 
             getDataFromDataBase()
@@ -81,7 +81,7 @@ class ListFragment : Fragment() {
 
         viewOfLayout.ListView_Items.setOnItemClickListener { parent: AdapterView<*>, view: View, position: Int, id: Long ->
 
-            val textViewCustom1 = view.findViewById(R.id.textView2) as TextView
+            val textViewCustom1 = view.findViewById(R.id.textView_show_equipment) as TextView
 
             insertCalendarIntent.putExtra(CalendarContract.Events.TITLE, textViewCustom1.text)
                 .putExtra(CalendarContract.EXTRA_EVENT_ALL_DAY, false)
@@ -105,7 +105,7 @@ class ListFragment : Fragment() {
         //On item hold, delete items with that name
         viewOfLayout.ListView_Items.setOnItemLongClickListener { parent: AdapterView<*>, view: View, position: Int, id: Long ->
 
-            val textViewCustom2 = view?.findViewById(R.id.textView2) as TextView
+            val textViewCustom2 = view?.findViewById(R.id.textView_show_equipment) as TextView
 
             dbHandler.deletItemFromDB(textViewCustom2.text.toString())
             Toast.makeText(
@@ -185,7 +185,10 @@ class ListFragment : Fragment() {
                     Model_for_CustomListView(
                         cursor.getString(cursor.getColumnIndex(MindOrksDBOpenHelper.COLUMN_ID)),
                         cursor.getString(cursor.getColumnIndex(MindOrksDBOpenHelper.COLUMN_NAME)),
-                        R.drawable.ic_pie_chart_selected_24dp
+                        R.drawable.ic_pie_chart_selected_24dp,
+                        cursor.getString(cursor.getColumnIndex(MindOrksDBOpenHelper.COLUMN_WEIGHT)),
+                        cursor.getString(cursor.getColumnIndex(MindOrksDBOpenHelper.COLUMN_EQUIPMENT)),
+                        cursor.getString(cursor.getColumnIndex(MindOrksDBOpenHelper.COLUMN_CANOPY))
                     )
                 )
                 listview.adapter = Model_for_CustomListView_Adapter(
