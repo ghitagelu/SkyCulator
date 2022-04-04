@@ -442,7 +442,7 @@ class OverviewFragment : Fragment() {
         var kgtolbs=2.20462
 
         if(unit_KG){
-            TotalWeight= weight * kgtolbs
+            TotalWeight= TotalWeight * kgtolbs
         }
         WingLoading= (TotalWeight/canopy).toFloat()
 
