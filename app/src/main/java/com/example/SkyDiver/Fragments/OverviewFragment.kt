@@ -37,7 +37,7 @@ class OverviewFragment : Fragment() {
             var weight: Int,
             var equipment: Int,
             var canopy: Int,
-//            var load: Double,
+            var load: Double,
             var unit_KG: Boolean,
             var unit_LBS: Boolean
         )
@@ -65,7 +65,7 @@ class OverviewFragment : Fragment() {
                 viewOfLayout.seekBar_load.progress =(load *100).toInt()
 
 
-                handlingOfJumpsConstraintLayout(load.toInt())
+                handlingOfJumpsConstraintLayout()
                // var load = ((setCalculatorWingLoading(weight,equipment,canopy,unit_KG) *100).toInt()).toDouble() /100
             }
             fun setUnitsKG()
