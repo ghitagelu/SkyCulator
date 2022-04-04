@@ -90,6 +90,7 @@
                 android:id="@+id/textView_weight"
                 android:layout_width="wrap_content"
                 android:layout_height="35dp"
+                android:layout_marginStart="8dp"
                 android:layout_marginTop="4dp"
                 android:paddingTop="5dp"
                 android:text="Weight"
@@ -113,7 +114,8 @@
                 android:textAlignment="center"
                 android:textSize="15sp"
                 app:layout_constraintBottom_toTopOf="@+id/seekBar_weight"
-                app:layout_constraintStart_toEndOf="@+id/textView_weight"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
@@ -121,12 +123,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="35dp"
                 android:layout_marginTop="4dp"
+                android:layout_marginEnd="8dp"
                 android:paddingTop="5dp"
                 android:text=" kg"
                 android:textAlignment="center"
                 android:textSize="15sp"
                 app:layout_constraintBottom_toTopOf="@+id/seekBar_weight"
-                app:layout_constraintStart_toEndOf="@+id/editNumber_weight"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <SeekBar
@@ -156,6 +159,7 @@
                 android:id="@+id/textView_equipment"
                 android:layout_width="wrap_content"
                 android:layout_height="35dp"
+                android:layout_marginStart="8dp"
                 android:layout_marginTop="4dp"
                 android:paddingTop="5dp"
                 android:text="Equipment"
@@ -180,7 +184,8 @@
                 android:textAlignment="center"
                 android:textSize="15sp"
                 app:layout_constraintBottom_toTopOf="@+id/seekBar_equipment"
-                app:layout_constraintStart_toEndOf="@+id/textView_equipment"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
@@ -188,12 +193,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="35dp"
                 android:layout_marginTop="4dp"
+                android:layout_marginEnd="8dp"
                 android:paddingTop="5dp"
                 android:text=" kg"
                 android:textAlignment="center"
                 android:textSize="15sp"
                 app:layout_constraintBottom_toTopOf="@+id/seekBar_equipment"
-                app:layout_constraintStart_toEndOf="@+id/editNumber_equipment"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <SeekBar
@@ -225,6 +231,7 @@
                 android:id="@+id/textView_canopy"
                 android:layout_width="wrap_content"
                 android:layout_height="35dp"
+                android:layout_marginStart="8dp"
                 android:layout_marginTop="4dp"
                 android:paddingTop="5dp"
                 android:text="Canopy"
@@ -242,12 +249,14 @@
                 android:background="@drawable/navigation_bar_shape"
                 android:backgroundTint="@color/selected_icons_color"
                 android:ems="10"
+                android:includeFontPadding="false"
                 android:inputType="number"
                 android:paddingVertical="10dp"
                 android:textAlignment="center"
                 android:textSize="15sp"
                 app:layout_constraintBottom_toTopOf="@+id/seekBar_canopy"
-                app:layout_constraintStart_toEndOf="@+id/textView_canopy"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
@@ -255,12 +264,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="35dp"
                 android:layout_marginTop="4dp"
+                android:layout_marginEnd="8dp"
                 android:paddingTop="5dp"
                 android:text=" sq ft"
                 android:textAlignment="center"
                 android:textSize="15sp"
                 app:layout_constraintBottom_toTopOf="@+id/seekBar_canopy"
-                app:layout_constraintStart_toEndOf="@+id/editNumber_canopy"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <SeekBar
@@ -291,6 +301,7 @@
                 android:id="@+id/textView_load"
                 android:layout_width="wrap_content"
                 android:layout_height="35dp"
+                android:layout_marginStart="8dp"
                 android:layout_marginTop="4dp"
                 android:paddingTop="5dp"
                 android:text="Load"
@@ -308,12 +319,14 @@
                 android:background="@drawable/navigation_bar_shape"
                 android:backgroundTint="@color/selected_icons_color"
                 android:ems="10"
+                android:includeFontPadding="false"
                 android:inputType="numberDecimal"
                 android:paddingVertical="10dp"
                 android:textAlignment="center"
                 android:textSize="15sp"
                 app:layout_constraintBottom_toTopOf="@+id/seekBar_load"
-                app:layout_constraintStart_toEndOf="@+id/textView_load"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <SeekBar
