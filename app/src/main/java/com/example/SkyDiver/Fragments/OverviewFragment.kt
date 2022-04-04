@@ -23,29 +23,21 @@ import kotlin.math.roundToInt
 class OverviewFragment : Fragment() {
     private lateinit var viewOfLayout: View
 
-
-
-
-
-
-
-
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
 
         class SeekBarLimits(
-            var seekBar_weight_min: Int, var seekBar_weight_max: Int,
+            var seekBar_weight_min: Int,    var seekBar_weight_max: Int,
             var seekBar_equipment_min :Int, var seekBar_equipment_max :Int,
-            var seekBar_canopy_min :Int, var seekBar_canopy_max :Int
+            var seekBar_canopy_min :Int,    var seekBar_canopy_max :Int
         )
          class UserValues(
             var weight: Int,
             var equipment: Int,
             var canopy: Int,
-            var load: Double,
+//            var load: Double,
             var unit_KG: Boolean,
             var unit_LBS: Boolean
         )
@@ -74,6 +66,7 @@ class OverviewFragment : Fragment() {
 
 
                 handlingOfJumpsConstraintLayout(load.toInt())
+               // var load = ((setCalculatorWingLoading(weight,equipment,canopy,unit_KG) *100).toInt()).toDouble() /100
             }
             fun setUnitsKG()
             {
@@ -251,6 +244,7 @@ class OverviewFragment : Fragment() {
 
                 viewOfLayout.seekBar_canopy.progress=value
                 defaultValues.canopy = value
+
             }
 
         }
@@ -269,7 +263,7 @@ class OverviewFragment : Fragment() {
 
                 viewOfLayout.seekBar_load.progress=value
 
-                handlingOfJumpsConstraintLayout(value)
+                handlingOfJumpsConstraintLayout()
             }
 
         }
@@ -388,9 +382,9 @@ class OverviewFragment : Fragment() {
 
 
 
-    private fun handlingOfJumpsConstraintLayout(loadValue:Int)
+    private fun handlingOfJumpsConstraintLayout()
     {
-        UpdateJumpValue(loadValue)
+        val loadValue :Int = ((viewOfLayout.editNumber_load.text.toString()).toDouble()*100).toInt()
 
         when(UpdateJumpValue(loadValue)){
             0->{
@@ -423,30 +417,28 @@ class OverviewFragment : Fragment() {
      private fun UpdateJumpValue(loadValue:Int):Int
     {
         var result =4
-        if(loadValue in 1..100)
-        {
+        if      (loadValue in 1..99){
             result =0
-        }else if(loadValue in 101..200){
+        }else if(loadValue in 100..199){
             result =1
-        }else if(loadValue in 201..300){
+        }else if(loadValue in 200..299){
             result =2
-        }else if(loadValue in 301..400){
+        }else if(loadValue in 300..400){
             result =3
         }
        return result;
     }
 
-    private fun setCalculatorWingLoading(weight:Int, equipment: Int, canopy:Int, unit_KG:Boolean): Float {
-        var WingLoading:Float
-        var TotalWeight:Double=(weight+equipment).toDouble()
-        var kgtolbs=2.20462
+    private fun setCalculatorWingLoading(weight:Int, equipment: Int, canopy:Int, unit_KG:Boolean): Double {
+        var wingLoading:Double
+        var totalWeight=weight+equipment
 
         if(unit_KG){
-            TotalWeight= TotalWeight * kgtolbs
+            totalWeight= KGtoLBS(totalWeight)
         }
-        WingLoading= (TotalWeight/canopy).toFloat()
+        wingLoading= (totalWeight/canopy).toDouble()
 
-        return WingLoading
+        return wingLoading
     }
 
     private fun KGtoLBS(value :Int):Int
