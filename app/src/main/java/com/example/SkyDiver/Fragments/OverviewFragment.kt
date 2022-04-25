@@ -26,7 +26,7 @@ class OverviewFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         class SeekBarLimits(
             var seekBar_weight_min: Int,    var seekBar_weight_max: Int,
@@ -37,7 +37,6 @@ class OverviewFragment : Fragment() {
             var weight: Int,
             var equipment: Int,
             var canopy: Int,
-            var load: Double,
             var unit_KG: Boolean,
             var unit_LBS: Boolean
         )
@@ -57,16 +56,14 @@ class OverviewFragment : Fragment() {
                 viewOfLayout.editNumber_weight.setText(weight.toString())
                 viewOfLayout.editNumber_equipment.setText(equipment.toString())
                 viewOfLayout.editNumber_canopy.setText(canopy.toString())
-                viewOfLayout.editNumber_load.setText(load.toString())
+                setCalculatorWingLoading(weight,equipment,canopy,unit_KG)
 
                 viewOfLayout.seekBar_weight.progress =weight
                 viewOfLayout.seekBar_equipment.progress =equipment
                 viewOfLayout.seekBar_canopy.progress =canopy
-                viewOfLayout.seekBar_load.progress =(load *100).toInt()
-
 
                 handlingOfJumpsConstraintLayout()
-               // var load = ((setCalculatorWingLoading(weight,equipment,canopy,unit_KG) *100).toInt()).toDouble() /100
+
             }
             fun setUnitsKG()
             {
@@ -115,9 +112,9 @@ class OverviewFragment : Fragment() {
             100,
             10,
             278,
-            2.50,
-            true,
-            false )
+            unit_KG = true,
+            unit_LBS = false
+        )
 
 
         //Make viewOfLayout = this fragment
@@ -131,20 +128,23 @@ class OverviewFragment : Fragment() {
 
             if(isChecked == radioButton_KG.id) {
             //Kilograms
-                defaultValues.weight = LBStoKG(defaultValues.weight)
-                defaultValues.equipment = LBStoKG(defaultValues.equipment)
+                defaultValues.weight = convertLBStoKG(defaultValues.weight)
+                defaultValues.equipment = convertLBStoKG(defaultValues.equipment)
                 defaultValues.unit_KG = true
                 defaultValues.unit_LBS= false
                 defaultValues.setCalculatorValues()
+                setCalculatorWingLoading(defaultValues.weight,defaultValues.equipment,defaultValues.canopy,defaultValues.unit_KG)
+
             }
 
             if(isChecked == radioButton_LBS.id) {
             //LBS
-                defaultValues.weight = KGtoLBS(defaultValues.weight)
-                defaultValues.equipment = KGtoLBS(defaultValues.equipment)
+                defaultValues.weight = convertKGtoLBS(defaultValues.weight)
+                defaultValues.equipment = convertKGtoLBS(defaultValues.equipment)
                 defaultValues.unit_KG = false
                 defaultValues.unit_LBS= true
                 defaultValues.setCalculatorValues()
+                setCalculatorWingLoading(defaultValues.weight,defaultValues.equipment,defaultValues.canopy,defaultValues.unit_KG)
             }
 
         }
@@ -209,6 +209,8 @@ class OverviewFragment : Fragment() {
 
                 viewOfLayout.seekBar_weight.progress=value
                 defaultValues.weight = value
+
+                setCalculatorWingLoading(defaultValues.weight,defaultValues.equipment,defaultValues.canopy,defaultValues.unit_KG)
             }
 
         }
@@ -226,6 +228,8 @@ class OverviewFragment : Fragment() {
 
                 viewOfLayout.seekBar_equipment.progress=value
                 defaultValues.equipment = value
+
+                setCalculatorWingLoading(defaultValues.weight,defaultValues.equipment,defaultValues.canopy,defaultValues.unit_KG)
             }
 
         }
@@ -245,6 +249,8 @@ class OverviewFragment : Fragment() {
 
                 viewOfLayout.seekBar_canopy.progress=value
                 defaultValues.canopy = value
+
+                setCalculatorWingLoading(defaultValues.weight,defaultValues.equipment,defaultValues.canopy,defaultValues.unit_KG)
 
             }
 
@@ -277,7 +283,7 @@ class OverviewFragment : Fragment() {
                 if(fromUser) {
                     viewOfLayout.editNumber_weight.setText(progress.toString())
                     viewOfLayout.editNumber_weight.setSelection(viewOfLayout.editNumber_weight.length())
-                    ClearFocusFromButtons()
+                    clearFocusFromButtons()
                 }
             }
 
@@ -294,7 +300,7 @@ class OverviewFragment : Fragment() {
                 if(fromUser) {
                     viewOfLayout.editNumber_equipment.setText(progress.toString())
                     viewOfLayout.editNumber_equipment.setSelection(viewOfLayout.editNumber_equipment.length())
-                    ClearFocusFromButtons()
+                    clearFocusFromButtons()
                 }
             }
 
@@ -311,7 +317,7 @@ class OverviewFragment : Fragment() {
                 if(fromUser) {
                     viewOfLayout.editNumber_canopy.setText(progress.toString())
                     viewOfLayout.editNumber_canopy.setSelection(viewOfLayout.editNumber_canopy.length())
-                    ClearFocusFromButtons()
+                    clearFocusFromButtons()
                 }
             }
 
@@ -328,7 +334,7 @@ class OverviewFragment : Fragment() {
                 if(fromUser) {
                     viewOfLayout.editNumber_load.setText((progress.toDouble()/100).toString())
                     viewOfLayout.editNumber_load.setSelection(viewOfLayout.editNumber_load.length())
-                    ClearFocusFromButtons()
+                    clearFocusFromButtons()
                 }
             }
 
@@ -346,7 +352,7 @@ class OverviewFragment : Fragment() {
 
 
         viewOfLayout.setOnClickListener {
-            ClearFocusFromButtons()
+            clearFocusFromButtons()
             Toast.makeText(
                     activity,
                     "FRAGMENT CLICKED ",
@@ -357,13 +363,13 @@ class OverviewFragment : Fragment() {
 
 
 
-        ClearFocusFromButtons()
+        clearFocusFromButtons()
         //required to update fragment
         return viewOfLayout
     }
 //Close onScreen keyboard when user presses something else
     // clear focus from all 4 edit text items
-    private fun ClearFocusFromButtons()
+    private fun clearFocusFromButtons()
     {
         viewOfLayout.editNumber_weight.clearFocus()
         viewOfLayout.editNumber_equipment.clearFocus()
@@ -387,7 +393,7 @@ class OverviewFragment : Fragment() {
     {
         val loadValue :Int = ((viewOfLayout.editNumber_load.text.toString()).toDouble()*100).toInt()
 
-        when(UpdateJumpValue(loadValue)){
+        when(updateJumpValue(loadValue)){
             0->{
                 viewOfLayout.textView_jumps_level.setBackgroundColor(getResources().getColor(R.color.jump_level_0))
                 viewOfLayout.textView_jumps_level.text ="BASIC: 0-200 JUMPS"
@@ -415,7 +421,7 @@ class OverviewFragment : Fragment() {
 
 
     }
-     private fun UpdateJumpValue(loadValue:Int):Int
+     private fun updateJumpValue(loadValue:Int):Int
     {
         var result =4
         when (loadValue) {
@@ -432,30 +438,33 @@ class OverviewFragment : Fragment() {
                 result =3
             }
         }
-       return result;
+       return result
     }
 
-    private fun setCalculatorWingLoading(weight:Int, equipment: Int, canopy:Int, unit_KG:Boolean): Double {
-        var wingLoading:Double
-        var totalWeight=weight+equipment
 
-        if(unit_KG){
-            totalWeight= KGtoLBS(totalWeight)
-        }
-        wingLoading= (totalWeight/canopy).toDouble()
-
-        return wingLoading
-    }
-
-    private fun KGtoLBS(value :Int):Int
+    private fun convertKGtoLBS(value :Int):Int
     {
         return (value*2.20462).roundToInt()
     }
-    private fun LBStoKG(value: Int):Int
+    private fun convertLBStoKG(value: Int):Int
     {
         return (value/2.20462).roundToInt()
     }
 
+
+//Calculator values updater
+    private fun setCalculatorWingLoading(weight:Int, equipment: Int, canopy:Int, unit_KG:Boolean) {
+        val wingLoading:Double
+        var totalWeight=weight+equipment
+
+        if(unit_KG){
+            totalWeight= convertKGtoLBS(totalWeight)
+        }
+        wingLoading= totalWeight.toDouble()/canopy.toDouble()
+
+        viewOfLayout.editNumber_load.setText(((((wingLoading *100).toInt()).toDouble())/100).toString())
+    }
+//*Calculator values updater
 
 
     //
