@@ -238,6 +238,7 @@ class OverviewFragment : Fragment() {
 
                 if(value > viewOfLayout.seekBar_canopy.max) {
                     value = viewOfLayout.seekBar_canopy.max
+
                     viewOfLayout.editNumber_canopy.setText(value.toString())
 
                 }
@@ -257,7 +258,7 @@ class OverviewFragment : Fragment() {
 
                 if(value > viewOfLayout.seekBar_load.max) {
                     value = viewOfLayout.seekBar_load.max
-                    viewOfLayout.editNumber_load.setText(value.toString())
+                    viewOfLayout.editNumber_load.setText((value.toDouble()/100).toString())
 
                 }
 
@@ -417,14 +418,19 @@ class OverviewFragment : Fragment() {
      private fun UpdateJumpValue(loadValue:Int):Int
     {
         var result =4
-        if      (loadValue in 1..99){
-            result =0
-        }else if(loadValue in 100..199){
-            result =1
-        }else if(loadValue in 200..299){
-            result =2
-        }else if(loadValue in 300..400){
-            result =3
+        when (loadValue) {
+            in 1..99 -> {
+                result =0
+            }
+            in 100..199 -> {
+                result =1
+            }
+            in 200..299 -> {
+                result =2
+            }
+            in 300..400 -> {
+                result =3
+            }
         }
        return result;
     }
