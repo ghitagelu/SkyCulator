@@ -8,7 +8,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.SeekBar
+import android.widget.TextView
 import android.widget.Toast
+import androidx.core.widget.addTextChangedListener
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import com.example.SkyDiver.R
@@ -22,6 +24,7 @@ import kotlin.math.roundToInt
  */
 class OverviewFragment : Fragment() {
     private lateinit var viewOfLayout: View
+    private var clickedonloadtextview =false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -206,6 +209,10 @@ class OverviewFragment : Fragment() {
                     value = viewOfLayout.seekBar_weight.max
                     viewOfLayout.editNumber_weight.setText(value.toString())
                 }
+//                if(value < viewOfLayout.seekBar_weight.min) {
+//                    value = viewOfLayout.seekBar_weight.min
+//                    viewOfLayout.editNumber_weight.setText(value.toString())
+//                }
 
                 viewOfLayout.seekBar_weight.progress=value
                 defaultValues.weight = value
@@ -225,6 +232,10 @@ class OverviewFragment : Fragment() {
                     value = viewOfLayout.seekBar_equipment.max
                     viewOfLayout.editNumber_equipment.setText(value.toString())
                 }
+//                if(value < viewOfLayout.seekBar_equipment.min) {
+//                    value = viewOfLayout.seekBar_equipment.min
+//                    viewOfLayout.editNumber_equipment.setText(value.toString())
+//                }
 
                 viewOfLayout.seekBar_equipment.progress=value
                 defaultValues.equipment = value
@@ -246,6 +257,12 @@ class OverviewFragment : Fragment() {
                     viewOfLayout.editNumber_canopy.setText(value.toString())
 
                 }
+//                if(value < viewOfLayout.seekBar_canopy.min) {
+//                    value = viewOfLayout.seekBar_canopy.min
+//
+//                    viewOfLayout.editNumber_canopy.setText(value.toString())
+//
+//                }
 
                 viewOfLayout.seekBar_canopy.progress=value
                 defaultValues.canopy = value
@@ -256,8 +273,12 @@ class OverviewFragment : Fragment() {
 
         }
 
+        viewOfLayout.editNumber_load.setOnClickListener {
+            clickedonloadtextview = true
+        }
         //Load :Text field handling
-        viewOfLayout.editNumber_load.doAfterTextChanged {
+        viewOfLayout.editNumber_load.doAfterTextChanged() {
+
 
             if(viewOfLayout.editNumber_load.text.toString()!="") {
                 var value = ((viewOfLayout.editNumber_load.text.toString()).toDouble()*100).toInt()
@@ -267,9 +288,20 @@ class OverviewFragment : Fragment() {
                     viewOfLayout.editNumber_load.setText((value.toDouble()/100).toString())
 
                 }
+//                if(value < viewOfLayout.seekBar_load.min) {
+//                    value = viewOfLayout.seekBar_load.min
+//                    viewOfLayout.editNumber_load.setText((value.toDouble()/100).toString())
+//
+//                }
 
                 viewOfLayout.seekBar_load.progress=value
 
+                if (clickedonloadtextview)
+                {
+                    clickedonloadtextview=false
+                    var value = ((viewOfLayout.editNumber_load.text.toString()).toDouble()*100).toInt()
+                    setCalculatorWingSize(defaultValues.weight,defaultValues.equipment,value,defaultValues.unit_KG)
+                }
                 handlingOfJumpsConstraintLayout()
             }
 
@@ -329,12 +361,18 @@ class OverviewFragment : Fragment() {
 
             }
         })
+
         viewOfLayout.seekBar_load.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 if(fromUser) {
                     viewOfLayout.editNumber_load.setText((progress.toDouble()/100).toString())
                     viewOfLayout.editNumber_load.setSelection(viewOfLayout.editNumber_load.length())
+
+                    var value = ((viewOfLayout.editNumber_load.text.toString()).toDouble()*100).toInt()
+                        setCalculatorWingSize(defaultValues.weight,defaultValues.equipment,value,defaultValues.unit_KG)
+
                     clearFocusFromButtons()
+
                 }
             }
 
@@ -346,7 +384,10 @@ class OverviewFragment : Fragment() {
 
             }
         })
-
+//        viewOfLayout.editNumber_load.addTextChangedListener {
+//
+//
+//        }
 
 
 
@@ -375,6 +416,7 @@ class OverviewFragment : Fragment() {
         viewOfLayout.editNumber_equipment.clearFocus()
         viewOfLayout.editNumber_canopy.clearFocus()
         viewOfLayout.editNumber_load.clearFocus()
+        clickedonloadtextview = false
     }
     //
     private fun hideKeyboard(v: View) {
@@ -453,7 +495,9 @@ class OverviewFragment : Fragment() {
 
 
 //Calculator values updater
+    //Updates the values of risk after modification of calculator values
     private fun setCalculatorWingLoading(weight:Int, equipment: Int, canopy:Int, unit_KG:Boolean) {
+
         val wingLoading:Double
         var totalWeight=weight+equipment
 
@@ -461,8 +505,37 @@ class OverviewFragment : Fragment() {
             totalWeight= convertKGtoLBS(totalWeight)
         }
         wingLoading= totalWeight.toDouble()/canopy.toDouble()
+        var result = ((((wingLoading *100).toInt()).toDouble())/100).toString()
+            viewOfLayout.editNumber_load.setText(result)
+    }
+    //Updates the value of canopy size after the modification of risk value
+    private fun setCalculatorWingSize(weight:Int, equipment: Int, wingLoading:Int, unit_KG:Boolean) {
+        val canopy:Double
+        var totalWeight=weight+equipment
 
-        viewOfLayout.editNumber_load.setText(((((wingLoading *100).toInt()).toDouble())/100).toString())
+        if(unit_KG){
+            totalWeight= convertKGtoLBS(totalWeight)
+        }
+        canopy= totalWeight.toDouble()/(wingLoading.toDouble())
+        var temp = (canopy *100).toInt().toString()
+//                if(temp !=  viewOfLayout.editNumber_canopy.text.toString()) {
+                    viewOfLayout.editNumber_canopy.setText(temp)
+//                }
+
+//            setCalculatorWingSize(defaultValues.weight,defaultValues.equipment,value,defaultValues.unit_KG)
+//            var value = ((viewOfLayout.editNumber_load.text.toString()).toDouble()*100).toInt()
+
+
+
+
+
+
+//        Toast.makeText(
+//            activity,
+//            "TANDEM: $temp",
+//
+//            Toast.LENGTH_SHORT
+//        ).show()
     }
 //*Calculator values updater
 
