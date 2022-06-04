@@ -8,7 +8,7 @@
     android:id="@+id/linearLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/transparent_green">
+    android:background="@mipmap/img_starting_image">
 
     <!-- Don't worry about the id names I have named the id's with reference to the file name for consistency -->
 
@@ -33,7 +33,7 @@
         android:layout_height="109dp"
         android:gravity="center"
         android:padding="30dp"
-        android:text="Reminder App"
+        android:text="Risk calculator"
         android:textColor="@color/colorPrimary"
         android:textSize="20dp"
         android:textStyle="bold"
@@ -62,7 +62,7 @@
         android:layout_marginEnd="80dp"
         android:layout_marginBottom="8dp"
         android:gravity="center"
-        android:text="Designed by Stefanel"
+        android:text="Ram Soft Dev"
         android:textAlignment="center"
         android:textColor="@color/colorPrimary"
         android:textSize="15dp"

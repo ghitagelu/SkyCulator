@@ -3,6 +3,7 @@
     <color name="colorPrimary">#000</color>
     <color name="colorPrimaryDark">#000</color>
     <color name="colorAccent">#02E2FF</color>
+    <color name="backgroundStartingColor">#27AEBF</color>
 
     <!--    // Transparent colors-->
     <color name="transparent_green">#7525d366</color>
@@ -30,4 +31,6 @@
     <color name="jump_level_2">#FF9800</color>
 <!--    3   -->
     <color name="jump_level_3">#F44336</color>
+
+    <color name="transparent">#00000000</color>
 </resources>
