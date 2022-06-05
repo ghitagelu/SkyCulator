@@ -2,17 +2,15 @@ package com.example.SkyDiver.Fragments
 
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.SeekBar
-import android.widget.TextView
 import android.widget.Toast
-import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
-import androidx.core.widget.addTextChangedListener
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import com.example.SkyDiver.R
@@ -28,13 +26,14 @@ class OverviewFragment : Fragment() {
     private lateinit var viewOfLayout: View
     private var clickedonloadtextview =false
     private var init = true //used for the init of Load seekbar progress
-    
-
+    lateinit var shared_preferences_save: SharedPreferences
+    var isSaved = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        shared_preferences_save =this.activity!!.getSharedPreferences("save_calculator_values", Context.MODE_PRIVATE)
 
         class SeekBarLimits(
             var seekBar_weight_min: Int,    var seekBar_weight_max: Int,
@@ -115,15 +114,14 @@ class OverviewFragment : Fragment() {
 
 
         }
+             val defaultValues = UserValues(
+                shared_preferences_save.getInt("Weight",110),
+                shared_preferences_save.getInt("Equipment",10),
+                shared_preferences_save.getInt("Canopy",178),
+                unit_KG = shared_preferences_save.getBoolean("kg", true),
+                unit_LBS = shared_preferences_save.getBoolean("lbs", false)
+            )
 
-        val defaultValues = UserValues(
-            110,
-            10,
-            178,
-            unit_KG = true,
-            unit_LBS = false
-        )
-      
         //Make viewOfLayout = this fragment
         viewOfLayout =inflater.inflate(R.layout.fragment_overview, container, false)
 
@@ -153,7 +151,7 @@ class OverviewFragment : Fragment() {
                 defaultValues.setCalculatorValues()
                 setCalculatorWingLoading(defaultValues.weight,defaultValues.equipment,defaultValues.canopy,defaultValues.unit_KG)
             }
-
+            saveData()
         }
 //*Radio buttons handling
 
@@ -169,38 +167,9 @@ class OverviewFragment : Fragment() {
                     Toast.LENGTH_SHORT
                 ).show()
             }
-
+            saveData()
         }
 //*Tandem checkbox handling
-//
-//        viewOfLayout.editNumber_weight.setOnFocusChangeListener { v, hasFocus ->
-//            if (!hasFocus)
-//            {
-//                viewOfLayout.editNumber_weight.setText(viewOfLayout.seekBar_weight.progress.toString())
-//                hideKeyboard(v)
-//            }
-//        }
-//        viewOfLayout.editNumber_equipment.setOnFocusChangeListener { v, hasFocus ->
-//            if (!hasFocus)
-//            {
-//                viewOfLayout.editNumber_equipment.setText(viewOfLayout.seekBar_equipment.progress.toString())
-//                hideKeyboard(v)
-//            }
-//        }
-//        viewOfLayout.editNumber_canopy.setOnFocusChangeListener { v, hasFocus ->
-//            if (!hasFocus)
-//            {
-//                viewOfLayout.editNumber_canopy.setText(viewOfLayout.seekBar_canopy.progress.toString())
-//                hideKeyboard(v)
-//            }
-//        }
-//        viewOfLayout.editNumber_load.setOnFocusChangeListener { v, hasFocus ->
-//            if (!hasFocus)
-//            {
-//                viewOfLayout.editNumber_load.setText(((viewOfLayout.seekBar_load.progress.toDouble())/100).toString())
-//                hideKeyboard(v)
-//            }
-//        }
 
 //Weight handling
         //Weight :Text field handling
@@ -374,13 +343,6 @@ class OverviewFragment : Fragment() {
 
             }
         })
-//        viewOfLayout.editNumber_load.addTextChangedListener {
-//
-//
-//        }
-
-
-
 
         viewOfLayout.setOnClickListener {
 //            clearFocusFromButtons()
@@ -402,11 +364,14 @@ class OverviewFragment : Fragment() {
     // clear focus from all 4 edit text items
     private fun clearFocusFromButtons()
     {
+
         viewOfLayout.editNumber_weight.clearFocus()
         viewOfLayout.editNumber_equipment.clearFocus()
         viewOfLayout.editNumber_canopy.clearFocus()
         viewOfLayout.editNumber_load.clearFocus()
         clickedonloadtextview = false
+
+
     }
     //
     private fun hideKeyboard(v: View) {
@@ -417,7 +382,25 @@ class OverviewFragment : Fragment() {
 //*Close onScreen keyboard when user presses something else
 
 
-
+    private fun saveData()
+    {
+        val editor: SharedPreferences.Editor = shared_preferences_save.edit()
+        editor.putInt("Weight",    viewOfLayout.editNumber_weight.text.toString().toInt())
+        editor.putInt("Equipment", viewOfLayout.editNumber_equipment.text.toString().toInt())
+        editor.putInt("Canopy",    viewOfLayout.editNumber_canopy.text.toString().toInt())
+        editor.putBoolean("Tandem_checked", viewOfLayout.checkBox_tandem.isChecked)
+        editor.putBoolean("kg", viewOfLayout.radioButton_KG.isChecked)
+        editor.putBoolean("lbs", viewOfLayout.radioButton_LBS.isChecked)
+        editor.putBoolean("SAVED", true)
+        editor.apply()
+//        var temp = shared_preferences_save.getInt("Weight", 10)
+//                    Toast.makeText(
+//                    activity,
+//                    "Data saved weight = $temp ",
+//
+//                    Toast.LENGTH_SHORT
+//                ).show()
+    }
 
 
 
@@ -511,7 +494,7 @@ class OverviewFragment : Fragment() {
     viewOfLayout.seekBar_load.progress=value
     init = false
     }
-
+    saveData()
 }
     //Updates the value of canopy size after the modification of risk value
     private fun setCalculatorWingSize(weight:Int, equipment: Int, wingLoading:Int, unit_KG:Boolean) {

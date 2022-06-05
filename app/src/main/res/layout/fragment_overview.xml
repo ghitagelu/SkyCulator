@@ -245,24 +245,24 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <EditText
-                android:id="@+id/editNumber_canopy"
-                android:layout_width="100dp"
-                android:layout_height="35dp"
-                android:layout_marginTop="4dp"
-                android:background="@drawable/navigation_bar_shape"
-                android:backgroundTint="@color/selected_icons_color"
-                android:ems="10"
-                android:focusable="false"
-                android:includeFontPadding="false"
-                android:inputType="number"
-                android:paddingVertical="10dp"
-                android:textAlignment="center"
-                android:textSize="15sp"
-                app:layout_constraintBottom_toTopOf="@+id/seekBar_canopy"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                <EditText
+                    android:id="@+id/editNumber_canopy"
+                    android:layout_width="100dp"
+                    android:layout_height="35dp"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/navigation_bar_shape"
+                    android:backgroundTint="@color/selected_icons_color"
+                    android:ems="10"
+                    android:focusable="false"
+                    android:includeFontPadding="false"
+                    android:inputType="number"
+                    android:paddingVertical="10dp"
+                    android:textAlignment="center"
+                    android:textSize="15sp"
+                    app:layout_constraintBottom_toTopOf="@+id/seekBar_canopy"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/textView_canopy_units"
