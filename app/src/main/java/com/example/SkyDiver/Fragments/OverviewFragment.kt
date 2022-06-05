@@ -104,10 +104,10 @@ class OverviewFragment : Fragment() {
             {
                 viewOfLayout.seekBar_weight.min = defaultSeekBarLimits.seekBar_weight_min
                 viewOfLayout.seekBar_weight.max = defaultSeekBarLimits.seekBar_weight_max
-
+                viewOfLayout.seekBar_weight.secondaryProgress = 0
                 viewOfLayout.seekBar_equipment.min = defaultSeekBarLimits.seekBar_equipment_min
                 viewOfLayout.seekBar_equipment.max= defaultSeekBarLimits.seekBar_equipment_max
-
+                viewOfLayout.seekBar_equipment.secondaryProgress = 0
                 viewOfLayout.seekBar_canopy.min = defaultSeekBarLimits.seekBar_canopy_min
                 viewOfLayout.seekBar_canopy.max = defaultSeekBarLimits.seekBar_canopy_max
             }
