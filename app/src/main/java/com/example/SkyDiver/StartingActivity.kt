@@ -28,6 +28,8 @@ class StartingActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setTheme(R.style.AppTheme_NoActionBarWithoutBackground)
+
         setContentView(R.layout.activity_starting)
 
 

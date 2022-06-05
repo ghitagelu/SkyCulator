@@ -27,6 +27,9 @@ import kotlin.math.roundToInt
 class OverviewFragment : Fragment() {
     private lateinit var viewOfLayout: View
     private var clickedonloadtextview =false
+    private var init = true //used for the init of Load seekbar progress
+    
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -114,14 +117,13 @@ class OverviewFragment : Fragment() {
         }
 
         val defaultValues = UserValues(
-            100,
+            110,
             10,
-            278,
+            178,
             unit_KG = true,
             unit_LBS = false
         )
-
-
+      
         //Make viewOfLayout = this fragment
         viewOfLayout =inflater.inflate(R.layout.fragment_overview, container, false)
 
@@ -170,35 +172,35 @@ class OverviewFragment : Fragment() {
 
         }
 //*Tandem checkbox handling
-
-        viewOfLayout.editNumber_weight.setOnFocusChangeListener { v, hasFocus ->
-            if (!hasFocus)
-            {
-                viewOfLayout.editNumber_weight.setText(viewOfLayout.seekBar_weight.progress.toString())
-                hideKeyboard(v)
-            }
-        }
-        viewOfLayout.editNumber_equipment.setOnFocusChangeListener { v, hasFocus ->
-            if (!hasFocus)
-            {
-                viewOfLayout.editNumber_equipment.setText(viewOfLayout.seekBar_equipment.progress.toString())
-                hideKeyboard(v)
-            }
-        }
-        viewOfLayout.editNumber_canopy.setOnFocusChangeListener { v, hasFocus ->
-            if (!hasFocus)
-            {
-                viewOfLayout.editNumber_canopy.setText(viewOfLayout.seekBar_canopy.progress.toString())
-                hideKeyboard(v)
-            }
-        }
-        viewOfLayout.editNumber_load.setOnFocusChangeListener { v, hasFocus ->
-            if (!hasFocus)
-            {
-                viewOfLayout.editNumber_load.setText(((viewOfLayout.seekBar_load.progress.toDouble())/100).toString())
-                hideKeyboard(v)
-            }
-        }
+//
+//        viewOfLayout.editNumber_weight.setOnFocusChangeListener { v, hasFocus ->
+//            if (!hasFocus)
+//            {
+//                viewOfLayout.editNumber_weight.setText(viewOfLayout.seekBar_weight.progress.toString())
+//                hideKeyboard(v)
+//            }
+//        }
+//        viewOfLayout.editNumber_equipment.setOnFocusChangeListener { v, hasFocus ->
+//            if (!hasFocus)
+//            {
+//                viewOfLayout.editNumber_equipment.setText(viewOfLayout.seekBar_equipment.progress.toString())
+//                hideKeyboard(v)
+//            }
+//        }
+//        viewOfLayout.editNumber_canopy.setOnFocusChangeListener { v, hasFocus ->
+//            if (!hasFocus)
+//            {
+//                viewOfLayout.editNumber_canopy.setText(viewOfLayout.seekBar_canopy.progress.toString())
+//                hideKeyboard(v)
+//            }
+//        }
+//        viewOfLayout.editNumber_load.setOnFocusChangeListener { v, hasFocus ->
+//            if (!hasFocus)
+//            {
+//                viewOfLayout.editNumber_load.setText(((viewOfLayout.seekBar_load.progress.toDouble())/100).toString())
+//                hideKeyboard(v)
+//            }
+//        }
 
 //Weight handling
         //Weight :Text field handling
@@ -211,10 +213,6 @@ class OverviewFragment : Fragment() {
                     value = viewOfLayout.seekBar_weight.max
                     viewOfLayout.editNumber_weight.setText(value.toString())
                 }
-//                if(value < viewOfLayout.seekBar_weight.min) {
-//                    value = viewOfLayout.seekBar_weight.min
-//                    viewOfLayout.editNumber_weight.setText(value.toString())
-//                }
 
                 viewOfLayout.seekBar_weight.progress=value
                 defaultValues.weight = value
@@ -234,10 +232,6 @@ class OverviewFragment : Fragment() {
                     value = viewOfLayout.seekBar_equipment.max
                     viewOfLayout.editNumber_equipment.setText(value.toString())
                 }
-//                if(value < viewOfLayout.seekBar_equipment.min) {
-//                    value = viewOfLayout.seekBar_equipment.min
-//                    viewOfLayout.editNumber_equipment.setText(value.toString())
-//                }
 
                 viewOfLayout.seekBar_equipment.progress=value
                 defaultValues.equipment = value
@@ -259,12 +253,6 @@ class OverviewFragment : Fragment() {
                     viewOfLayout.editNumber_canopy.setText(value.toString())
 
                 }
-//                if(value < viewOfLayout.seekBar_canopy.min) {
-//                    value = viewOfLayout.seekBar_canopy.min
-//
-//                    viewOfLayout.editNumber_canopy.setText(value.toString())
-//
-//                }
 
                 viewOfLayout.seekBar_canopy.progress=value
                 defaultValues.canopy = value
@@ -509,7 +497,22 @@ class OverviewFragment : Fragment() {
         wingLoading= totalWeight.toDouble()/canopy.toDouble()
         var result = ((((wingLoading *100).toInt()).toDouble())/100).toString()
             viewOfLayout.editNumber_load.setText(result)
+
+
+    if(init)//init of load seekbar
+    {
+    var value = ((viewOfLayout.editNumber_load.text.toString()).toDouble()*100).toInt()
+
+    if(value > viewOfLayout.seekBar_load.max) {
+        value = viewOfLayout.seekBar_load.max
+        viewOfLayout.editNumber_load.setText((value.toDouble()/100).toString())
+
     }
+    viewOfLayout.seekBar_load.progress=value
+    init = false
+    }
+
+}
     //Updates the value of canopy size after the modification of risk value
     private fun setCalculatorWingSize(weight:Int, equipment: Int, wingLoading:Int, unit_KG:Boolean) {
         val canopy:Double
