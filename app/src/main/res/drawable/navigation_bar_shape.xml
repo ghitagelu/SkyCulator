@@ -20,7 +20,7 @@
         >
     </padding>
     <solid
-        android:color="@color/navBar_color"
+        android:color="@color/selected_icons_color"
         >
 
     </solid>
