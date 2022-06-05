@@ -10,6 +10,8 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.SeekBar
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
@@ -393,13 +395,13 @@ class OverviewFragment : Fragment() {
 
 
         viewOfLayout.setOnClickListener {
-            clearFocusFromButtons()
-            Toast.makeText(
-                    activity,
-                    "FRAGMENT CLICKED ",
-
-                    Toast.LENGTH_SHORT
-                ).show()
+//            clearFocusFromButtons()
+//            Toast.makeText(
+//                    activity,
+//                    "FRAGMENT CLICKED ",
+//
+//                    Toast.LENGTH_SHORT
+//                ).show()
         }
 
 
@@ -437,22 +439,22 @@ class OverviewFragment : Fragment() {
 
         when(updateJumpValue(loadValue)){
             0->{
-                viewOfLayout.textView_jumps_level.setBackgroundColor(getResources().getColor(R.color.jump_level_0))
+                viewOfLayout.textView_jumps_level.background = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.result_bar_shape_and_result_color_0, null)
                 viewOfLayout.textView_jumps_level.text ="BASIC: 0-200 JUMPS"
             }
 
             1->{
-                viewOfLayout.textView_jumps_level.setBackgroundColor(getResources().getColor(R.color.jump_level_1))
+                viewOfLayout.textView_jumps_level.background = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.result_bar_shape_and_result_color_1, null)
                 viewOfLayout.textView_jumps_level.text ="INTERMEDIATE: 200-600 JUMPS"
             }
 
             2->{
-                viewOfLayout.textView_jumps_level.setBackgroundColor(getResources().getColor(R.color.jump_level_2))
+                viewOfLayout.textView_jumps_level.background = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.result_bar_shape_and_result_color_2, null)
                 viewOfLayout.textView_jumps_level.text ="ADVANCED: 600-1500 JUMPS"
             }
 
             3->{
-                viewOfLayout.textView_jumps_level.setBackgroundColor(getResources().getColor(R.color.jump_level_3))
+                viewOfLayout.textView_jumps_level.background = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.result_bar_shape_and_result_color_3, null)
                 viewOfLayout.textView_jumps_level.text ="EXPERT: 1500+ JUMPS"
             }
 

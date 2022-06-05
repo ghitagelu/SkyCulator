@@ -15,22 +15,23 @@
 
 <!--  B O T T O M     N A V     B A R  -->
     <!--    // NavBar color (navigation_bar_shape.xml) -->
-        <color name="navBar_color">#ED1472BD</color>
+        <color name="navBar_color">#B01472BD</color>
+    <color name="navBar_color_transparent">#791472BD</color>
     <!--    // Icon colors -->
         <!--    //Default -->
-        <color name="default_icons_color">#666161</color>
+        <color name="default_icons_color">#74666161</color>
         <!--    //Selected -->
-        <color name="selected_icons_color">#FFFFFF</color>
+        <color name="selected_icons_color">#4FFFFFFF</color>
 
 <!--  J U M P  L E V E L-->
 <!--    0   -->
-    <color name="jump_level_0">#4CAF50</color>
+    <color name="jump_level_0">#BB4CAF50</color>
 <!--    1   -->
-    <color name="jump_level_1">#FFEB3B</color>
+    <color name="jump_level_1">#BBFFEB3B</color>
 <!--    2   -->
-    <color name="jump_level_2">#FF9800</color>
+    <color name="jump_level_2">#BBFF9800</color>
 <!--    3   -->
-    <color name="jump_level_3">#F44336</color>
+    <color name="jump_level_3">#BBF44336</color>
 
     <color name="transparent">#00000000</color>
 </resources>
