@@ -477,6 +477,10 @@ class OverviewFragment : Fragment() {
         if(unit_KG){
             totalWeight= convertKGtoLBS(totalWeight)
         }
+        if(!unit_KG)
+        {//do this to round the numbers so we get the same load value when changing from KG to LBS or viceversa
+            totalWeight=convertKGtoLBS(convertLBStoKG(totalWeight))
+        }
         wingLoading= totalWeight.toDouble()/canopy.toDouble()
         var result = ((((wingLoading *100).toInt()).toDouble())/100).toString()
             viewOfLayout.editNumber_load.setText(result)
