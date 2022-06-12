@@ -51,13 +51,14 @@ class OverviewFragment : Fragment() {
             //Handling of changing the units types
             fun setCalculatorValues()
             {
+                var tandem = viewOfLayout.checkBox_tandem.isChecked
                 if(unit_KG)
                 {
-                    setUnitsKG()
+                    setUnitsKG(tandem)
                 }
                 if(unit_LBS)
                 {
-                    setUnitsLBS()
+                    setUnitsLBS(tandem)
                 }
 //
                 viewOfLayout.editNumber_weight.setText(weight.toString())
@@ -72,30 +73,59 @@ class OverviewFragment : Fragment() {
                 handlingOfJumpsConstraintLayout()
 
             }
-            fun setUnitsKG()
+            fun setUnitsKG(tandem: Boolean)
             {
                 viewOfLayout.radioButton_KG.isChecked=true
                 viewOfLayout.textView_weight_units.text=" kg"
                 viewOfLayout.textView_equipment_units.text = " kg"
 
-                val defaultSeekBarLimits = SeekBarLimits(
-                    45,120,
-                    5,25,
-                    50,350)
+//Values for tandem
+                //If tandem = false
+                var expand_seekBar_weight_max     = 0
+                var expand_seekBar_equipment_max  = 0
+                var expand_seekBar_canopy_max     = 0
+                //If tandem = true
+                if(tandem)
+                {
+                     expand_seekBar_weight_max     = 136
+                     expand_seekBar_equipment_max  = 25
+                     expand_seekBar_canopy_max     = 150
+                }
+//*Values for tandem
 
+//Set seekbar limits
+                //Create limits value for seekbar
+                val defaultSeekBarLimits = SeekBarLimits(
+                    45,136 + expand_seekBar_weight_max,
+                    5,25 + expand_seekBar_equipment_max,
+                    50,350 + expand_seekBar_canopy_max)
+                //Call to set the limits for the seek bar
                 setSeekBarLimits(defaultSeekBarLimits)
             }
 
-            fun setUnitsLBS()
+            fun setUnitsLBS(tandem: Boolean)
             {
                 viewOfLayout.radioButton_LBS.isChecked=true
                 viewOfLayout.textView_weight_units.text=" lbs"
                 viewOfLayout.textView_equipment_units.text = " lbs"
 
+//Values for tandem
+                //If tandem = false
+                var expand_seekBar_weight_max     = 0
+                var expand_seekBar_equipment_max  = 0
+                var expand_seekBar_canopy_max     = 0
+                //If tandem = true
+                if(tandem)
+                {
+                    expand_seekBar_weight_max     = 300
+                    expand_seekBar_equipment_max  = 55
+                    expand_seekBar_canopy_max     = 150
+                }
+//*Values for tandem
                 val defaultSeekBarLimits = SeekBarLimits(
-                    99,265,
-                    10,55,
-                    50,350)
+                    99,300 + expand_seekBar_weight_max,
+                    10,55 + expand_seekBar_equipment_max,
+                    50,350 + expand_seekBar_canopy_max)
 
                 setSeekBarLimits(defaultSeekBarLimits)
             }
@@ -160,6 +190,7 @@ class OverviewFragment : Fragment() {
 
 //Tandem checkbox handling
         viewOfLayout.checkBox_tandem.setOnCheckedChangeListener { buttonView, isChecked ->
+            defaultValues.setCalculatorValues()
 
             if(checkBox_tandem.isChecked) {
 
