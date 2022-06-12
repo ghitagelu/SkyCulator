@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
@@ -386,6 +387,64 @@ class OverviewFragment : Fragment() {
 //
 //                    Toast.LENGTH_SHORT
 //                ).show()
+        }
+
+        //Weight
+        viewOfLayout.button_weight_minus.setOnClickListener {
+
+            var size :Int = Integer.parseInt(viewOfLayout.editNumber_weight.text.toString())
+            size -= 1
+            viewOfLayout.editNumber_weight.setText(size.toString())
+        }
+        viewOfLayout.button_weight_plus.setOnClickListener {
+
+            var size :Int = Integer.parseInt(viewOfLayout.editNumber_weight.text.toString())
+            size += 1
+            viewOfLayout.editNumber_weight.setText(size.toString())
+        }
+
+        //Equipment
+        viewOfLayout.button_equipment_minus.setOnClickListener {
+
+            var size :Int = Integer.parseInt(viewOfLayout.editNumber_equipment.text.toString())
+            size -= 1
+            viewOfLayout.editNumber_equipment.setText(size.toString())
+        }
+        viewOfLayout.button_equipment_plus.setOnClickListener {
+
+            var size :Int = Integer.parseInt(viewOfLayout.editNumber_equipment.text.toString())
+            size += 1
+            viewOfLayout.editNumber_equipment.setText(size.toString())
+        }
+
+        //Canopy
+        viewOfLayout.button_canopy_minus.setOnClickListener {
+
+            var size :Int = Integer.parseInt(viewOfLayout.editNumber_canopy.text.toString())
+            size -= 1
+            viewOfLayout.editNumber_canopy.setText(size.toString())
+        }
+        viewOfLayout.button_canopy_plus.setOnClickListener {
+
+            var size :Int = Integer.parseInt(viewOfLayout.editNumber_canopy.text.toString())
+            size += 1
+            viewOfLayout.editNumber_canopy.setText(size.toString())
+        }
+
+        //Load
+        viewOfLayout.button_load_minus.setOnClickListener {
+
+            var size :Double = (viewOfLayout.editNumber_load.text.toString()).toDouble()
+            size -= 0.01
+            size = (size * 100).toInt().toDouble()/100
+            viewOfLayout.editNumber_load.setText(size.toString())
+        }
+        viewOfLayout.button_load_plus.setOnClickListener {
+
+            var size :Double = (viewOfLayout.editNumber_load.text.toString()).toDouble()
+            size += 0.011
+            size = (size * 100).toInt().toDouble()/100
+            viewOfLayout.editNumber_load.setText(size.toString())
         }
 
 
