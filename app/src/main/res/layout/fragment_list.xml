@@ -4,13 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/selected_icons_color"
+    android:background="@mipmap/img_background_clouds_2"
     android:tag="tag_of_fragment_list"
     >
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/navBar_color_transparent"
         tools:layout_editor_absoluteX="-195dp"
         tools:layout_editor_absoluteY="-538dp">
 
@@ -34,7 +35,7 @@
             android:id="@+id/ListView_Items"
             android:layout_width="match_parent"
             android:layout_height="450dp"
-            android:background="#A58891"
+            android:background="@color/navBar_color_transparent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
