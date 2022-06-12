@@ -125,6 +125,9 @@ class OverviewFragment : Fragment() {
         //Make viewOfLayout = this fragment
         viewOfLayout =inflater.inflate(R.layout.fragment_overview, container, false)
 
+//Set initial valuse
+        //Set "Tandem" checkbox false on 1st run, then get the saved value from last use
+        viewOfLayout.checkBox_tandem.isChecked = shared_preferences_save.getBoolean("Tandem_checked",  false)
         //Set default values
         defaultValues.setCalculatorValues()
 
@@ -381,7 +384,7 @@ class OverviewFragment : Fragment() {
     }
 //*Close onScreen keyboard when user presses something else
 
-
+//Function used to save current values in the app
     private fun saveData()
     {
         val editor: SharedPreferences.Editor = shared_preferences_save.edit()
