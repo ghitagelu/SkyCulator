@@ -17,6 +17,7 @@
     <!--    // NavBar color (navigation_bar_shape.xml) -->
         <color name="navBar_color">#B01472BD</color>
     <color name="navBar_color_transparent">#791472BD</color>
+    <color name="buttons_color_transparent">#B4FFFFFF</color>
     <!--    // Icon colors -->
         <!--    //Default -->
         <color name="default_icons_color">#74666161</color>
