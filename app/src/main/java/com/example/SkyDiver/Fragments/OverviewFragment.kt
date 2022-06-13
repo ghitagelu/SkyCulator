@@ -25,7 +25,7 @@ import kotlin.math.roundToInt
  */
 class OverviewFragment : Fragment() {
     private lateinit var viewOfLayout: View
-    private var clickedonloadtextview =false
+//    private var clickedonloadtextview =false
     private var init = true //used for the init of Load seekbar progress
     lateinit var shared_preferences_save: SharedPreferences
     var isSaved = false
@@ -142,9 +142,8 @@ class OverviewFragment : Fragment() {
                 viewOfLayout.seekBar_canopy.min = defaultSeekBarLimits.seekBar_canopy_min
                 viewOfLayout.seekBar_canopy.max = defaultSeekBarLimits.seekBar_canopy_max
             }
-
-
         }
+//////////////////////////////////////////////////////////////////////////////////////////////////// I N I T I A L I S I N G ////////////////////////////////////////
              val defaultValues = UserValues(
                 shared_preferences_save.getInt("Weight",110),
                 shared_preferences_save.getInt("Equipment",10),
@@ -161,7 +160,7 @@ class OverviewFragment : Fragment() {
         viewOfLayout.checkBox_tandem.isChecked = shared_preferences_save.getBoolean("Tandem_checked",  false)
         //Set default values
         defaultValues.setCalculatorValues()
-
+////////////////////////////////////////////////////////////////////////////////////////////////////*I N I T I A L I S I N G ////////////////////////////////////////
 //Radio buttons handling
         viewOfLayout.radioGroup.setOnCheckedChangeListener { buttonView, isChecked ->
 
@@ -188,7 +187,7 @@ class OverviewFragment : Fragment() {
             saveData()
         }
 //*Radio buttons handling
-
+////////////////////////////////////////////////////////////////////////////////////////////////////
 //Tandem checkbox handling
         viewOfLayout.checkBox_tandem.setOnCheckedChangeListener { buttonView, isChecked ->
             defaultValues.setCalculatorValues()
@@ -205,8 +204,8 @@ class OverviewFragment : Fragment() {
             saveData()
         }
 //*Tandem checkbox handling
-
-//Weight handling
+////////////////////////////////////////////////////////////////////////////////////////////////////
+//Handling of TextView
         //Weight :Text field handling
         viewOfLayout.editNumber_weight.doAfterTextChanged {
 
@@ -223,7 +222,6 @@ class OverviewFragment : Fragment() {
 
                 setCalculatorWingLoading(defaultValues.weight,defaultValues.equipment,defaultValues.canopy,defaultValues.unit_KG)
             }
-
         }
 
         //Equipment :Text field handling
@@ -242,7 +240,6 @@ class OverviewFragment : Fragment() {
 
                 setCalculatorWingLoading(defaultValues.weight,defaultValues.equipment,defaultValues.canopy,defaultValues.unit_KG)
             }
-
         }
 
         //Canopy :Text field handling
@@ -260,19 +257,12 @@ class OverviewFragment : Fragment() {
 
                 viewOfLayout.seekBar_canopy.progress=value
                 defaultValues.canopy = value
-
-                setCalculatorWingLoading(defaultValues.weight,defaultValues.equipment,defaultValues.canopy,defaultValues.unit_KG)
-
             }
 
         }
 
-        viewOfLayout.editNumber_load.setOnClickListener {
-            clickedonloadtextview = true
-        }
         //Load :Text field handling
         viewOfLayout.editNumber_load.doAfterTextChanged() {
-
 
             if(viewOfLayout.editNumber_load.text.toString()!="") {
                 var value = ((viewOfLayout.editNumber_load.text.toString()).toDouble()*100).toInt()
@@ -280,115 +270,104 @@ class OverviewFragment : Fragment() {
                 if(value > viewOfLayout.seekBar_load.max) {
                     value = viewOfLayout.seekBar_load.max
                     viewOfLayout.editNumber_load.setText((value.toDouble()/100).toString())
-
-                }
-//                if(value < viewOfLayout.seekBar_load.min) {
-//                    value = viewOfLayout.seekBar_load.min
-//                    viewOfLayout.editNumber_load.setText((value.toDouble()/100).toString())
-//
-//                }
-
-                viewOfLayout.seekBar_load.progress=value
-
-                if (clickedonloadtextview)
-                {
-                    clickedonloadtextview=false
-                    var value = ((viewOfLayout.editNumber_load.text.toString()).toDouble()*100).toInt()
-                    setCalculatorWingSize(defaultValues.weight,defaultValues.equipment,value,defaultValues.unit_KG)
                 }
                 handlingOfJumpsConstraintLayout()
             }
-
         }
-//*Weight handling
-
+//*Handling of TextView
+////////////////////////////////////////////////////////////////////////////////////////////////////
 //SeekBar handling
+        //Function used to update load seekbar
+        fun updateLoad(nochange:Boolean, increase:Boolean, decrease:Boolean)
+        {
+            var progress = viewOfLayout.seekBar_load.progress
+            if(nochange) {/*D O  N O T H I N G*/    }
+            if(increase)
+            {viewOfLayout.seekBar_load.progress = progress + 1
+            }else if(decrease)
+            {viewOfLayout.seekBar_load.progress = progress - 1
+            }
 
+            progress = viewOfLayout.seekBar_load.progress
+            viewOfLayout.editNumber_load.setText((progress.toDouble() / 100).toString())
+            viewOfLayout.editNumber_load.setSelection(viewOfLayout.editNumber_load.length())
+
+            val value = ((viewOfLayout.editNumber_load.text.toString()).toDouble() * 100).toInt()
+
+            setCalculatorWingSize(
+                defaultValues.weight,
+                defaultValues.equipment,
+                value,
+                defaultValues.unit_KG
+            )
+            clearFocusFromButtons()
+        }
+
+        //Weight seekBar
         viewOfLayout.seekBar_weight.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 if(fromUser) {
                     viewOfLayout.editNumber_weight.setText(progress.toString())
                     viewOfLayout.editNumber_weight.setSelection(viewOfLayout.editNumber_weight.length())
                     clearFocusFromButtons()
+                    setCalculatorWingLoading(defaultValues.weight,defaultValues.equipment,defaultValues.canopy,defaultValues.unit_KG)
                 }
             }
-
-            override fun onStartTrackingTouch(seekBar: SeekBar?) {
-
-            }
-
-            override fun onStopTrackingTouch(seekBar: SeekBar?) {
-
-            }
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {}
         })
+
+        //Equipment seekBar
         viewOfLayout.seekBar_equipment.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 if(fromUser) {
                     viewOfLayout.editNumber_equipment.setText(progress.toString())
                     viewOfLayout.editNumber_equipment.setSelection(viewOfLayout.editNumber_equipment.length())
                     clearFocusFromButtons()
+                    setCalculatorWingLoading(defaultValues.weight,defaultValues.equipment,defaultValues.canopy,defaultValues.unit_KG)
                 }
             }
-
-            override fun onStartTrackingTouch(seekBar: SeekBar?) {
-
-            }
-
-            override fun onStopTrackingTouch(seekBar: SeekBar?) {
-
-            }
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {}
         })
+
+        //Canopy seekBar
         viewOfLayout.seekBar_canopy.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                if(fromUser) {
+//                if(fromUser) {
                     viewOfLayout.editNumber_canopy.setText(progress.toString())
                     viewOfLayout.editNumber_canopy.setSelection(viewOfLayout.editNumber_canopy.length())
                     clearFocusFromButtons()
-                }
+                    setCalculatorWingLoading(defaultValues.weight,defaultValues.equipment,defaultValues.canopy,defaultValues.unit_KG)
+//                }
             }
-
-            override fun onStartTrackingTouch(seekBar: SeekBar?) {
-
-            }
-
-            override fun onStopTrackingTouch(seekBar: SeekBar?) {
-
-            }
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {}
         })
 
+        //Load seekBar
         viewOfLayout.seekBar_load.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 if(fromUser) {
-                    viewOfLayout.editNumber_load.setText((progress.toDouble()/100).toString())
-                    viewOfLayout.editNumber_load.setSelection(viewOfLayout.editNumber_load.length())
-
-                    var value = ((viewOfLayout.editNumber_load.text.toString()).toDouble()*100).toInt()
-                        setCalculatorWingSize(defaultValues.weight,defaultValues.equipment,value,defaultValues.unit_KG)
-
-                    clearFocusFromButtons()
+                    updateLoad( nochange = false, increase = false, decrease = false)
 
                 }
             }
-
-            override fun onStartTrackingTouch(seekBar: SeekBar?) {
-
-            }
-
-            override fun onStopTrackingTouch(seekBar: SeekBar?) {
-
-            }
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {}
         })
 
+        //tresar icoanele de la proggress bar cand dai click pe view
         viewOfLayout.setOnClickListener {
-//            clearFocusFromButtons()
-//            Toast.makeText(
-//                    activity,
-//                    "FRAGMENT CLICKED ",
-//
-//                    Toast.LENGTH_SHORT
-//                ).show()
-        }
+            Toast.makeText(
+                    activity,
+                    "FRAGMENT CLICKED ",
 
+                    Toast.LENGTH_SHORT
+                ).show()
+        }
+////////////////////////////////////////////////////////////////////////////////////////////////////
+//Handling of +/- buttons for all values
         //Weight
         viewOfLayout.button_weight_minus.setOnClickListener {
 
@@ -433,47 +412,33 @@ class OverviewFragment : Fragment() {
 
         //Load
         viewOfLayout.button_load_minus.setOnClickListener {
-
-            var size :Double = (viewOfLayout.editNumber_load.text.toString()).toDouble()
-            size -= 0.01
-            size = (size * 100).toInt().toDouble()/100
-            viewOfLayout.editNumber_load.setText(size.toString())
+            updateLoad(nochange = false, increase = false, decrease = true)
         }
         viewOfLayout.button_load_plus.setOnClickListener {
-
-            var size :Double = (viewOfLayout.editNumber_load.text.toString()).toDouble()
-            size += 0.011
-            size = (size * 100).toInt().toDouble()/100
-            viewOfLayout.editNumber_load.setText(size.toString())
+            updateLoad(nochange = false, increase = true, decrease = false)
         }
-
-
-
+//*Handling of +/- buttons for all values
+////////////////////////////////////////////////////////////////////////////////////////////////////
         clearFocusFromButtons()
         //required to update fragment
         return viewOfLayout
     }
+///////////////////////////////////////////////////////// //////    //    //    ////    //////////////////////////////////////////// /////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////// //        ////  //    //  //  //////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////// //////    // // //    //   // / E N D   O F  C L A S S ///////////////// ///////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////// //        //  ////    //  //  //////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////// //////    //    //    ////    //////////////////////////////////////////// /////////////////////////////////////////////////////////
 //Close onScreen keyboard when user presses something else
     // clear focus from all 4 edit text items
     private fun clearFocusFromButtons()
     {
-
         viewOfLayout.editNumber_weight.clearFocus()
         viewOfLayout.editNumber_equipment.clearFocus()
         viewOfLayout.editNumber_canopy.clearFocus()
         viewOfLayout.editNumber_load.clearFocus()
-        clickedonloadtextview = false
-
-
-    }
-    //
-    private fun hideKeyboard(v: View) {
-        val inputManager = v.context
-            .getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        inputManager.hideSoftInputFromWindow(v.windowToken, 0)
     }
 //*Close onScreen keyboard when user presses something else
-
+////////////////////////////////////////////////////////////////////////////////////////////////////
 //Function used to save current values in the app
     private fun saveData()
     {
@@ -486,17 +451,67 @@ class OverviewFragment : Fragment() {
         editor.putBoolean("lbs", viewOfLayout.radioButton_LBS.isChecked)
         editor.putBoolean("SAVED", true)
         editor.apply()
-//        var temp = shared_preferences_save.getInt("Weight", 10)
-//                    Toast.makeText(
-//                    activity,
-//                    "Data saved weight = $temp ",
-//
-//                    Toast.LENGTH_SHORT
-//                ).show()
     }
+//*Function used to save current values in the app
+////////////////////////////////////////////////////////////////////////////////////////////////////
+//Calculator values updater
+    //Functions used to convert kg/lbs
+    private fun convertKGtoLBS(value :Int):Int
+    {
+        return (value*2.20462).roundToInt()
+    }
+    private fun convertLBStoKG(value: Int):Int
+    {
+        return (value/2.20462).roundToInt()
+    }
+    //*Functions used to convert kg/lbs
+    //Updates the values of risk after modification of calculator values
+    private fun setCalculatorWingLoading(weight:Int, equipment: Int, canopy:Int, unit_KG:Boolean) {
 
+        val wingLoading:Double
+        var totalWeight=weight+equipment
 
+        if(unit_KG){
+            totalWeight= convertKGtoLBS(totalWeight)
+        }
 
+        wingLoading= totalWeight.toDouble()/canopy.toDouble()
+        val result = (wingLoading *100).toInt()
+            viewOfLayout.editNumber_load.setText((result.toDouble()/100).toString())
+            viewOfLayout.seekBar_load.progress = result
+
+        if(init)//init of load seekbar
+        {
+        var value = ((viewOfLayout.editNumber_load.text.toString()).toDouble()*100).toInt()
+
+        if(value > viewOfLayout.seekBar_load.max) {
+            value = viewOfLayout.seekBar_load.max
+            viewOfLayout.editNumber_load.setText((value.toDouble()/100).toString())
+
+        }
+        viewOfLayout.seekBar_load.progress=value
+        init = false
+        }
+        saveData()
+    }
+    //Updates the value of canopy size after the modification of risk value
+    private fun setCalculatorWingSize(weight:Int, equipment: Int, wingLoading:Int, unit_KG:Boolean) {
+        val canopy:Double
+        var totalWeight=weight+equipment
+
+        if(unit_KG){
+            totalWeight= convertKGtoLBS(totalWeight)
+        }
+        canopy= totalWeight.toDouble()/(wingLoading.toDouble())
+        val temp = (canopy *100).toInt().toString()
+
+                    viewOfLayout.editNumber_canopy.setText(temp)
+        saveData()
+    }
+//*Calculator values updater
+////////////////////////////////////////////////////////////////////////////////////////////////////
+//Handling of jump level
+    //Update level of jumps
     private fun handlingOfJumpsConstraintLayout()
     {
         val loadValue :Int = ((viewOfLayout.editNumber_load.text.toString()).toDouble()*100).toInt()
@@ -529,7 +544,8 @@ class OverviewFragment : Fragment() {
 
 
     }
-     private fun updateJumpValue(loadValue:Int):Int
+    //Get result from load value
+    private fun updateJumpValue(loadValue:Int):Int
     {
         var result =4
         when (loadValue) {
@@ -546,84 +562,8 @@ class OverviewFragment : Fragment() {
                 result =3
             }
         }
-       return result
+        return result
     }
-
-
-    private fun convertKGtoLBS(value :Int):Int
-    {
-        return (value*2.20462).roundToInt()
-    }
-    private fun convertLBStoKG(value: Int):Int
-    {
-        return (value/2.20462).roundToInt()
-    }
-
-
-//Calculator values updater
-    //Updates the values of risk after modification of calculator values
-    private fun setCalculatorWingLoading(weight:Int, equipment: Int, canopy:Int, unit_KG:Boolean) {
-
-        val wingLoading:Double
-        var totalWeight=weight+equipment
-
-        if(unit_KG){
-            totalWeight= convertKGtoLBS(totalWeight)
-        }
-        if(!unit_KG)
-        {//do this to round the numbers so we get the same load value when changing from KG to LBS or viceversa
-            totalWeight=convertKGtoLBS(convertLBStoKG(totalWeight))
-        }
-        wingLoading= totalWeight.toDouble()/canopy.toDouble()
-        var result = ((((wingLoading *100).toInt()).toDouble())/100).toString()
-            viewOfLayout.editNumber_load.setText(result)
-
-
-    if(init)//init of load seekbar
-    {
-    var value = ((viewOfLayout.editNumber_load.text.toString()).toDouble()*100).toInt()
-
-    if(value > viewOfLayout.seekBar_load.max) {
-        value = viewOfLayout.seekBar_load.max
-        viewOfLayout.editNumber_load.setText((value.toDouble()/100).toString())
-
-    }
-    viewOfLayout.seekBar_load.progress=value
-    init = false
-    }
-    saveData()
-}
-    //Updates the value of canopy size after the modification of risk value
-    private fun setCalculatorWingSize(weight:Int, equipment: Int, wingLoading:Int, unit_KG:Boolean) {
-        val canopy:Double
-        var totalWeight=weight+equipment
-
-        if(unit_KG){
-            totalWeight= convertKGtoLBS(totalWeight)
-        }
-        canopy= totalWeight.toDouble()/(wingLoading.toDouble())
-        var temp = (canopy *100).toInt().toString()
-//                if(temp !=  viewOfLayout.editNumber_canopy.text.toString()) {
-                    viewOfLayout.editNumber_canopy.setText(temp)
-//                }
-
-//            setCalculatorWingSize(defaultValues.weight,defaultValues.equipment,value,defaultValues.unit_KG)
-//            var value = ((viewOfLayout.editNumber_load.text.toString()).toDouble()*100).toInt()
-
-
-
-
-
-
-//        Toast.makeText(
-//            activity,
-//            "TANDEM: $temp",
-//
-//            Toast.LENGTH_SHORT
-//        ).show()
-    }
-//*Calculator values updater
-
-
+//*Handling of jump level
     //
 }
