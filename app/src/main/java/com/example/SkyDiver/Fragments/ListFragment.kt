@@ -10,13 +10,16 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import com.example.SkyDiver.DataBaseHandler.ListItem
 import com.example.SkyDiver.DataBaseHandler.MindOrksDBOpenHelper
 import com.example.SkyDiver.Model_for_CustomListView
 import com.example.SkyDiver.Model_for_CustomListView_Adapter
 import com.example.SkyDiver.R
+import com.example.SkyDiver.StartingActivity
 import kotlinx.android.synthetic.main.fragment_list.view.*
+import kotlinx.android.synthetic.main.fragment_overview.view.*
 import java.util.*
 
 
@@ -129,7 +132,7 @@ class ListFragment : Fragment() {
 
 
 
-
+        setBackgroud()
         // Inflate the layout for this fragment
         return viewOfLayout
     }
@@ -250,7 +253,24 @@ class ListFragment : Fragment() {
         val cursor = dbHandler.getAllName()
         return cursor!!.count
     }
-
+    //Set background
+    private fun setBackgroud()
+    {
+        when((activity as StartingActivity?)?.getImageSelecter())
+        {
+            1->viewOfLayout.layout_main_for_background2.background = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.clouds12, null)
+            2->viewOfLayout.layout_main_for_background2.background = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.clouds22, null)
+            3->viewOfLayout.layout_main_for_background2.background = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.clouds32, null)
+            4->viewOfLayout.layout_main_for_background2.background = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.clouds42, null)
+            5->viewOfLayout.layout_main_for_background2.background = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.clouds52, null)
+            6->viewOfLayout.layout_main_for_background2.background = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.clouds62, null)
+            7->viewOfLayout.layout_main_for_background2.background = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.clouds72, null)
+            8->viewOfLayout.layout_main_for_background2.background = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.clouds82, null)
+            else -> {
+                viewOfLayout.layout_main_for_background2.background = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.clouds12, null)
+            }
+        }
+    }
 
 
 

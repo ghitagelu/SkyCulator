@@ -25,7 +25,7 @@ class StartingActivity : AppCompatActivity() {
     private lateinit var homeBtn: ImageButton
     private lateinit var listBtn: ImageButton
     private lateinit var addBtn: ImageButton
-
+    var selectedImage:Int = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setTheme(R.style.AppTheme_NoActionBarWithoutBackground)
@@ -38,7 +38,7 @@ class StartingActivity : AppCompatActivity() {
 
 //Create notification
         createNotificationChannel();
-
+        selectedImage = (1..8).random()
 
 
         mPagerAdapter = PagerViewAdapter(supportFragmentManager)
@@ -116,7 +116,10 @@ class StartingActivity : AppCompatActivity() {
     }
 
 
-
+    public fun getImageSelecter():Int
+    {
+        return selectedImage
+    }
     private fun changinTabs(position: Int) {
         //Pie Overview
         if(position==0)

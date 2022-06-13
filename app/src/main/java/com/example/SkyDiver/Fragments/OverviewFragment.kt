@@ -5,16 +5,15 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
 import android.widget.SeekBar
 import android.widget.Toast
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import com.example.SkyDiver.R
+import com.example.SkyDiver.StartingActivity
 import kotlinx.android.synthetic.main.fragment_overview.*
 import kotlinx.android.synthetic.main.fragment_overview.view.*
 import kotlin.math.roundToInt
@@ -35,6 +34,8 @@ class OverviewFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         shared_preferences_save =this.activity!!.getSharedPreferences("save_calculator_values", Context.MODE_PRIVATE)
+//        viewOfLayout.layout_main_for_background.setBackgroundResource(R.drawable.clouds11)
+
 
         class SeekBarLimits(
             var seekBar_weight_min: Int,    var seekBar_weight_max: Int,
@@ -421,6 +422,7 @@ class OverviewFragment : Fragment() {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
         clearFocusFromButtons()
         //required to update fragment
+        setBackgroud()
         return viewOfLayout
     }
 ///////////////////////////////////////////////////////// //////    //    //    ////    //////////////////////////////////////////// /////////////////////////////////////////////////////////
@@ -533,6 +535,7 @@ class OverviewFragment : Fragment() {
             }
 
             3->{
+
                 viewOfLayout.textView_jumps_level.background = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.result_bar_shape_and_result_color_3, null)
                 viewOfLayout.textView_jumps_level.text ="EXPERT: 1500+ JUMPS"
             }
@@ -565,5 +568,24 @@ class OverviewFragment : Fragment() {
         return result
     }
 //*Handling of jump level
+
+//Set background
+    private fun setBackgroud()
+    {
+        when((activity as StartingActivity?)?.getImageSelecter())
+        {
+            1->viewOfLayout.layout_main_for_background.background = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.clouds11, null)
+            2->viewOfLayout.layout_main_for_background.background = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.clouds21, null)
+            3->viewOfLayout.layout_main_for_background.background = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.clouds31, null)
+            4->viewOfLayout.layout_main_for_background.background = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.clouds41, null)
+            5->viewOfLayout.layout_main_for_background.background = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.clouds51, null)
+            6->viewOfLayout.layout_main_for_background.background = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.clouds61, null)
+            7->viewOfLayout.layout_main_for_background.background = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.clouds71, null)
+            8->viewOfLayout.layout_main_for_background.background = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.clouds81, null)
+            else -> {
+                viewOfLayout.layout_main_for_background.background = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.clouds11, null)
+            }
+        }
+    }
     //
 }

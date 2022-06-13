@@ -2,9 +2,10 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout_main_for_background"
     android:layout_width="match_parent"
+
     android:layout_height="match_parent"
-    android:background="@mipmap/img_background_clouds"
     android:gravity="center"
     tools:context=".Fragments.OverviewFragment">
 
@@ -255,6 +256,7 @@
                 app:layout_constraintBottom_toTopOf="@+id/seekBar_equipment"
                 app:layout_constraintStart_toEndOf="@+id/editNumber_equipment"
                 app:layout_constraintTop_toTopOf="parent" />
+
             <TextView
                 android:id="@+id/textView_equipment_units"
                 android:layout_width="wrap_content"
