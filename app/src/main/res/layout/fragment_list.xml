@@ -2,11 +2,11 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout_main_for_background2"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@mipmap/img_background_clouds_2"
-    android:tag="tag_of_fragment_list"
-    >
+    android:tag="tag_of_fragment_list">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
