@@ -29,8 +29,16 @@ class OverviewFragment : Fragment() {
 //    private var clickedonloadtextview =false
     private var init = true //used for the init of Load seekbar progress
     lateinit var shared_preferences_save: SharedPreferences
-    var isSaved = false
 
+    //Table of content for the type of actions
+    //
+    // valueToModify = 1  -weight                increaseValue = false - "-" operation
+    // valueToModify = 2  -equipment             increaseValue = true - "+" operation
+    // valueToModify = 3  -canopy
+    // valueToModify = 4  -load
+    var valueToModify = 0
+    var increaseValue = true
+    var cowntdowninterval:Long = 650
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -402,60 +410,139 @@ class OverviewFragment : Fragment() {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 //Handling of +/- buttons for all values
+
+        fun updateValues()
+        {
+            when(valueToModify)
+            {
+                1->{
+                    var size :Int = Integer.parseInt(viewOfLayout.editNumber_weight.text.toString())
+                    if(increaseValue)
+                    {
+                        size += onHoldTotalValue(size, increase = true, decrease = false)
+                    }else{
+                        size -=onHoldTotalValue(size, increase = false, decrease = true)
+                    }
+                    viewOfLayout.editNumber_weight.setText(size.toString())
+                }
+                2->{
+                    var size :Int = Integer.parseInt(viewOfLayout.editNumber_equipment.text.toString())
+                    if(increaseValue)
+                    {
+                        size += onHoldTotalValue(size, increase = true, decrease = false)
+                    }else{
+                        size -= onHoldTotalValue(size, increase = false, decrease = true)
+                    }
+                    viewOfLayout.editNumber_equipment.setText(size.toString())
+                }
+                3->{
+                    var size :Int = Integer.parseInt(viewOfLayout.editNumber_canopy.text.toString())
+                    if(increaseValue)
+                    {
+                        size += onHoldTotalValue(size, increase = true, decrease = false)
+                    }else{
+                        size -= onHoldTotalValue(size, increase = false, decrease = true)
+                    }
+                    viewOfLayout.editNumber_canopy.setText(size.toString())
+                    setCalculatorWingLoading(defaultValues.weight,defaultValues.equipment,defaultValues.canopy,defaultValues.unit_KG)
+                }
+                4->{
+                    if(increaseValue)
+                    {
+                        updateLoad(nochange = false, increase = true, decrease = false, onHold = true)
+                    }else{
+                        updateLoad(nochange = false, increase = false, decrease = true, onHold = true)
+                    }
+                }
+
+                else -> {
+                    //nothing
+                }
+            }
+        }
+    /////////////////////////////////C O U N T E R//////////////////////////////////////////
+    //counter for holding button
+        val weightCounter: CountDownTimer = object : CountDownTimer(Long.MAX_VALUE, cowntdowninterval) {
+            override fun onTick(l: Long) {
+               updateValues()
+            }
+            override fun onFinish() {}
+        }
+    /////////////////////////////////B U T T O N S //////////////////////////////////////////
     //Weight
         //Weight -
         viewOfLayout.button_weight_minus.setOnClickListener {
-
             var size :Int = Integer.parseInt(viewOfLayout.editNumber_weight.text.toString())
             size -= 1
             viewOfLayout.editNumber_weight.setText(size.toString())
         }
+        viewOfLayout.button_weight_minus.setOnTouchListener { _, event ->
+            if (event.action == MotionEvent.ACTION_UP) {
+                weightCounter.cancel()
+            }
+            false
+        }
         viewOfLayout.button_weight_minus.setOnLongClickListener{
-            var size :Int = Integer.parseInt(viewOfLayout.editNumber_weight.text.toString())
-            size -=onHoldTotalValue(size, increase = false, decrease = true)
-            viewOfLayout.editNumber_weight.setText(size.toString())
+             valueToModify = 1
+             increaseValue = false
+            weightCounter.start()
             return@setOnLongClickListener true
         }
 
         //Weight +
         viewOfLayout.button_weight_plus.setOnClickListener {
-
             var size :Int = Integer.parseInt(viewOfLayout.editNumber_weight.text.toString())
             size += 1
             viewOfLayout.editNumber_weight.setText(size.toString())
         }
+        viewOfLayout.button_weight_plus.setOnTouchListener { _, event ->
+            if (event.action == MotionEvent.ACTION_UP) {
+                weightCounter.cancel()
+            }
+            false
+        }
         viewOfLayout.button_weight_plus.setOnLongClickListener {
-            var size :Int = Integer.parseInt(viewOfLayout.editNumber_weight.text.toString())
-            size += onHoldTotalValue(size, increase = true, decrease = false)
-            viewOfLayout.editNumber_weight.setText(size.toString())
+            valueToModify = 1
+            increaseValue = true
+            weightCounter.start()
             return@setOnLongClickListener true
         }
 
     //Equipment
         //Equipment -
         viewOfLayout.button_equipment_minus.setOnClickListener {
-
             var size :Int = Integer.parseInt(viewOfLayout.editNumber_equipment.text.toString())
             size -= 1
             viewOfLayout.editNumber_equipment.setText(size.toString())
         }
+        viewOfLayout.button_equipment_minus.setOnTouchListener { _, event ->
+            if (event.action == MotionEvent.ACTION_UP) {
+                weightCounter.cancel()
+            }
+            false
+        }
         viewOfLayout.button_equipment_minus.setOnLongClickListener {
-            var size :Int = Integer.parseInt(viewOfLayout.editNumber_equipment.text.toString())
-            size -= onHoldTotalValue(size, increase = false, decrease = true)
-            viewOfLayout.editNumber_equipment.setText(size.toString())
+            valueToModify = 2
+            increaseValue = false
+            weightCounter.start()
             return@setOnLongClickListener true
         }
         //Equipment +
         viewOfLayout.button_equipment_plus.setOnClickListener {
-
             var size :Int = Integer.parseInt(viewOfLayout.editNumber_equipment.text.toString())
             size += 1
             viewOfLayout.editNumber_equipment.setText(size.toString())
         }
+        viewOfLayout.button_equipment_plus.setOnTouchListener { _, event ->
+            if (event.action == MotionEvent.ACTION_UP) {
+                weightCounter.cancel()
+            }
+            false
+        }
         viewOfLayout.button_equipment_plus.setOnLongClickListener {
-            var size :Int = Integer.parseInt(viewOfLayout.editNumber_equipment.text.toString())
-            size += onHoldTotalValue(size, increase = true, decrease = false)
-            viewOfLayout.editNumber_equipment.setText(size.toString())
+            valueToModify = 2
+            increaseValue = true
+            weightCounter.start()
             return@setOnLongClickListener true
         }
 
@@ -468,27 +555,36 @@ class OverviewFragment : Fragment() {
             viewOfLayout.editNumber_canopy.setText(size.toString())
             setCalculatorWingLoading(defaultValues.weight,defaultValues.equipment,defaultValues.canopy,defaultValues.unit_KG)
         }
+        viewOfLayout.button_canopy_minus.setOnTouchListener { _, event ->
+            if (event.action == MotionEvent.ACTION_UP) {
+                weightCounter.cancel()
+            }
+            false
+        }
         viewOfLayout.button_canopy_minus.setOnLongClickListener {
-            var size :Int = Integer.parseInt(viewOfLayout.editNumber_canopy.text.toString())
-            size -= onHoldTotalValue(size, increase = false, decrease = true)
-            viewOfLayout.editNumber_canopy.setText(size.toString())
-            setCalculatorWingLoading(defaultValues.weight,defaultValues.equipment,defaultValues.canopy,defaultValues.unit_KG)
+            valueToModify = 3
+            increaseValue = false
+            weightCounter.start()
             return@setOnLongClickListener true
         }
 
         //Canopy  +
         viewOfLayout.button_canopy_plus.setOnClickListener {
-
             var size :Int = Integer.parseInt(viewOfLayout.editNumber_canopy.text.toString())
             size += 1
             viewOfLayout.editNumber_canopy.setText(size.toString())
             setCalculatorWingLoading(defaultValues.weight,defaultValues.equipment,defaultValues.canopy,defaultValues.unit_KG)
         }
+        viewOfLayout.button_canopy_plus.setOnTouchListener { _, event ->
+            if (event.action == MotionEvent.ACTION_UP) {
+                weightCounter.cancel()
+            }
+            false
+        }
         viewOfLayout.button_canopy_plus.setOnLongClickListener {
-            var size :Int = Integer.parseInt(viewOfLayout.editNumber_canopy.text.toString())
-            size += onHoldTotalValue(size, increase = true, decrease = false)
-            viewOfLayout.editNumber_canopy.setText(size.toString())
-            setCalculatorWingLoading(defaultValues.weight,defaultValues.equipment,defaultValues.canopy,defaultValues.unit_KG)
+            valueToModify = 3
+            increaseValue = true
+            weightCounter.start()
             return@setOnLongClickListener true
         }
 
@@ -497,17 +593,32 @@ class OverviewFragment : Fragment() {
         viewOfLayout.button_load_minus.setOnClickListener {
             updateLoad(nochange = false, increase = false, decrease = true, onHold = false)
         }
+        viewOfLayout.button_load_minus.setOnTouchListener { _, event ->
+            if (event.action == MotionEvent.ACTION_UP) {
+                weightCounter.cancel()
+            }
+            false
+        }
         viewOfLayout.button_load_minus.setOnLongClickListener {
-
-            updateLoad(nochange = false, increase = false, decrease = true, onHold = true)
+            valueToModify = 4
+            increaseValue = false
+            weightCounter.start()
             return@setOnLongClickListener true
         }
         //Load +
         viewOfLayout.button_load_plus.setOnClickListener {
             updateLoad(nochange = false, increase = true, decrease = false, onHold = false)
         }
+        viewOfLayout.button_load_plus.setOnTouchListener { _, event ->
+            if (event.action == MotionEvent.ACTION_UP) {
+                weightCounter.cancel()
+            }
+            false
+        }
         viewOfLayout.button_load_plus.setOnLongClickListener {
-            updateLoad(nochange = false, increase = true, decrease = false, onHold = true)
+            valueToModify = 4
+            increaseValue = true
+            weightCounter.start()
             return@setOnLongClickListener true
         }
 //*Handling of +/- buttons for all values
