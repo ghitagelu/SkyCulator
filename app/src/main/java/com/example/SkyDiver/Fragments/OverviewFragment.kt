@@ -4,7 +4,9 @@ package com.example.SkyDiver.Fragments
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SeekBar
@@ -217,6 +219,10 @@ class OverviewFragment : Fragment() {
                     value = viewOfLayout.seekBar_weight.max
                     viewOfLayout.editNumber_weight.setText(value.toString())
                 }
+                if(value < viewOfLayout.seekBar_weight.min) {
+                    value = viewOfLayout.seekBar_weight.min
+                    viewOfLayout.editNumber_weight.setText(value.toString())
+                }
 
                 viewOfLayout.seekBar_weight.progress=value
                 defaultValues.weight = value
@@ -235,6 +241,10 @@ class OverviewFragment : Fragment() {
                     value = viewOfLayout.seekBar_equipment.max
                     viewOfLayout.editNumber_equipment.setText(value.toString())
                 }
+                if(value < viewOfLayout.seekBar_equipment.min) {
+                    value = viewOfLayout.seekBar_equipment.min
+                    viewOfLayout.editNumber_equipment.setText(value.toString())
+                }
 
                 viewOfLayout.seekBar_equipment.progress=value
                 defaultValues.equipment = value
@@ -251,9 +261,11 @@ class OverviewFragment : Fragment() {
 
                 if(value > viewOfLayout.seekBar_canopy.max) {
                     value = viewOfLayout.seekBar_canopy.max
-
                     viewOfLayout.editNumber_canopy.setText(value.toString())
-
+                }
+                if(value < viewOfLayout.seekBar_canopy.min) {
+                    value = viewOfLayout.seekBar_canopy.min
+                    viewOfLayout.editNumber_canopy.setText(value.toString())
                 }
 
                 viewOfLayout.seekBar_canopy.progress=value
@@ -272,6 +284,10 @@ class OverviewFragment : Fragment() {
                     value = viewOfLayout.seekBar_load.max
                     viewOfLayout.editNumber_load.setText((value.toDouble()/100).toString())
                 }
+                if(value < viewOfLayout.seekBar_load.min) {
+                    value = viewOfLayout.seekBar_load.min
+                    viewOfLayout.editNumber_load.setText((value.toDouble()/100).toString())
+                }
                 handlingOfJumpsConstraintLayout()
             }
         }
@@ -279,14 +295,30 @@ class OverviewFragment : Fragment() {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //SeekBar handling
         //Function used to update load seekbar
-        fun updateLoad(nochange:Boolean, increase:Boolean, decrease:Boolean)
+        fun updateLoad(nochange:Boolean, increase:Boolean, decrease:Boolean, onHold:Boolean)
         {
             var progress = viewOfLayout.seekBar_load.progress
             if(nochange) {/*D O  N O T H I N G*/    }
             if(increase)
-            {viewOfLayout.seekBar_load.progress = progress + 1
+            {
+                if(onHold)
+                {
+                    viewOfLayout.seekBar_load.progress = progress + onHoldTotalValue(progress,increase = true, decrease = false)
+                }
+                else
+                {
+                    viewOfLayout.seekBar_load.progress = progress + 1
+                }
             }else if(decrease)
-            {viewOfLayout.seekBar_load.progress = progress - 1
+            {
+                if(onHold)
+                {
+                    viewOfLayout.seekBar_load.progress = progress - onHoldTotalValue(progress, increase = false, decrease = true)
+                }
+                else
+                {
+                    viewOfLayout.seekBar_load.progress = progress - 1
+                }
             }
 
             progress = viewOfLayout.seekBar_load.progress
@@ -335,12 +367,12 @@ class OverviewFragment : Fragment() {
         //Canopy seekBar
         viewOfLayout.seekBar_canopy.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-//                if(fromUser) {
+                if(fromUser) {
                     viewOfLayout.editNumber_canopy.setText(progress.toString())
                     viewOfLayout.editNumber_canopy.setSelection(viewOfLayout.editNumber_canopy.length())
                     clearFocusFromButtons()
                     setCalculatorWingLoading(defaultValues.weight,defaultValues.equipment,defaultValues.canopy,defaultValues.unit_KG)
-//                }
+                }
             }
             override fun onStartTrackingTouch(seekBar: SeekBar?) {}
             override fun onStopTrackingTouch(seekBar: SeekBar?) {}
@@ -350,7 +382,7 @@ class OverviewFragment : Fragment() {
         viewOfLayout.seekBar_load.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 if(fromUser) {
-                    updateLoad( nochange = false, increase = false, decrease = false)
+                    updateLoad( nochange = false, increase = false, decrease = false, onHold = false)
 
                 }
             }
@@ -368,58 +400,119 @@ class OverviewFragment : Fragment() {
                 ).show()
         }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+
 //Handling of +/- buttons for all values
-        //Weight
+    //Weight
+        //Weight -
         viewOfLayout.button_weight_minus.setOnClickListener {
 
             var size :Int = Integer.parseInt(viewOfLayout.editNumber_weight.text.toString())
             size -= 1
             viewOfLayout.editNumber_weight.setText(size.toString())
         }
+        viewOfLayout.button_weight_minus.setOnLongClickListener{
+            var size :Int = Integer.parseInt(viewOfLayout.editNumber_weight.text.toString())
+            size -=onHoldTotalValue(size, increase = false, decrease = true)
+            viewOfLayout.editNumber_weight.setText(size.toString())
+            return@setOnLongClickListener true
+        }
+
+        //Weight +
         viewOfLayout.button_weight_plus.setOnClickListener {
 
             var size :Int = Integer.parseInt(viewOfLayout.editNumber_weight.text.toString())
             size += 1
             viewOfLayout.editNumber_weight.setText(size.toString())
         }
+        viewOfLayout.button_weight_plus.setOnLongClickListener {
+            var size :Int = Integer.parseInt(viewOfLayout.editNumber_weight.text.toString())
+            size += onHoldTotalValue(size, increase = true, decrease = false)
+            viewOfLayout.editNumber_weight.setText(size.toString())
+            return@setOnLongClickListener true
+        }
 
-        //Equipment
+    //Equipment
+        //Equipment -
         viewOfLayout.button_equipment_minus.setOnClickListener {
 
             var size :Int = Integer.parseInt(viewOfLayout.editNumber_equipment.text.toString())
             size -= 1
             viewOfLayout.editNumber_equipment.setText(size.toString())
         }
+        viewOfLayout.button_equipment_minus.setOnLongClickListener {
+            var size :Int = Integer.parseInt(viewOfLayout.editNumber_equipment.text.toString())
+            size -= onHoldTotalValue(size, increase = false, decrease = true)
+            viewOfLayout.editNumber_equipment.setText(size.toString())
+            return@setOnLongClickListener true
+        }
+        //Equipment +
         viewOfLayout.button_equipment_plus.setOnClickListener {
 
             var size :Int = Integer.parseInt(viewOfLayout.editNumber_equipment.text.toString())
             size += 1
             viewOfLayout.editNumber_equipment.setText(size.toString())
         }
+        viewOfLayout.button_equipment_plus.setOnLongClickListener {
+            var size :Int = Integer.parseInt(viewOfLayout.editNumber_equipment.text.toString())
+            size += onHoldTotalValue(size, increase = true, decrease = false)
+            viewOfLayout.editNumber_equipment.setText(size.toString())
+            return@setOnLongClickListener true
+        }
 
-        //Canopy
+    //Canopy
+        //Canopy  -
         viewOfLayout.button_canopy_minus.setOnClickListener {
 
             var size :Int = Integer.parseInt(viewOfLayout.editNumber_canopy.text.toString())
             size -= 1
             viewOfLayout.editNumber_canopy.setText(size.toString())
+            setCalculatorWingLoading(defaultValues.weight,defaultValues.equipment,defaultValues.canopy,defaultValues.unit_KG)
         }
+        viewOfLayout.button_canopy_minus.setOnLongClickListener {
+            var size :Int = Integer.parseInt(viewOfLayout.editNumber_canopy.text.toString())
+            size -= onHoldTotalValue(size, increase = false, decrease = true)
+            viewOfLayout.editNumber_canopy.setText(size.toString())
+            setCalculatorWingLoading(defaultValues.weight,defaultValues.equipment,defaultValues.canopy,defaultValues.unit_KG)
+            return@setOnLongClickListener true
+        }
+
+        //Canopy  +
         viewOfLayout.button_canopy_plus.setOnClickListener {
 
             var size :Int = Integer.parseInt(viewOfLayout.editNumber_canopy.text.toString())
             size += 1
             viewOfLayout.editNumber_canopy.setText(size.toString())
+            setCalculatorWingLoading(defaultValues.weight,defaultValues.equipment,defaultValues.canopy,defaultValues.unit_KG)
+        }
+        viewOfLayout.button_canopy_plus.setOnLongClickListener {
+            var size :Int = Integer.parseInt(viewOfLayout.editNumber_canopy.text.toString())
+            size += onHoldTotalValue(size, increase = true, decrease = false)
+            viewOfLayout.editNumber_canopy.setText(size.toString())
+            setCalculatorWingLoading(defaultValues.weight,defaultValues.equipment,defaultValues.canopy,defaultValues.unit_KG)
+            return@setOnLongClickListener true
         }
 
-        //Load
+    //Load
+        //Load -
         viewOfLayout.button_load_minus.setOnClickListener {
-            updateLoad(nochange = false, increase = false, decrease = true)
+            updateLoad(nochange = false, increase = false, decrease = true, onHold = false)
         }
+        viewOfLayout.button_load_minus.setOnLongClickListener {
+
+            updateLoad(nochange = false, increase = false, decrease = true, onHold = true)
+            return@setOnLongClickListener true
+        }
+        //Load +
         viewOfLayout.button_load_plus.setOnClickListener {
-            updateLoad(nochange = false, increase = true, decrease = false)
+            updateLoad(nochange = false, increase = true, decrease = false, onHold = false)
+        }
+        viewOfLayout.button_load_plus.setOnLongClickListener {
+            updateLoad(nochange = false, increase = true, decrease = false, onHold = true)
+            return@setOnLongClickListener true
         }
 //*Handling of +/- buttons for all values
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+
         clearFocusFromButtons()
         //required to update fragment
         setBackgroud()
@@ -568,6 +661,31 @@ class OverviewFragment : Fragment() {
         return result
     }
 //*Handling of jump level
+
+//Handling of on hold + and - buttons
+    private fun onHoldTotalValue(size : Int, increase:Boolean, decrease: Boolean):Int
+    {
+        var result = size%10
+
+        if(result == 0)
+        {
+            result = 10
+        }else
+        {
+            if(decrease)
+            {
+                //no handling needed
+            }
+            if(increase)
+            {
+                result = 10 - result
+            }
+        }
+
+
+        return result
+    }
+//*Handling of on hold + and - buttons
 
 //Set background
     private fun setBackgroud()
