@@ -137,14 +137,14 @@ class OverviewFragment : Fragment() {
                 {
                     expand_seekBar_weight_max     = 300
                     expand_seekBar_equipment_min  = 22
-                    expand_seekBar_equipment_max  = 55
+                    expand_seekBar_equipment_max  = 45
                     expand_seekBar_canopy_min     = 200
                     expand_seekBar_canopy_max     = 100
                 }
 //*Values for tandem
                 val defaultSeekBarLimits = SeekBarLimits(
                     99,300 + expand_seekBar_weight_max,
-                    10 + expand_seekBar_equipment_min,55 + expand_seekBar_equipment_max,
+                    11 + expand_seekBar_equipment_min,55 + expand_seekBar_equipment_max,
                     50 + expand_seekBar_canopy_min,350 + expand_seekBar_canopy_max)
 
                 setSeekBarLimits(defaultSeekBarLimits)
