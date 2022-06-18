@@ -94,14 +94,18 @@ class OverviewFragment : Fragment() {
 //Values for tandem
                 //If tandem = false
                 var expand_seekBar_weight_max     = 0
+                var expand_seekBar_equipment_min  = 0
                 var expand_seekBar_equipment_max  = 0
+                var expand_seekBar_canopy_min     = 0
                 var expand_seekBar_canopy_max     = 0
                 //If tandem = true
                 if(tandem)
                 {
                      expand_seekBar_weight_max     = 136
-                     expand_seekBar_equipment_max  = 25
-                     expand_seekBar_canopy_max     = 150
+                     expand_seekBar_equipment_min  = 10
+                     expand_seekBar_equipment_max  = 20
+                     expand_seekBar_canopy_min     = 200
+                     expand_seekBar_canopy_max     = 100
                 }
 //*Values for tandem
 
@@ -109,8 +113,8 @@ class OverviewFragment : Fragment() {
                 //Create limits value for seekbar
                 val defaultSeekBarLimits = SeekBarLimits(
                     45,136 + expand_seekBar_weight_max,
-                    5,25 + expand_seekBar_equipment_max,
-                    50,350 + expand_seekBar_canopy_max)
+                    5 + expand_seekBar_equipment_min,25 + expand_seekBar_equipment_max,
+                    50 + expand_seekBar_canopy_min,350 + expand_seekBar_canopy_max)
                 //Call to set the limits for the seek bar
                 setSeekBarLimits(defaultSeekBarLimits)
             }
@@ -124,20 +128,24 @@ class OverviewFragment : Fragment() {
 //Values for tandem
                 //If tandem = false
                 var expand_seekBar_weight_max     = 0
+                var expand_seekBar_equipment_min  = 0
                 var expand_seekBar_equipment_max  = 0
+                var expand_seekBar_canopy_min     = 0
                 var expand_seekBar_canopy_max     = 0
                 //If tandem = true
                 if(tandem)
                 {
                     expand_seekBar_weight_max     = 300
+                    expand_seekBar_equipment_min  = 22
                     expand_seekBar_equipment_max  = 55
-                    expand_seekBar_canopy_max     = 150
+                    expand_seekBar_canopy_min     = 200
+                    expand_seekBar_canopy_max     = 100
                 }
 //*Values for tandem
                 val defaultSeekBarLimits = SeekBarLimits(
                     99,300 + expand_seekBar_weight_max,
-                    10,55 + expand_seekBar_equipment_max,
-                    50,350 + expand_seekBar_canopy_max)
+                    10 + expand_seekBar_equipment_min,55 + expand_seekBar_equipment_max,
+                    50 + expand_seekBar_canopy_min,350 + expand_seekBar_canopy_max)
 
                 setSeekBarLimits(defaultSeekBarLimits)
             }
