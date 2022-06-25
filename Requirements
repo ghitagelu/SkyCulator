@@ -7,3 +7,9 @@ Weight in pounds / sqr feet = wingload
 220 pounds / 220 sqr feet = 1.0 wingload
 220 pounds / 110 sqr feet = 2.0 wingload
 Kg covert to pounds / sqr feet = wingload 
+
+How to create vector images for android
+https://jennifermaker.com/how-to-make-an-svg-file-in-inkscape/
+after this do the following : 
+1-> right click "res" ->New -> Vector
+2-> select file saved from inkscape
