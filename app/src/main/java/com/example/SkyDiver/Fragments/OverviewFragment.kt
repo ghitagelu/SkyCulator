@@ -83,6 +83,8 @@ class OverviewFragment : Fragment() {
                 viewOfLayout.seekBar_canopy.progress =canopy
 
                 handlingOfJumpsConstraintLayout()
+                InitIcons ()
+
 
             }
             fun setUnitsKG(tandem: Boolean)
@@ -360,6 +362,7 @@ class OverviewFragment : Fragment() {
                     viewOfLayout.editNumber_weight.setSelection(viewOfLayout.editNumber_weight.length())
                     clearFocusFromButtons()
                     setCalculatorWingLoading(defaultValues.weight,defaultValues.equipment,defaultValues.canopy,defaultValues.unit_KG)
+                    HandlerUpdateIcons(0)
                 }
             }
             override fun onStartTrackingTouch(seekBar: SeekBar?) {}
@@ -374,6 +377,7 @@ class OverviewFragment : Fragment() {
                     viewOfLayout.editNumber_equipment.setSelection(viewOfLayout.editNumber_equipment.length())
                     clearFocusFromButtons()
                     setCalculatorWingLoading(defaultValues.weight,defaultValues.equipment,defaultValues.canopy,defaultValues.unit_KG)
+                    HandlerUpdateIcons(1)
                 }
             }
             override fun onStartTrackingTouch(seekBar: SeekBar?) {}
@@ -388,6 +392,7 @@ class OverviewFragment : Fragment() {
                     viewOfLayout.editNumber_canopy.setSelection(viewOfLayout.editNumber_canopy.length())
                     clearFocusFromButtons()
                     setCalculatorWingLoading(defaultValues.weight,defaultValues.equipment,defaultValues.canopy,defaultValues.unit_KG)
+                    HandlerUpdateIcons(2)
                 }
             }
             override fun onStartTrackingTouch(seekBar: SeekBar?) {}
@@ -399,7 +404,7 @@ class OverviewFragment : Fragment() {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 if(fromUser) {
                     updateLoad( nochange = false, increase = false, decrease = false, onHold = false)
-
+                    HandlerUpdateIcons(3)
                 }
             }
             override fun onStartTrackingTouch(seekBar: SeekBar?) {}
@@ -634,7 +639,7 @@ class OverviewFragment : Fragment() {
 
         clearFocusFromButtons()
         //required to update fragment
-        setBackgroud()
+        setBackground()
         return viewOfLayout
     }
 ///////////////////////////////////////////////////////// //////    //    //    ////    //////////////////////////////////////////// /////////////////////////////////////////////////////////
@@ -773,6 +778,7 @@ class OverviewFragment : Fragment() {
                 viewOfLayout.seekBar_equipment.progressDrawable = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.seek_bar_calculator_fragment_color_3, null)
                 viewOfLayout.seekBar_canopy.progressDrawable = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.seek_bar_calculator_fragment_color_3, null)
                 viewOfLayout.seekBar_load.progressDrawable = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.seek_bar_calculator_fragment_color_3, null)
+                viewOfLayout.seekBar_weight.thumb = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.ic_seek_bar_thumb_weight_3, null)
             }
 
             else -> {
@@ -830,7 +836,7 @@ class OverviewFragment : Fragment() {
 //*Handling of on hold + and - buttons
 
 //Set background
-    private fun setBackgroud()
+    private fun setBackground()
     {
         when((activity as StartingActivity?)?.getImageSelecter())
         {
@@ -847,5 +853,108 @@ class OverviewFragment : Fragment() {
             }
         }
     }
+
+//Handling of seek bar thumbs icons updating on certain progress
+    private fun InitIcons ()
+    {
+        HandlerUpdateIcons(0)
+        HandlerUpdateIcons(1)
+        HandlerUpdateIcons(2)
+        HandlerUpdateIcons(3)
+    }
+    private fun HandlerUpdateIcons(type : Int)
+    {
+        val progress: Int
+        val progress_max :Int
+        val progress_min :Int
+        when(type)
+        {
+            0 -> {
+                progress_max = viewOfLayout.seekBar_weight.max
+                progress_min = viewOfLayout.seekBar_weight.min
+                progress     = viewOfLayout.seekBar_weight.progress
+                when(getPercent(progress - progress_min,progress_max - progress_min))
+                {
+                    0->{viewOfLayout.seekBar_weight.thumb = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.ic_seek_bar_thumb_weight_0, null)}
+                    1->{viewOfLayout.seekBar_weight.thumb = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.ic_seek_bar_thumb_weight_1, null)}
+                    2->{viewOfLayout.seekBar_weight.thumb = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.ic_seek_bar_thumb_weight_2, null)}
+                    3->{viewOfLayout.seekBar_weight.thumb = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.ic_seek_bar_thumb_weight_3, null)}
+                    else ->{}
+                }
+            }
+            1 -> {
+                progress_max = viewOfLayout.seekBar_equipment.max
+                progress_min = viewOfLayout.seekBar_equipment.min
+                progress     = viewOfLayout.seekBar_equipment.progress
+                when(getPercent(progress - progress_min,progress_max - progress_min))
+                {
+                    0->{viewOfLayout.seekBar_equipment.thumb = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.ic_seek_bar_thumb_weight_0, null)}
+                    1->{viewOfLayout.seekBar_equipment.thumb = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.ic_seek_bar_thumb_weight_1, null)}
+                    2->{viewOfLayout.seekBar_equipment.thumb = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.ic_seek_bar_thumb_weight_2, null)}
+                    3->{viewOfLayout.seekBar_equipment.thumb = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.ic_seek_bar_thumb_weight_3, null)}
+                    else ->{}
+                }
+            }
+            2 -> {
+                progress_max = viewOfLayout.seekBar_canopy.max
+                progress_min = viewOfLayout.seekBar_canopy.min
+                progress     = viewOfLayout.seekBar_canopy.progress
+                when(getPercent(progress - progress_min,progress_max - progress_min))
+                {
+                    0->{viewOfLayout.seekBar_canopy.thumb = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.ic_seek_bar_thumb_weight_0, null)}
+                    1->{viewOfLayout.seekBar_canopy.thumb = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.ic_seek_bar_thumb_weight_1, null)}
+                    2->{viewOfLayout.seekBar_canopy.thumb = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.ic_seek_bar_thumb_weight_2, null)}
+                    3->{viewOfLayout.seekBar_canopy.thumb = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.ic_seek_bar_thumb_weight_3, null)}
+                    else ->{}
+                }
+            }
+            3 -> {
+                progress_max = viewOfLayout.seekBar_load.max
+                progress_min = viewOfLayout.seekBar_load.min
+                progress     = viewOfLayout.seekBar_load.progress
+                when(getPercent(progress - progress_min,progress_max - progress_min ))
+                {
+                    0->{viewOfLayout.seekBar_load.thumb = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.ic_seek_bar_thumb_weight_0, null)}
+                    1->{viewOfLayout.seekBar_load.thumb = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.ic_seek_bar_thumb_weight_1, null)}
+                    2->{viewOfLayout.seekBar_load.thumb = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.ic_seek_bar_thumb_weight_2, null)}
+                    3->{viewOfLayout.seekBar_load.thumb = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.ic_seek_bar_thumb_weight_3, null)}
+                    else ->{}
+                }
+            }
+            else ->{/*Do nothing*/}
+        }
+
+    }
+    private fun getPercent(progress: Int, progress_max: Int): Int {
+        val result : Int
+        when((100 * progress) / progress_max) {
+            in 0..25 -> {
+                result = 0
+            }
+            in 26..50 -> {
+                result = 1
+            }
+            in 51..80 -> {
+                result = 2
+            }
+            in 81..100 -> {
+                result = 3
+            }
+            else ->{
+                result = 0
+            }
+        }
+        return result
+    }
+
+
+
+//*Handling of seek bar thumbs icons updating on certain progress
+
+
+
+
+
+
     //
 }
