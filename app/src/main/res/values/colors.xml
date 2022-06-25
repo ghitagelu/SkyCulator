@@ -33,6 +33,20 @@
     <color name="jump_level_2">#BBFF9800</color>
 <!--    3   -->
     <color name="jump_level_3">#BBF44336</color>
+    <!--  S E E K  B A R  J U M P  L E V E L-->
+<!--    0   -->
+    <color name="seek_bar_jump_level_0">#754CAF50</color>
+<!--    1   -->
+    <color name="seek_bar_jump_level_1">#75FFEB3B</color>
+<!--    2   -->
+    <color name="seek_bar_jump_level_2">#75FF9800</color>
+<!--    3   -->
+    <color name="seek_bar_jump_level_3">#75F44336</color>
 
     <color name="transparent">#00000000</color>
+
+    <color name="seek_bar_background">#30666161</color>
+    <color name="seek_bar_secondary_progress">#3399CC</color>
+
+    <color name="seek_bar_thumb_color">#88000000</color>
 </resources>
