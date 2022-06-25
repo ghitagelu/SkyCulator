@@ -362,8 +362,8 @@ class OverviewFragment : Fragment() {
                     viewOfLayout.editNumber_weight.setSelection(viewOfLayout.editNumber_weight.length())
                     clearFocusFromButtons()
                     setCalculatorWingLoading(defaultValues.weight,defaultValues.equipment,defaultValues.canopy,defaultValues.unit_KG)
-                    HandlerUpdateIcons(0)
                 }
+                HandlerUpdateIcons(0)
             }
             override fun onStartTrackingTouch(seekBar: SeekBar?) {}
             override fun onStopTrackingTouch(seekBar: SeekBar?) {}
@@ -377,8 +377,8 @@ class OverviewFragment : Fragment() {
                     viewOfLayout.editNumber_equipment.setSelection(viewOfLayout.editNumber_equipment.length())
                     clearFocusFromButtons()
                     setCalculatorWingLoading(defaultValues.weight,defaultValues.equipment,defaultValues.canopy,defaultValues.unit_KG)
-                    HandlerUpdateIcons(1)
                 }
+                HandlerUpdateIcons(1)
             }
             override fun onStartTrackingTouch(seekBar: SeekBar?) {}
             override fun onStopTrackingTouch(seekBar: SeekBar?) {}
@@ -392,8 +392,8 @@ class OverviewFragment : Fragment() {
                     viewOfLayout.editNumber_canopy.setSelection(viewOfLayout.editNumber_canopy.length())
                     clearFocusFromButtons()
                     setCalculatorWingLoading(defaultValues.weight,defaultValues.equipment,defaultValues.canopy,defaultValues.unit_KG)
-                    HandlerUpdateIcons(2)
                 }
+                HandlerUpdateIcons(2)
             }
             override fun onStartTrackingTouch(seekBar: SeekBar?) {}
             override fun onStopTrackingTouch(seekBar: SeekBar?) {}
@@ -404,8 +404,8 @@ class OverviewFragment : Fragment() {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 if(fromUser) {
                     updateLoad( nochange = false, increase = false, decrease = false, onHold = false)
-                    HandlerUpdateIcons(3)
                 }
+                HandlerUpdateIcons(3)
             }
             override fun onStartTrackingTouch(seekBar: SeekBar?) {}
             override fun onStopTrackingTouch(seekBar: SeekBar?) {}
@@ -778,7 +778,6 @@ class OverviewFragment : Fragment() {
                 viewOfLayout.seekBar_equipment.progressDrawable = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.seek_bar_calculator_fragment_color_3, null)
                 viewOfLayout.seekBar_canopy.progressDrawable = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.seek_bar_calculator_fragment_color_3, null)
                 viewOfLayout.seekBar_load.progressDrawable = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.seek_bar_calculator_fragment_color_3, null)
-                viewOfLayout.seekBar_weight.thumb = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.ic_seek_bar_thumb_weight_3, null)
             }
 
             else -> {
