@@ -39,6 +39,8 @@ class OverviewFragment : Fragment() {
     var valueToModify = 0
     var increaseValue = true
     var cowntdowninterval:Long = 650
+    var load_overflow :Boolean= false
+    var load_underflow :Boolean= false
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -302,11 +304,17 @@ class OverviewFragment : Fragment() {
                     value = viewOfLayout.seekBar_load.max
                     viewOfLayout.editNumber_load.setText((value.toDouble()/100).toString())
                 }
+                load_overflow = value == viewOfLayout.seekBar_load.max
+
                 if(value < viewOfLayout.seekBar_load.min) {
+                    load_underflow = true
                     value = viewOfLayout.seekBar_load.min
                     viewOfLayout.editNumber_load.setText((value.toDouble()/100).toString())
                 }
+
                 handlingOfJumpsConstraintLayout()
+
+                load_underflow = false
             }
         }
 //*Handling of TextView
@@ -405,7 +413,6 @@ class OverviewFragment : Fragment() {
                 if(fromUser) {
                     updateLoad( nochange = false, increase = false, decrease = false, onHold = false)
                 }
-                HandlerUpdateIcons(3)
             }
             override fun onStartTrackingTouch(seekBar: SeekBar?) {}
             override fun onStopTrackingTouch(seekBar: SeekBar?) {}
@@ -736,6 +743,9 @@ class OverviewFragment : Fragment() {
         val loadValue :Int = ((viewOfLayout.editNumber_load.text.toString()).toDouble()*100).toInt()
 
         when(updateJumpValue(loadValue)){
+            -1 ->{
+
+            }
             0->{
                 //Result bar
                 viewOfLayout.textView_jumps_level.background = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.result_bar_shape_and_result_color_0, null)
@@ -745,6 +755,13 @@ class OverviewFragment : Fragment() {
                 viewOfLayout.seekBar_equipment.progressDrawable = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.seek_bar_calculator_fragment_color_0, null)
                 viewOfLayout.seekBar_canopy.progressDrawable = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.seek_bar_calculator_fragment_color_0, null)
                 viewOfLayout.seekBar_load.progressDrawable = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.seek_bar_calculator_fragment_color_0, null)
+               //thumbs icon change
+                if (load_underflow){
+
+                    viewOfLayout.seekBar_load.thumb = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.ic_seek_bar_thumb_load_0, null)
+                }else{
+                    viewOfLayout.seekBar_load.thumb = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.ic_seek_bar_thumb_load_0, null)
+                }
             }
 
             1->{
@@ -756,6 +773,8 @@ class OverviewFragment : Fragment() {
                 viewOfLayout.seekBar_equipment.progressDrawable = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.seek_bar_calculator_fragment_color_1, null)
                 viewOfLayout.seekBar_canopy.progressDrawable = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.seek_bar_calculator_fragment_color_1, null)
                 viewOfLayout.seekBar_load.progressDrawable = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.seek_bar_calculator_fragment_color_1, null)
+                //thumbs icon change
+                viewOfLayout.seekBar_load.thumb = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.ic_seek_bar_thumb_load_1, null)
             }
 
             2->{
@@ -767,6 +786,8 @@ class OverviewFragment : Fragment() {
                 viewOfLayout.seekBar_equipment.progressDrawable = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.seek_bar_calculator_fragment_color_2, null)
                 viewOfLayout.seekBar_canopy.progressDrawable = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.seek_bar_calculator_fragment_color_2, null)
                 viewOfLayout.seekBar_load.progressDrawable = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.seek_bar_calculator_fragment_color_2, null)
+                //thumbs icon change
+                viewOfLayout.seekBar_load.thumb = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.ic_seek_bar_thumb_load_2, null)
             }
 
             3->{
@@ -778,8 +799,14 @@ class OverviewFragment : Fragment() {
                 viewOfLayout.seekBar_equipment.progressDrawable = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.seek_bar_calculator_fragment_color_3, null)
                 viewOfLayout.seekBar_canopy.progressDrawable = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.seek_bar_calculator_fragment_color_3, null)
                 viewOfLayout.seekBar_load.progressDrawable = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.seek_bar_calculator_fragment_color_3, null)
+                //thumbs icon change
+                viewOfLayout.seekBar_load.thumb = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.ic_seek_bar_thumb_load_3, null)
             }
 
+            4->{
+                viewOfLayout.seekBar_load.thumb = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.ic_seek_bar_thumb_load_alt, null)
+
+            }
             else -> {
                 //nothing
             }
@@ -792,6 +819,7 @@ class OverviewFragment : Fragment() {
     {
         var result =4
         when (loadValue) {
+            0-> {result = -1}
             in 1..99 -> {
                 result =0
             }
@@ -801,9 +829,10 @@ class OverviewFragment : Fragment() {
             in 200..299 -> {
                 result =2
             }
-            in 300..400 -> {
+            in 300..399 -> {
                 result =3
             }
+            400-> {result = 4}
         }
         return result
     }
@@ -859,7 +888,6 @@ class OverviewFragment : Fragment() {
         HandlerUpdateIcons(0)
         HandlerUpdateIcons(1)
         HandlerUpdateIcons(2)
-        HandlerUpdateIcons(3)
     }
     private fun HandlerUpdateIcons(type : Int)
     {
@@ -872,52 +900,66 @@ class OverviewFragment : Fragment() {
                 progress_max = viewOfLayout.seekBar_weight.max
                 progress_min = viewOfLayout.seekBar_weight.min
                 progress     = viewOfLayout.seekBar_weight.progress
-                when(getPercent(progress - progress_min,progress_max - progress_min))
-                {
-                    0->{viewOfLayout.seekBar_weight.thumb = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.ic_seek_bar_thumb_weight_0, null)}
-                    1->{viewOfLayout.seekBar_weight.thumb = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.ic_seek_bar_thumb_weight_1, null)}
-                    2->{viewOfLayout.seekBar_weight.thumb = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.ic_seek_bar_thumb_weight_2, null)}
-                    3->{viewOfLayout.seekBar_weight.thumb = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.ic_seek_bar_thumb_weight_3, null)}
-                    else ->{}
+                when (progress) {
+                    progress_min -> {
+                        viewOfLayout.seekBar_weight.thumb = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.ic_seek_bar_thumb_weight_0, null)
+                    }
+                    progress_max -> {
+                        viewOfLayout.seekBar_weight.thumb = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.ic_seek_bar_thumb_weight_3, null)
+                    }
+                    else -> {
+                        when(getPercent(progress - progress_min,progress_max - progress_min)) {
+                            0->{viewOfLayout.seekBar_weight.thumb = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.ic_seek_bar_thumb_weight_0, null)}
+                            1->{viewOfLayout.seekBar_weight.thumb = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.ic_seek_bar_thumb_weight_1, null)}
+                            2->{viewOfLayout.seekBar_weight.thumb = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.ic_seek_bar_thumb_weight_2, null)}
+                            3->{viewOfLayout.seekBar_weight.thumb = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.ic_seek_bar_thumb_weight_3, null)}
+                            else ->{}
+                        }
+                    }
                 }
             }
             1 -> {
                 progress_max = viewOfLayout.seekBar_equipment.max
                 progress_min = viewOfLayout.seekBar_equipment.min
                 progress     = viewOfLayout.seekBar_equipment.progress
-                when(getPercent(progress - progress_min,progress_max - progress_min))
-                {
-                    0->{viewOfLayout.seekBar_equipment.thumb = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.ic_seek_bar_thumb_weight_0, null)}
-                    1->{viewOfLayout.seekBar_equipment.thumb = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.ic_seek_bar_thumb_weight_1, null)}
-                    2->{viewOfLayout.seekBar_equipment.thumb = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.ic_seek_bar_thumb_weight_2, null)}
-                    3->{viewOfLayout.seekBar_equipment.thumb = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.ic_seek_bar_thumb_weight_3, null)}
-                    else ->{}
+                when (progress) {
+                    progress_min -> {
+                        viewOfLayout.seekBar_equipment.thumb = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.ic_seek_bar_thumb_equipment_alt2, null)
+                    }
+                    progress_max -> {
+                        viewOfLayout.seekBar_equipment.thumb = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.ic_seek_bar_thumb_equipment_3, null)
+                    }
+                    else -> {
+                        when(getPercent(progress - progress_min,progress_max - progress_min)) {
+                            0->{viewOfLayout.seekBar_equipment.thumb = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.ic_seek_bar_thumb_equipment_0, null)}
+                            1->{viewOfLayout.seekBar_equipment.thumb = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.ic_seek_bar_thumb_equipment_1, null)}
+                            2->{viewOfLayout.seekBar_equipment.thumb = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.ic_seek_bar_thumb_equipment_2, null)}
+                            3->{viewOfLayout.seekBar_equipment.thumb = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.ic_seek_bar_thumb_equipment_3, null)}
+                            else ->{}
+                        }
+                    }
                 }
             }
             2 -> {
                 progress_max = viewOfLayout.seekBar_canopy.max
                 progress_min = viewOfLayout.seekBar_canopy.min
                 progress     = viewOfLayout.seekBar_canopy.progress
-                when(getPercent(progress - progress_min,progress_max - progress_min))
-                {
-                    0->{viewOfLayout.seekBar_canopy.thumb = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.ic_seek_bar_thumb_weight_0, null)}
-                    1->{viewOfLayout.seekBar_canopy.thumb = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.ic_seek_bar_thumb_weight_1, null)}
-                    2->{viewOfLayout.seekBar_canopy.thumb = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.ic_seek_bar_thumb_weight_2, null)}
-                    3->{viewOfLayout.seekBar_canopy.thumb = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.ic_seek_bar_thumb_weight_3, null)}
-                    else ->{}
-                }
-            }
-            3 -> {
-                progress_max = viewOfLayout.seekBar_load.max
-                progress_min = viewOfLayout.seekBar_load.min
-                progress     = viewOfLayout.seekBar_load.progress
-                when(getPercent(progress - progress_min,progress_max - progress_min ))
-                {
-                    0->{viewOfLayout.seekBar_load.thumb = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.ic_seek_bar_thumb_weight_0, null)}
-                    1->{viewOfLayout.seekBar_load.thumb = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.ic_seek_bar_thumb_weight_1, null)}
-                    2->{viewOfLayout.seekBar_load.thumb = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.ic_seek_bar_thumb_weight_2, null)}
-                    3->{viewOfLayout.seekBar_load.thumb = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.ic_seek_bar_thumb_weight_3, null)}
-                    else ->{}
+                when (progress) {
+                    progress_min -> {
+                        viewOfLayout.seekBar_canopy.thumb = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.ic_seek_bar_thumb_canopee_alt, null)
+                    }
+                    progress_max -> {
+                        viewOfLayout.seekBar_canopy.thumb = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.ic_seek_bar_thumb_canopee_3, null)
+                    }
+                    else -> {
+                        when(getPercent(progress - progress_min,progress_max - progress_min)) {
+                            0->{viewOfLayout.seekBar_canopy.thumb = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.ic_seek_bar_thumb_canopee_0, null)}
+                            1->{viewOfLayout.seekBar_canopy.thumb = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.ic_seek_bar_thumb_canopee_1, null)}
+                            2->{viewOfLayout.seekBar_canopy.thumb = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.ic_seek_bar_thumb_canopee_2, null)}
+                            3->{viewOfLayout.seekBar_canopy.thumb = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.ic_seek_bar_thumb_canopee_3, null)}
+                            else ->{}
+                        }
+                    }
                 }
             }
             else ->{/*Do nothing*/}
