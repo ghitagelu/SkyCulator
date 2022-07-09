@@ -1,10 +1,13 @@
 package com.example.SkyDiver.Fragments
 
 
+import android.animation.LayoutTransition
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.transition.AutoTransition
+import android.transition.TransitionManager
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -41,6 +44,7 @@ class OverviewFragment : Fragment() {
     var cowntdowninterval:Long = 650
     var load_overflow :Boolean= false
     var load_underflow :Boolean= false
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -86,7 +90,7 @@ class OverviewFragment : Fragment() {
 
                 handlingOfJumpsConstraintLayout()
                 InitIcons ()
-
+                expand_tandem()
 
             }
             fun setUnitsKG(tandem: Boolean)
@@ -175,6 +179,7 @@ class OverviewFragment : Fragment() {
                 unit_LBS = shared_preferences_save.getBoolean("lbs", false)
             )
 
+
         //Make viewOfLayout = this fragment
         viewOfLayout =inflater.inflate(R.layout.fragment_overview, container, false)
 
@@ -224,6 +229,7 @@ class OverviewFragment : Fragment() {
                     Toast.LENGTH_SHORT
                 ).show()
             }
+            expand_tandem()
             saveData()
         }
 //*Tandem checkbox handling
@@ -643,10 +649,14 @@ class OverviewFragment : Fragment() {
         }
 //*Handling of +/- buttons for all values
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+        //Animation enabled for constraint container of all other constraintLayouts
+        //Side Note:   android:animateLayoutChanges="true" needed aswell
+        viewOfLayout.Main_constraintLayout.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
 
         clearFocusFromButtons()
         //required to update fragment
         setBackground()
+
         return viewOfLayout
     }
 ///////////////////////////////////////////////////////// //////    //    //    ////    //////////////////////////////////////////// /////////////////////////////////////////////////////////
@@ -987,11 +997,26 @@ class OverviewFragment : Fragment() {
         }
         return result
     }
-
-
-
 //*Handling of seek bar thumbs icons updating on certain progress
 
+//Animation for tandem weigh appearance
+    private fun expand_tandem()
+    {
+        var result : Int
+        if(viewOfLayout.checkBox_tandem.isChecked)
+        {
+            result = View.VISIBLE
+        }
+        else
+        {
+            result = View.GONE
+        }
+
+        TransitionManager.beginDelayedTransition(viewOfLayout.Weight_tandem_constraintLayout, AutoTransition())
+        viewOfLayout.Weight_tandem_constraintLayout.visibility = result
+    }
+
+//*Animation for tandem weigh appearance
 
 
 
