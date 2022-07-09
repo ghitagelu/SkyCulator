@@ -39,6 +39,8 @@ class OverviewFragment : Fragment() {
     // valueToModify = 2  -equipment             increaseValue = true - "+" operation
     // valueToModify = 3  -canopy
     // valueToModify = 4  -load
+    // valueToModify = 5  -weight_tandem
+
     var valueToModify = 0
     var increaseValue = true
     var cowntdowninterval:Long = 650
@@ -54,12 +56,14 @@ class OverviewFragment : Fragment() {
 
 
         class SeekBarLimits(
-            var seekBar_weight_min: Int,    var seekBar_weight_max: Int,
-            var seekBar_equipment_min :Int, var seekBar_equipment_max :Int,
-            var seekBar_canopy_min :Int,    var seekBar_canopy_max :Int
+            var seekBar_weight_min: Int,        var seekBar_weight_max: Int,
+            var seekBar_weight_tandem_min: Int, var seekBar_weight_tandem_max: Int,
+            var seekBar_equipment_min :Int,     var seekBar_equipment_max :Int,
+            var seekBar_canopy_min :Int,        var seekBar_canopy_max :Int
         )
          class UserValues(
             var weight: Int,
+            var weight_tandem: Int,
             var equipment: Int,
             var canopy: Int,
             var unit_KG: Boolean,
@@ -80,11 +84,13 @@ class OverviewFragment : Fragment() {
                 }
 //
                 viewOfLayout.editNumber_weight.setText(weight.toString())
+                viewOfLayout.editNumber_weight_tandem.setText(weight_tandem.toString())
                 viewOfLayout.editNumber_equipment.setText(equipment.toString())
                 viewOfLayout.editNumber_canopy.setText(canopy.toString())
-                setCalculatorWingLoading(weight,equipment,canopy,unit_KG)
+                setCalculatorWingLoading(weight,weight_tandem,equipment,canopy,unit_KG)
 
                 viewOfLayout.seekBar_weight.progress =weight
+                viewOfLayout.seekBar_weight_tandem.progress =weight_tandem
                 viewOfLayout.seekBar_equipment.progress =equipment
                 viewOfLayout.seekBar_canopy.progress =canopy
 
@@ -97,11 +103,11 @@ class OverviewFragment : Fragment() {
             {
                 viewOfLayout.radioButton_KG.isChecked=true
                 viewOfLayout.textView_weight_units.text=" kg"
+                viewOfLayout.textView_weight_tandem_units.text=" kg"
                 viewOfLayout.textView_equipment_units.text = " kg"
 
 //Values for tandem
                 //If tandem = false
-                var expand_seekBar_weight_max     = 0
                 var expand_seekBar_equipment_min  = 0
                 var expand_seekBar_equipment_max  = 0
                 var expand_seekBar_canopy_min     = 0
@@ -109,7 +115,6 @@ class OverviewFragment : Fragment() {
                 //If tandem = true
                 if(tandem)
                 {
-                     expand_seekBar_weight_max     = 136
                      expand_seekBar_equipment_min  = 10
                      expand_seekBar_equipment_max  = 20
                      expand_seekBar_canopy_min     = 200
@@ -120,7 +125,8 @@ class OverviewFragment : Fragment() {
 //Set seekbar limits
                 //Create limits value for seekbar
                 val defaultSeekBarLimits = SeekBarLimits(
-                    45,136 + expand_seekBar_weight_max,
+                    45,136 ,
+                    45,136 ,
                     5 + expand_seekBar_equipment_min,25 + expand_seekBar_equipment_max,
                     50 + expand_seekBar_canopy_min,350 + expand_seekBar_canopy_max)
                 //Call to set the limits for the seek bar
@@ -131,11 +137,11 @@ class OverviewFragment : Fragment() {
             {
                 viewOfLayout.radioButton_LBS.isChecked=true
                 viewOfLayout.textView_weight_units.text=" lbs"
+                viewOfLayout.textView_weight_tandem_units.text=" lbs"
                 viewOfLayout.textView_equipment_units.text = " lbs"
 
 //Values for tandem
                 //If tandem = false
-                var expand_seekBar_weight_max     = 0
                 var expand_seekBar_equipment_min  = 0
                 var expand_seekBar_equipment_max  = 0
                 var expand_seekBar_canopy_min     = 0
@@ -143,7 +149,6 @@ class OverviewFragment : Fragment() {
                 //If tandem = true
                 if(tandem)
                 {
-                    expand_seekBar_weight_max     = 300
                     expand_seekBar_equipment_min  = 22
                     expand_seekBar_equipment_max  = 45
                     expand_seekBar_canopy_min     = 200
@@ -151,7 +156,8 @@ class OverviewFragment : Fragment() {
                 }
 //*Values for tandem
                 val defaultSeekBarLimits = SeekBarLimits(
-                    99,300 + expand_seekBar_weight_max,
+                    99,300,
+                    99,300,
                     11 + expand_seekBar_equipment_min,55 + expand_seekBar_equipment_max,
                     50 + expand_seekBar_canopy_min,350 + expand_seekBar_canopy_max)
 
@@ -163,6 +169,9 @@ class OverviewFragment : Fragment() {
                 viewOfLayout.seekBar_weight.min = defaultSeekBarLimits.seekBar_weight_min
                 viewOfLayout.seekBar_weight.max = defaultSeekBarLimits.seekBar_weight_max
                 viewOfLayout.seekBar_weight.secondaryProgress = 0
+                viewOfLayout.seekBar_weight_tandem.min = defaultSeekBarLimits.seekBar_weight_tandem_min
+                viewOfLayout.seekBar_weight_tandem.max = defaultSeekBarLimits.seekBar_weight_tandem_max
+                viewOfLayout.seekBar_weight_tandem.secondaryProgress = 0
                 viewOfLayout.seekBar_equipment.min = defaultSeekBarLimits.seekBar_equipment_min
                 viewOfLayout.seekBar_equipment.max= defaultSeekBarLimits.seekBar_equipment_max
                 viewOfLayout.seekBar_equipment.secondaryProgress = 0
@@ -173,6 +182,7 @@ class OverviewFragment : Fragment() {
 //////////////////////////////////////////////////////////////////////////////////////////////////// I N I T I A L I S I N G ////////////////////////////////////////
              val defaultValues = UserValues(
                 shared_preferences_save.getInt("Weight",110),
+                shared_preferences_save.getInt("Weight_tandem",110),
                 shared_preferences_save.getInt("Equipment",10),
                 shared_preferences_save.getInt("Canopy",178),
                 unit_KG = shared_preferences_save.getBoolean("kg", true),
@@ -195,22 +205,24 @@ class OverviewFragment : Fragment() {
             if(isChecked == radioButton_KG.id) {
             //Kilograms
                 defaultValues.weight = convertLBStoKG(defaultValues.weight)
+                defaultValues.weight_tandem = convertLBStoKG(defaultValues.weight_tandem)
                 defaultValues.equipment = convertLBStoKG(defaultValues.equipment)
                 defaultValues.unit_KG = true
                 defaultValues.unit_LBS= false
                 defaultValues.setCalculatorValues()
-                setCalculatorWingLoading(defaultValues.weight,defaultValues.equipment,defaultValues.canopy,defaultValues.unit_KG)
+                setCalculatorWingLoading(defaultValues.weight,defaultValues.weight_tandem,defaultValues.equipment,defaultValues.canopy,defaultValues.unit_KG)
 
             }
 
             if(isChecked == radioButton_LBS.id) {
             //LBS
                 defaultValues.weight = convertKGtoLBS(defaultValues.weight)
+                defaultValues.weight_tandem = convertKGtoLBS(defaultValues.weight_tandem)
                 defaultValues.equipment = convertKGtoLBS(defaultValues.equipment)
                 defaultValues.unit_KG = false
                 defaultValues.unit_LBS= true
                 defaultValues.setCalculatorValues()
-                setCalculatorWingLoading(defaultValues.weight,defaultValues.equipment,defaultValues.canopy,defaultValues.unit_KG)
+                setCalculatorWingLoading(defaultValues.weight,defaultValues.weight_tandem,defaultValues.equipment,defaultValues.canopy,defaultValues.unit_KG)
             }
             saveData()
         }
@@ -229,7 +241,9 @@ class OverviewFragment : Fragment() {
                     Toast.LENGTH_SHORT
                 ).show()
             }
+            //show the weight_tandem constraintLayout
             expand_tandem()
+
             saveData()
         }
 //*Tandem checkbox handling
@@ -253,7 +267,28 @@ class OverviewFragment : Fragment() {
                 viewOfLayout.seekBar_weight.progress=value
                 defaultValues.weight = value
 
-                setCalculatorWingLoading(defaultValues.weight,defaultValues.equipment,defaultValues.canopy,defaultValues.unit_KG)
+                setCalculatorWingLoading(defaultValues.weight,defaultValues.weight_tandem,defaultValues.equipment,defaultValues.canopy,defaultValues.unit_KG)
+            }
+        }
+        //Weight_tandem :Text field handling
+        viewOfLayout.editNumber_weight_tandem.doAfterTextChanged {
+
+            if(viewOfLayout.editNumber_weight_tandem.text.toString()!="") {
+                var value = Integer.parseInt(viewOfLayout.editNumber_weight_tandem.text.toString())
+
+                if(value > viewOfLayout.seekBar_weight_tandem.max) {
+                    value = viewOfLayout.seekBar_weight_tandem.max
+                    viewOfLayout.editNumber_weight_tandem.setText(value.toString())
+                }
+                if(value < viewOfLayout.seekBar_weight_tandem.min) {
+                    value = viewOfLayout.seekBar_weight_tandem.min
+                    viewOfLayout.editNumber_weight_tandem.setText(value.toString())
+                }
+
+                viewOfLayout.seekBar_weight_tandem.progress=value
+                defaultValues.weight_tandem = value
+
+                setCalculatorWingLoading(defaultValues.weight,defaultValues.weight_tandem,defaultValues.equipment,defaultValues.canopy,defaultValues.unit_KG)
             }
         }
 
@@ -275,7 +310,7 @@ class OverviewFragment : Fragment() {
                 viewOfLayout.seekBar_equipment.progress=value
                 defaultValues.equipment = value
 
-                setCalculatorWingLoading(defaultValues.weight,defaultValues.equipment,defaultValues.canopy,defaultValues.unit_KG)
+                setCalculatorWingLoading(defaultValues.weight,defaultValues.weight_tandem,defaultValues.equipment,defaultValues.canopy,defaultValues.unit_KG)
             }
         }
 
@@ -361,6 +396,7 @@ class OverviewFragment : Fragment() {
 
             setCalculatorWingSize(
                 defaultValues.weight,
+                defaultValues.weight_tandem,
                 defaultValues.equipment,
                 value,
                 defaultValues.unit_KG
@@ -375,9 +411,23 @@ class OverviewFragment : Fragment() {
                     viewOfLayout.editNumber_weight.setText(progress.toString())
                     viewOfLayout.editNumber_weight.setSelection(viewOfLayout.editNumber_weight.length())
                     clearFocusFromButtons()
-                    setCalculatorWingLoading(defaultValues.weight,defaultValues.equipment,defaultValues.canopy,defaultValues.unit_KG)
+                    setCalculatorWingLoading(defaultValues.weight,defaultValues.weight_tandem,defaultValues.equipment,defaultValues.canopy,defaultValues.unit_KG)
                 }
                 HandlerUpdateIcons(0)
+            }
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {}
+        })
+        //Weight_tandem seekBar
+        viewOfLayout.seekBar_weight_tandem.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                if(fromUser) {
+                    viewOfLayout.editNumber_weight_tandem.setText(progress.toString())
+                    viewOfLayout.editNumber_weight_tandem.setSelection(viewOfLayout.editNumber_weight_tandem.length())
+                    clearFocusFromButtons()
+                    setCalculatorWingLoading(defaultValues.weight,defaultValues.weight_tandem,defaultValues.equipment,defaultValues.canopy,defaultValues.unit_KG)
+                }
+                HandlerUpdateIcons(4)
             }
             override fun onStartTrackingTouch(seekBar: SeekBar?) {}
             override fun onStopTrackingTouch(seekBar: SeekBar?) {}
@@ -390,7 +440,7 @@ class OverviewFragment : Fragment() {
                     viewOfLayout.editNumber_equipment.setText(progress.toString())
                     viewOfLayout.editNumber_equipment.setSelection(viewOfLayout.editNumber_equipment.length())
                     clearFocusFromButtons()
-                    setCalculatorWingLoading(defaultValues.weight,defaultValues.equipment,defaultValues.canopy,defaultValues.unit_KG)
+                    setCalculatorWingLoading(defaultValues.weight,defaultValues.weight_tandem,defaultValues.equipment,defaultValues.canopy,defaultValues.unit_KG)
                 }
                 HandlerUpdateIcons(1)
             }
@@ -405,7 +455,7 @@ class OverviewFragment : Fragment() {
                     viewOfLayout.editNumber_canopy.setText(progress.toString())
                     viewOfLayout.editNumber_canopy.setSelection(viewOfLayout.editNumber_canopy.length())
                     clearFocusFromButtons()
-                    setCalculatorWingLoading(defaultValues.weight,defaultValues.equipment,defaultValues.canopy,defaultValues.unit_KG)
+                    setCalculatorWingLoading(defaultValues.weight,defaultValues.weight_tandem,defaultValues.equipment,defaultValues.canopy,defaultValues.unit_KG)
                 }
                 HandlerUpdateIcons(2)
             }
@@ -470,7 +520,7 @@ class OverviewFragment : Fragment() {
                         size -= onHoldTotalValue(size, increase = false, decrease = true)
                     }
                     viewOfLayout.editNumber_canopy.setText(size.toString())
-                    setCalculatorWingLoading(defaultValues.weight,defaultValues.equipment,defaultValues.canopy,defaultValues.unit_KG)
+                    setCalculatorWingLoading(defaultValues.weight,defaultValues.weight_tandem,defaultValues.equipment,defaultValues.canopy,defaultValues.unit_KG)
                 }
                 4->{
                     if(increaseValue)
@@ -479,6 +529,16 @@ class OverviewFragment : Fragment() {
                     }else{
                         updateLoad(nochange = false, increase = false, decrease = true, onHold = true)
                     }
+                }
+                5->{
+                    var size :Int = Integer.parseInt(viewOfLayout.editNumber_weight_tandem.text.toString())
+                    if(increaseValue)
+                    {
+                        size += onHoldTotalValue(size, increase = true, decrease = false)
+                    }else{
+                        size -=onHoldTotalValue(size, increase = false, decrease = true)
+                    }
+                    viewOfLayout.editNumber_weight_tandem.setText(size.toString())
                 }
 
                 else -> {
@@ -534,6 +594,45 @@ class OverviewFragment : Fragment() {
             return@setOnLongClickListener true
         }
 
+    //Weight_tandem
+        //Weight_tandem -
+        viewOfLayout.button_weight_tandem_minus.setOnClickListener {
+            var size :Int = Integer.parseInt(viewOfLayout.editNumber_weight_tandem.text.toString())
+            size -= 1
+            viewOfLayout.editNumber_weight_tandem.setText(size.toString())
+        }
+        viewOfLayout.button_weight_tandem_minus.setOnTouchListener { _, event ->
+            if (event.action == MotionEvent.ACTION_UP) {
+                weightCounter.cancel()
+            }
+            false
+        }
+        viewOfLayout.button_weight_tandem_minus.setOnLongClickListener{
+             valueToModify = 5
+             increaseValue = false
+            weightCounter.start()
+            return@setOnLongClickListener true
+        }
+
+        //Weight_tandem +
+        viewOfLayout.button_weight_tandem_plus.setOnClickListener {
+            var size :Int = Integer.parseInt(viewOfLayout.editNumber_weight_tandem.text.toString())
+            size += 1
+            viewOfLayout.editNumber_weight_tandem.setText(size.toString())
+        }
+        viewOfLayout.button_weight_tandem_plus.setOnTouchListener { _, event ->
+            if (event.action == MotionEvent.ACTION_UP) {
+                weightCounter.cancel()
+            }
+            false
+        }
+        viewOfLayout.button_weight_tandem_plus.setOnLongClickListener {
+            valueToModify = 5
+            increaseValue = true
+            weightCounter.start()
+            return@setOnLongClickListener true
+        }
+
     //Equipment
         //Equipment -
         viewOfLayout.button_equipment_minus.setOnClickListener {
@@ -579,7 +678,7 @@ class OverviewFragment : Fragment() {
             var size :Int = Integer.parseInt(viewOfLayout.editNumber_canopy.text.toString())
             size -= 1
             viewOfLayout.editNumber_canopy.setText(size.toString())
-            setCalculatorWingLoading(defaultValues.weight,defaultValues.equipment,defaultValues.canopy,defaultValues.unit_KG)
+            setCalculatorWingLoading(defaultValues.weight,defaultValues.weight_tandem,defaultValues.equipment,defaultValues.canopy,defaultValues.unit_KG)
         }
         viewOfLayout.button_canopy_minus.setOnTouchListener { _, event ->
             if (event.action == MotionEvent.ACTION_UP) {
@@ -599,7 +698,7 @@ class OverviewFragment : Fragment() {
             var size :Int = Integer.parseInt(viewOfLayout.editNumber_canopy.text.toString())
             size += 1
             viewOfLayout.editNumber_canopy.setText(size.toString())
-            setCalculatorWingLoading(defaultValues.weight,defaultValues.equipment,defaultValues.canopy,defaultValues.unit_KG)
+            setCalculatorWingLoading(defaultValues.weight,defaultValues.weight_tandem,defaultValues.equipment,defaultValues.canopy,defaultValues.unit_KG)
         }
         viewOfLayout.button_canopy_plus.setOnTouchListener { _, event ->
             if (event.action == MotionEvent.ACTION_UP) {
@@ -669,6 +768,7 @@ class OverviewFragment : Fragment() {
     private fun clearFocusFromButtons()
     {
         viewOfLayout.editNumber_weight.clearFocus()
+        viewOfLayout.editNumber_weight_tandem.clearFocus()
         viewOfLayout.editNumber_equipment.clearFocus()
         viewOfLayout.editNumber_canopy.clearFocus()
         viewOfLayout.editNumber_load.clearFocus()
@@ -680,6 +780,7 @@ class OverviewFragment : Fragment() {
     {
         val editor: SharedPreferences.Editor = shared_preferences_save.edit()
         editor.putInt("Weight",    viewOfLayout.editNumber_weight.text.toString().toInt())
+        editor.putInt("Weight_tandem", viewOfLayout.editNumber_weight_tandem.text.toString().toInt())
         editor.putInt("Equipment", viewOfLayout.editNumber_equipment.text.toString().toInt())
         editor.putInt("Canopy",    viewOfLayout.editNumber_canopy.text.toString().toInt())
         editor.putBoolean("Tandem_checked", viewOfLayout.checkBox_tandem.isChecked)
@@ -702,11 +803,14 @@ class OverviewFragment : Fragment() {
     }
     //*Functions used to convert kg/lbs
     //Updates the values of risk after modification of calculator values
-    private fun setCalculatorWingLoading(weight:Int, equipment: Int, canopy:Int, unit_KG:Boolean) {
+    private fun setCalculatorWingLoading(weight:Int, weight_tandem:Int, equipment: Int, canopy:Int, unit_KG:Boolean) {
 
         val wingLoading:Double
         var totalWeight=weight+equipment
-
+        if(viewOfLayout.checkBox_tandem.isChecked)
+        {
+            totalWeight += weight_tandem
+        }
         if(unit_KG){
             totalWeight= convertKGtoLBS(totalWeight)
         }
@@ -731,10 +835,13 @@ class OverviewFragment : Fragment() {
         saveData()
     }
     //Updates the value of canopy size after the modification of risk value
-    private fun setCalculatorWingSize(weight:Int, equipment: Int, wingLoading:Int, unit_KG:Boolean) {
+    private fun setCalculatorWingSize(weight:Int, weight_tandem:Int, equipment: Int, wingLoading:Int, unit_KG:Boolean) {
         val canopy:Double
         var totalWeight=weight+equipment
-
+        if(viewOfLayout.checkBox_tandem.isChecked)
+        {
+            totalWeight += weight_tandem
+        }
         if(unit_KG){
             totalWeight= convertKGtoLBS(totalWeight)
         }
@@ -762,6 +869,7 @@ class OverviewFragment : Fragment() {
                 viewOfLayout.textView_jumps_level.text ="BASIC: 0-200 JUMPS"
                 //Seek bar progress
                 viewOfLayout.seekBar_weight.progressDrawable = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.seek_bar_calculator_fragment_color_0, null)
+                viewOfLayout.seekBar_weight_tandem.progressDrawable = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.seek_bar_calculator_fragment_color_0, null)
                 viewOfLayout.seekBar_equipment.progressDrawable = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.seek_bar_calculator_fragment_color_0, null)
                 viewOfLayout.seekBar_canopy.progressDrawable = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.seek_bar_calculator_fragment_color_0, null)
                 viewOfLayout.seekBar_load.progressDrawable = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.seek_bar_calculator_fragment_color_0, null)
@@ -780,6 +888,7 @@ class OverviewFragment : Fragment() {
                 viewOfLayout.textView_jumps_level.text ="INTERMEDIATE: 200-600 JUMPS"
                 //Seek bar progress
                 viewOfLayout.seekBar_weight.progressDrawable = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.seek_bar_calculator_fragment_color_1, null)
+                viewOfLayout.seekBar_weight_tandem.progressDrawable = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.seek_bar_calculator_fragment_color_1, null)
                 viewOfLayout.seekBar_equipment.progressDrawable = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.seek_bar_calculator_fragment_color_1, null)
                 viewOfLayout.seekBar_canopy.progressDrawable = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.seek_bar_calculator_fragment_color_1, null)
                 viewOfLayout.seekBar_load.progressDrawable = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.seek_bar_calculator_fragment_color_1, null)
@@ -793,6 +902,7 @@ class OverviewFragment : Fragment() {
                 viewOfLayout.textView_jumps_level.text ="ADVANCED: 600-1500 JUMPS"
                 //Seek bar progress
                 viewOfLayout.seekBar_weight.progressDrawable = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.seek_bar_calculator_fragment_color_2, null)
+                viewOfLayout.seekBar_weight_tandem.progressDrawable = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.seek_bar_calculator_fragment_color_2, null)
                 viewOfLayout.seekBar_equipment.progressDrawable = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.seek_bar_calculator_fragment_color_2, null)
                 viewOfLayout.seekBar_canopy.progressDrawable = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.seek_bar_calculator_fragment_color_2, null)
                 viewOfLayout.seekBar_load.progressDrawable = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.seek_bar_calculator_fragment_color_2, null)
@@ -806,6 +916,7 @@ class OverviewFragment : Fragment() {
                 viewOfLayout.textView_jumps_level.text ="EXPERT: 1500+ JUMPS"
                 //Seek bar progress
                 viewOfLayout.seekBar_weight.progressDrawable = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.seek_bar_calculator_fragment_color_3, null)
+                viewOfLayout.seekBar_weight_tandem.progressDrawable = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.seek_bar_calculator_fragment_color_3, null)
                 viewOfLayout.seekBar_equipment.progressDrawable = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.seek_bar_calculator_fragment_color_3, null)
                 viewOfLayout.seekBar_canopy.progressDrawable = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.seek_bar_calculator_fragment_color_3, null)
                 viewOfLayout.seekBar_load.progressDrawable = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.seek_bar_calculator_fragment_color_3, null)
@@ -895,8 +1006,13 @@ class OverviewFragment : Fragment() {
 //Handling of seek bar thumbs icons updating on certain progress
     private fun InitIcons ()
     {
+        //weight
         HandlerUpdateIcons(0)
+        //weight_tandem
+        HandlerUpdateIcons(4)
+        //equipment
         HandlerUpdateIcons(1)
+        //canopy
         HandlerUpdateIcons(2)
     }
     private fun HandlerUpdateIcons(type : Int)
@@ -967,6 +1083,28 @@ class OverviewFragment : Fragment() {
                             1->{viewOfLayout.seekBar_canopy.thumb = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.ic_seek_bar_thumb_canopee_1, null)}
                             2->{viewOfLayout.seekBar_canopy.thumb = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.ic_seek_bar_thumb_canopee_2, null)}
                             3->{viewOfLayout.seekBar_canopy.thumb = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.ic_seek_bar_thumb_canopee_3, null)}
+                            else ->{}
+                        }
+                    }
+                }
+            }
+            4 -> {
+                progress_max = viewOfLayout.seekBar_weight_tandem.max
+                progress_min = viewOfLayout.seekBar_weight_tandem.min
+                progress     = viewOfLayout.seekBar_weight_tandem.progress
+                when (progress) {
+                    progress_min -> {
+                        viewOfLayout.seekBar_weight_tandem.thumb = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.ic_seek_bar_thumb_weight_0, null)
+                    }
+                    progress_max -> {
+                        viewOfLayout.seekBar_weight_tandem.thumb = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.ic_seek_bar_thumb_weight_3, null)
+                    }
+                    else -> {
+                        when(getPercent(progress - progress_min,progress_max - progress_min)) {
+                            0->{viewOfLayout.seekBar_weight_tandem.thumb = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.ic_seek_bar_thumb_weight_0, null)}
+                            1->{viewOfLayout.seekBar_weight_tandem.thumb = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.ic_seek_bar_thumb_weight_1, null)}
+                            2->{viewOfLayout.seekBar_weight_tandem.thumb = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.ic_seek_bar_thumb_weight_2, null)}
+                            3->{viewOfLayout.seekBar_weight_tandem.thumb = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.ic_seek_bar_thumb_weight_3, null)}
                             else ->{}
                         }
                     }
