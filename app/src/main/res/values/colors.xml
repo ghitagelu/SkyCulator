@@ -33,6 +33,8 @@
     <color name="jump_level_2">#BBFF9800</color>
 <!--    3   -->
     <color name="jump_level_3">#BBF44336</color>
+<!--    4   -->
+    <color name="jump_level_4">#FFFB1100</color>
     <!--  S E E K  B A R  J U M P  L E V E L-->
 <!--    0   -->
     <color name="seek_bar_jump_level_0">#754CAF50</color>
@@ -42,6 +44,8 @@
     <color name="seek_bar_jump_level_2">#75FF9800</color>
 <!--    3   -->
     <color name="seek_bar_jump_level_3">#75F44336</color>
+<!--    4   -->
+    <color name="seek_bar_jump_level_4">#FFFB1100</color>
 
     <color name="transparent">#00000000</color>
 

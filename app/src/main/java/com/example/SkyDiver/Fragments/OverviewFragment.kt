@@ -925,6 +925,16 @@ class OverviewFragment : Fragment() {
             }
 
             4->{
+                //Result bar
+                viewOfLayout.textView_jumps_level.background = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.result_bar_shape_and_result_color_4, null)
+                viewOfLayout.textView_jumps_level.text ="EXPERT: 1500+ JUMPS"
+                //Seek bar progress
+                viewOfLayout.seekBar_weight.progressDrawable = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.seek_bar_calculator_fragment_color_4, null)
+                viewOfLayout.seekBar_weight_tandem.progressDrawable = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.seek_bar_calculator_fragment_color_4, null)
+                viewOfLayout.seekBar_equipment.progressDrawable = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.seek_bar_calculator_fragment_color_4, null)
+                viewOfLayout.seekBar_canopy.progressDrawable = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.seek_bar_calculator_fragment_color_4, null)
+                viewOfLayout.seekBar_load.progressDrawable = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.seek_bar_calculator_fragment_color_4, null)
+                //thumbs icon change
                 viewOfLayout.seekBar_load.thumb = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.ic_seek_bar_thumb_load_alt, null)
 
             }
