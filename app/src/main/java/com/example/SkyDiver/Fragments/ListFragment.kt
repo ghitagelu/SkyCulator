@@ -1,26 +1,24 @@
 package com.example.SkyDiver.Fragments
 
-
-import android.content.Intent
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
-import android.provider.CalendarContract
+import android.os.CountDownTimer
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.SeekBar
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
-import com.example.SkyDiver.DataBaseHandler.ListItem
-import com.example.SkyDiver.DataBaseHandler.MindOrksDBOpenHelper
-import com.example.SkyDiver.Model_for_CustomListView
-import com.example.SkyDiver.Model_for_CustomListView_Adapter
 import com.example.SkyDiver.R
 import com.example.SkyDiver.StartingActivity
+import kotlinx.android.synthetic.main.fragment_list.*
 import kotlinx.android.synthetic.main.fragment_list.view.*
+import kotlinx.android.synthetic.main.fragment_overview.*
 import kotlinx.android.synthetic.main.fragment_overview.view.*
-import java.util.*
+import kotlin.math.roundToInt
 
 
 /**
@@ -29,232 +27,508 @@ import java.util.*
 class ListFragment : Fragment() {
     private lateinit var viewOfLayout: View
 
+    lateinit var shared_preferences_save2: SharedPreferences
+    var valueToModify = 0
+    var increaseValue = true
+    var cowntdowninterval:Long = 650
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
 
+        shared_preferences_save2 =this.activity!!.getSharedPreferences("save_calculator_values", Context.MODE_PRIVATE)
+        class SeekBarLimits(
+            var seekBar_weight_min: Int,        var seekBar_weight_max: Int,
+        )
+        class UsersValues(
+            var userTop_weight: Int,
+            var userTop_height: Int,
+            var userTop_suit: Int,
+            var userBottom_weight: Int,
+            var userBottom_height: Int,
+            var userBottom_suit: Int,
+            var unit_KG: Boolean,
+            var unit_LBS: Boolean
+        ) {
+            //Handling of changing the units types
+            fun setCalculatorValues() {
+                if(unit_KG)
+                {
+                    setUnitsKG()
+                }
+                if(unit_LBS)
+                {
+                    setUnitsLBS()
+                }
+                viewOfLayout.userTop_editNumber_weight.setText(userTop_weight.toString())
+                viewOfLayout.userTop_editNumber_height.setText(userTop_height.toString())
+                viewOfLayout.userBottom_editNumber_weight.setText(userBottom_weight.toString())
+                viewOfLayout.userBottom_editNumber_height.setText(userBottom_height.toString())
+
+                viewOfLayout.userTop_seekBar_weight.progress =userTop_weight
+                viewOfLayout.userTop_seekBar_height.progress =userTop_height
+                viewOfLayout.userBottom_seekBar_weight.progress =userBottom_weight
+                viewOfLayout.userBottom_seekBar_height.progress =userBottom_height
+
+            }
+            fun setUnitsKG()
+            {
+                viewOfLayout.radioButton_KG2.isChecked=true
+                viewOfLayout.userTop_textView_weight_units.text=" kg"
+                viewOfLayout.userBottom_textView_weight_units.text=" kg"
+
+
+//Set seekbar limits
+                //Create limits value for seekbar
+                val defaultSeekBarLimits = SeekBarLimits(45,136 )
+                //Call to set the limits for the seek bar
+                setSeekBarLimits(defaultSeekBarLimits)
+            }
+
+            fun setUnitsLBS()
+            {
+                viewOfLayout.radioButton_LBS2.isChecked=true
+                viewOfLayout.userTop_textView_weight_units.text=" lbs"
+                viewOfLayout.userBottom_textView_weight_units.text= " lbs"
+
+                val defaultSeekBarLimits = SeekBarLimits(99,300)
+
+                setSeekBarLimits(defaultSeekBarLimits)
+
+            }
+            fun setSeekBarLimits(defaultSeekBarLimits:SeekBarLimits)
+            {
+                viewOfLayout.userTop_seekBar_weight.min = defaultSeekBarLimits.seekBar_weight_min
+                viewOfLayout.userTop_seekBar_weight.max = defaultSeekBarLimits.seekBar_weight_max
+                viewOfLayout.userBottom_seekBar_weight.min = defaultSeekBarLimits.seekBar_weight_min
+                viewOfLayout.userBottom_seekBar_weight.max = defaultSeekBarLimits.seekBar_weight_max
+                viewOfLayout.userTop_seekBar_weight.secondaryProgress = 0
+                viewOfLayout.userBottom_seekBar_weight.secondaryProgress = 0
+
+            }
+        }
+
+
+        val defaultValues = UsersValues(
+            shared_preferences_save2.getInt("userTop_weight",200),
+            shared_preferences_save2.getInt("userTop_height",150),
+            1,//todo save in shared prefferences the value of the suit
+            shared_preferences_save2.getInt("userBottom_weight",200),
+            shared_preferences_save2.getInt("userBottom_height",150),
+            1,//todo save in shared prefferences the value of the suit
+            unit_KG = shared_preferences_save2.getBoolean("kg", false),
+            unit_LBS = shared_preferences_save2.getBoolean("lbs", true)
+        )
+
         viewOfLayout =inflater.inflate(R.layout.fragment_list, container, false)
 
-//get data from database
+        //Set "Tandem" checkbox false on 1st run, then get the saved value from last use
 
-        getDataFromDataBase()
-        val dbHandler = MindOrksDBOpenHelper(activity!!, null)
-
-        viewOfLayout.listfragment_button_test.setOnClickListener {
-
-//Add TestingUsernam Database text to Database
-
-            val user = ListItem("Username", 100, 100, 100)
-            dbHandler.addName(user)
-            Toast.makeText(
-                activity,
-                "TestingUsernam Database" + "Added to database",
-                Toast.LENGTH_LONG
-            ).show()
-//            Toast.makeText(activity,"Text!",Toast.LENGTH_SHORT).show();
+        defaultValues.setCalculatorValues()
 
 
-            getDataFromDataBase()
+//Radio buttons handling
+        viewOfLayout.radioGroup2.setOnCheckedChangeListener { buttonView, isChecked ->
 
+            if(isChecked == radioButton_KG2.id) {
+                //Kilograms
+                defaultValues.userTop_weight = convertLBStoKG(defaultValues.userTop_weight)
+                defaultValues.userBottom_weight = convertLBStoKG(defaultValues.userBottom_weight)
 
+                defaultValues.unit_KG = true
+                defaultValues.unit_LBS= false
+                defaultValues.setCalculatorValues()
+//                setCalculatorWingLoading(defaultValues.weight,defaultValues.weight_tandem,defaultValues.equipment,defaultValues.canopy,defaultValues.unit_KG)
 
-//        val displaySavedItem : TextView = ListFragment.findViewById(fragment_list.textView_listfragment)
-//        displaySavedItem.text = temp?.getString("SavedAmount", null)
+            }
 
+            if(isChecked == radioButton_LBS2.id) {
+                //LBS
+                defaultValues.userTop_weight = convertKGtoLBS(defaultValues.userTop_weight)
+                defaultValues.userBottom_weight = convertKGtoLBS(defaultValues.userBottom_weight)
+
+                defaultValues.unit_KG = false
+                defaultValues.unit_LBS= true
+                defaultValues.setCalculatorValues()
+//                setCalculatorWingLoading(defaultValues.weight,defaultValues.weight_tandem,defaultValues.equipment,defaultValues.canopy,defaultValues.unit_KG)
+            }
+            saveData()
         }
 
-        viewOfLayout.buttonClearDB.setOnClickListener {
 
-            dbHandler.deleteDB()
-            mutableListOf<Model_for_CustomListView>().clear()
-            //val user = ListItem(" DATABASE DELETED ")
-//            dbHandler.addName(user)
+//UserTop
+    //UserTop- Weight
+        //UserTop- Weight- Textview
+        viewOfLayout.userTop_editNumber_weight.doAfterTextChanged {
 
-            getDataFromDataBase()
+            if(viewOfLayout.userTop_editNumber_weight.text.toString()!="") {
+                var value = Integer.parseInt(viewOfLayout.userTop_editNumber_weight.text.toString())
+
+                if(value > viewOfLayout.userTop_seekBar_weight.max) {
+                    value = viewOfLayout.userTop_seekBar_weight.max
+                    viewOfLayout.userTop_editNumber_weight.setText(value.toString())
+                }
+                if(value < viewOfLayout.userTop_seekBar_weight.min) {
+                    value = viewOfLayout.userTop_seekBar_weight.min
+                    viewOfLayout.userTop_editNumber_weight.setText(value.toString())
+                }
+
+                viewOfLayout.userTop_seekBar_weight.progress=value
+                defaultValues.userTop_weight = value
+
+//                setCalculatorWingLoading(defaultValues.weight,defaultValues.weight_tandem,defaultValues.equipment,defaultValues.canopy,defaultValues.unit_KG)
+            }
+        }
+        viewOfLayout.userTop_editNumber_height.doAfterTextChanged {
+
+            if(viewOfLayout.userTop_editNumber_height.text.toString()!="") {
+                var value = Integer.parseInt(viewOfLayout.userTop_editNumber_height.text.toString())
+
+                if(value > viewOfLayout.userTop_seekBar_height.max) {
+                    value = viewOfLayout.userTop_seekBar_height.max
+                    viewOfLayout.userTop_editNumber_height.setText(value.toString())
+                }
+                if(value < viewOfLayout.userTop_seekBar_height.min) {
+                    value = viewOfLayout.userTop_seekBar_height.min
+                    viewOfLayout.userTop_editNumber_height.setText(value.toString())
+                }
+
+                viewOfLayout.userTop_seekBar_height.progress=value
+                defaultValues.userTop_height = value
+
+//                setCalculatorWingLoading(defaultValues.weight,defaultValues.weight_tandem,defaultValues.equipment,defaultValues.canopy,defaultValues.unit_KG)
+            }
+        }
+        viewOfLayout.userBottom_editNumber_weight.doAfterTextChanged {
+
+            if(viewOfLayout.userBottom_editNumber_weight.text.toString()!="") {
+                var value = Integer.parseInt(viewOfLayout.userBottom_editNumber_weight.text.toString())
+
+                if(value > viewOfLayout.userBottom_seekBar_weight.max) {
+                    value = viewOfLayout.userBottom_seekBar_weight.max
+                    viewOfLayout.userBottom_editNumber_weight.setText(value.toString())
+                }
+                if(value < viewOfLayout.userBottom_seekBar_weight.min) {
+                    value = viewOfLayout.userBottom_seekBar_weight.min
+                    viewOfLayout.userBottom_editNumber_weight.setText(value.toString())
+                }
+
+                viewOfLayout.userBottom_seekBar_weight.progress=value
+                defaultValues.userBottom_weight = value
+
+//                setCalculatorWingLoading(defaultValues.weight,defaultValues.weight_tandem,defaultValues.equipment,defaultValues.canopy,defaultValues.unit_KG)
+            }
+        }
+        viewOfLayout.userBottom_editNumber_height.doAfterTextChanged {
+
+            if(viewOfLayout.userBottom_editNumber_height.text.toString()!="") {
+                var value = Integer.parseInt(viewOfLayout.userBottom_editNumber_height.text.toString())
+
+                if(value > viewOfLayout.userBottom_seekBar_height.max) {
+                    value = viewOfLayout.userBottom_seekBar_height.max
+                    viewOfLayout.userBottom_editNumber_height.setText(value.toString())
+                }
+                if(value < viewOfLayout.userBottom_seekBar_height.min) {
+                    value = viewOfLayout.userBottom_seekBar_height.min
+                    viewOfLayout.userBottom_editNumber_height.setText(value.toString())
+                }
+
+                viewOfLayout.userBottom_seekBar_height.progress=value
+                defaultValues.userBottom_height = value
+
+//                setCalculatorWingLoading(defaultValues.weight,defaultValues.weight_tandem,defaultValues.equipment,defaultValues.canopy,defaultValues.unit_KG)
+            }
         }
 
-//Create calendar event on item tap@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-        val insertCalendarIntent = Intent(Intent.ACTION_INSERT)
-            .setData(CalendarContract.Events.CONTENT_URI)
 
-        val RECURRENCE_RULE = "FREQ=WEEKLY;BYDAY=MO"
-        val EVENT_BEGIN_TIME_IN_MILLIS = Calendar.getInstance().timeInMillis
-        val EVENT_END_TIME_IN_MILLIS = Calendar.getInstance().add(Calendar.HOUR_OF_DAY, 2)//.timeInMillis
+        viewOfLayout.userTop_seekBar_weight.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                if(fromUser) {
+                    viewOfLayout.userTop_editNumber_weight.setText(progress.toString())
+                    viewOfLayout.userTop_editNumber_weight.setSelection(viewOfLayout.userTop_editNumber_weight.length())
+//                    clearFocusFromButtons()
+//                    setCalculatorWingLoading(defaultValues.weight,defaultValues.weight_tandem,defaultValues.equipment,defaultValues.canopy,defaultValues.unit_KG)
+                }
+//                HandlerUpdateIcons(0)
+            }
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {}
+        })
+        viewOfLayout.userTop_seekBar_height.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                if(fromUser) {
+                    viewOfLayout.userTop_editNumber_height.setText(progress.toString())
+                    viewOfLayout.userTop_editNumber_height.setSelection(viewOfLayout.userTop_editNumber_height.length())
+//                    clearFocusFromButtons()
+//                    setCalculatorWingLoading(defaultValues.weight,defaultValues.weight_tandem,defaultValues.equipment,defaultValues.canopy,defaultValues.unit_KG)
+                }
+//                HandlerUpdateIcons(0)
+            }
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {}
+        })
 
-        viewOfLayout.ListView_Items.setOnItemClickListener { parent: AdapterView<*>, view: View, position: Int, id: Long ->
+        viewOfLayout.userBottom_seekBar_weight.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                if(fromUser) {
+                    viewOfLayout.userBottom_editNumber_weight.setText(progress.toString())
+                    viewOfLayout.userBottom_editNumber_weight.setSelection(viewOfLayout.userBottom_editNumber_weight.length())
+//                    clearFocusFromButtons()
+//                    setCalculatorWingLoading(defaultValues.weight,defaultValues.weight_tandem,defaultValues.equipment,defaultValues.canopy,defaultValues.unit_KG)
+                }
+//                HandlerUpdateIcons(0)
+            }
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {}
+        })
+        viewOfLayout.userBottom_seekBar_height.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                if(fromUser) {
+                    viewOfLayout.userBottom_editNumber_height.setText(progress.toString())
+                    viewOfLayout.userBottom_editNumber_height.setSelection(viewOfLayout.userBottom_editNumber_height.length())
+//                    clearFocusFromButtons()
+//                    setCalculatorWingLoading(defaultValues.weight,defaultValues.weight_tandem,defaultValues.equipment,defaultValues.canopy,defaultValues.unit_KG)
+                }
+//                HandlerUpdateIcons(0)
+            }
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {}
+        })
 
-            val textViewCustom1 = view.findViewById(R.id.textView_show_equipment) as TextView
+//Handling of +/- buttons for all values
 
-            insertCalendarIntent.putExtra(CalendarContract.Events.TITLE, textViewCustom1.text)
-                .putExtra(CalendarContract.EXTRA_EVENT_ALL_DAY, false)
-                .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME,EVENT_BEGIN_TIME_IN_MILLIS) // Only date part is considered when ALL_DAY is true; Same as DTSTART
-                .putExtra(CalendarContract.EXTRA_EVENT_END_TIME,EVENT_BEGIN_TIME_IN_MILLIS) // Only date part is considered when ALL_DAY is true
-                .putExtra(CalendarContract.Events.DESCRIPTION, "DESCRIPTION") // Description
-            startActivity(insertCalendarIntent)
-            //On item tap show toast with textView2 text
-//            val textViewCustom1 = view.findViewById(R.id.textView2) as TextView
-//            Toast.makeText(
-//                activity!!.applicationContext,
-//                "Tapped:  " + textViewCustom1.text,
-//                Toast.LENGTH_SHORT
-//            ).show()
-//            getDataFromDataBase()
-            //*On item tap show toast with textView2 text
-
-
+        fun updateValues()
+        {
+            when(valueToModify)
+            {
+                1->{
+                    var size :Int = Integer.parseInt(viewOfLayout.userTop_editNumber_weight.text.toString())
+                    if(increaseValue)
+                    {
+                        size += onHoldTotalValue(size, increase = true, decrease = false)
+                    }else{
+                        size -=onHoldTotalValue(size, increase = false, decrease = true)
+                    }
+                    viewOfLayout.userTop_editNumber_weight.setText(size.toString())
+                }
+                2->{
+                    var size :Int = Integer.parseInt(viewOfLayout.userTop_editNumber_height.text.toString())
+                    if(increaseValue)
+                    {
+                        size += onHoldTotalValue(size, increase = true, decrease = false)
+                    }else{
+                        size -= onHoldTotalValue(size, increase = false, decrease = true)
+                    }
+                    viewOfLayout.userTop_editNumber_height.setText(size.toString())
+                }
+                3->{
+                    var size :Int = Integer.parseInt(viewOfLayout.userBottom_editNumber_weight.text.toString())
+                    if(increaseValue)
+                    {
+                        size += onHoldTotalValue(size, increase = true, decrease = false)
+                    }else{
+                        size -= onHoldTotalValue(size, increase = false, decrease = true)
+                    }
+                    viewOfLayout.userBottom_editNumber_weight.setText(size.toString())
+//                    setCalculatorWingLoading(defaultValues.weight,defaultValues.weight_tandem,defaultValues.equipment,defaultValues.canopy,defaultValues.unit_KG)
+                }
+                4->{
+                    var size :Int = Integer.parseInt(viewOfLayout.userBottom_editNumber_height.text.toString())
+                    if(increaseValue)
+                    {
+                        size += onHoldTotalValue(size, increase = true, decrease = false)
+                    }else{
+                        size -= onHoldTotalValue(size, increase = false, decrease = true)
+                    }
+                    viewOfLayout.userBottom_editNumber_height.setText(size.toString())
+                }
+                else -> {
+                    //nothing
+                }
+            }
+        }
+        /////////////////////////////////C O U N T E R//////////////////////////////////////////
+        //counter for holding button
+        val weightCounter: CountDownTimer = object : CountDownTimer(Long.MAX_VALUE, cowntdowninterval) {
+            override fun onTick(l: Long) {
+                updateValues()
+            }
+            override fun onFinish() {}
+        }
+        /////////////////////////////////B U T T O N S //////////////////////////////////////////
+//User Top
+    //UserTop
+        //Weight -
+        viewOfLayout.userTop_button_weight_minus.setOnClickListener {
+            var size :Int = Integer.parseInt(viewOfLayout.userTop_editNumber_weight.text.toString())
+            size -= 1
+            viewOfLayout.userTop_editNumber_weight.setText(size.toString())
+        }
+        viewOfLayout.userTop_button_weight_minus.setOnTouchListener { _, event ->
+            if (event.action == MotionEvent.ACTION_UP) {
+                weightCounter.cancel()
+            }
+            false
+        }
+        viewOfLayout.userTop_button_weight_minus.setOnLongClickListener{
+            valueToModify = 1
+            increaseValue = false
+            weightCounter.start()
+            return@setOnLongClickListener true
         }
 
-        //On item hold, delete items with that name
-        viewOfLayout.ListView_Items.setOnItemLongClickListener { parent: AdapterView<*>, view: View, position: Int, id: Long ->
-
-            val textViewCustom2 = view?.findViewById(R.id.textView_show_equipment) as TextView
-
-            dbHandler.deletItemFromDB(textViewCustom2.text.toString())
-            Toast.makeText(
-                activity!!.applicationContext,
-                "DELETED: " + textViewCustom2.text,
-
-                Toast.LENGTH_SHORT
-            ).show()
-
-            getDataFromDataBase()
-            true
+        //Weight +
+        viewOfLayout.userTop_button_weight_plus.setOnClickListener {
+            var size :Int = Integer.parseInt(viewOfLayout.userTop_editNumber_weight.text.toString())
+            size += 1
+            viewOfLayout.userTop_editNumber_weight.setText(size.toString())
+        }
+        viewOfLayout.userTop_button_weight_plus.setOnTouchListener { _, event ->
+            if (event.action == MotionEvent.ACTION_UP) {
+                weightCounter.cancel()
+            }
+            false
+        }
+        viewOfLayout.userTop_button_weight_plus.setOnLongClickListener {
+            valueToModify = 1
+            increaseValue = true
+            weightCounter.start()
+            return@setOnLongClickListener true
+        }
+//User Top
+        //UserTop
+        //Height_tandem -
+        viewOfLayout.userTop_button_height_minus.setOnClickListener {
+            var size :Int = Integer.parseInt(viewOfLayout.userTop_editNumber_height.text.toString())
+            size -= 1
+            viewOfLayout.userTop_editNumber_height.setText(size.toString())
+        }
+        viewOfLayout.userTop_button_height_minus.setOnTouchListener { _, event ->
+            if (event.action == MotionEvent.ACTION_UP) {
+                weightCounter.cancel()
+            }
+            false
+        }
+        viewOfLayout.userTop_button_height_minus.setOnLongClickListener{
+            valueToModify = 2
+            increaseValue = false
+            weightCounter.start()
+            return@setOnLongClickListener true
         }
 
-//        viewOfLayout.LitsView_Items.setOnItemLongClickListener { parent: AdapterView<*>, view: View, position: Int, id: Long ->
-//
-//            val textViewCustom2 = view.findViewById(R.id.textView2) as TextView
-//
-//        }
+        //Weight_tandem +
+        viewOfLayout.userTop_button_height_plus.setOnClickListener {
+            var size :Int = Integer.parseInt(viewOfLayout.userTop_editNumber_height.text.toString())
+            size += 1
+            viewOfLayout.userTop_editNumber_height.setText(size.toString())
+        }
+        viewOfLayout.userTop_button_height_plus.setOnTouchListener { _, event ->
+            if (event.action == MotionEvent.ACTION_UP) {
+                weightCounter.cancel()
+            }
+            false
+        }
+        viewOfLayout.userTop_button_height_plus.setOnLongClickListener {
+            valueToModify = 2
+            increaseValue = true
+            weightCounter.start()
+            return@setOnLongClickListener true
+        }
+
+//User Bottom
+        //Equipment -
+        viewOfLayout.userBottom_button_weight_minus.setOnClickListener {
+            var size :Int = Integer.parseInt(viewOfLayout.userBottom_editNumber_weight.text.toString())
+            size -= 1
+            viewOfLayout.userBottom_editNumber_weight.setText(size.toString())
+        }
+        viewOfLayout.userBottom_button_weight_minus.setOnTouchListener { _, event ->
+            if (event.action == MotionEvent.ACTION_UP) {
+                weightCounter.cancel()
+            }
+            false
+        }
+        viewOfLayout.userBottom_button_weight_minus.setOnLongClickListener {
+            valueToModify = 3
+            increaseValue = false
+            weightCounter.start()
+            return@setOnLongClickListener true
+        }
+        //Equipment +
+        viewOfLayout.userBottom_button_weight_plus.setOnClickListener {
+            var size :Int = Integer.parseInt(viewOfLayout.userBottom_editNumber_weight.text.toString())
+            size += 1
+            viewOfLayout.userBottom_editNumber_weight.setText(size.toString())
+        }
+        viewOfLayout.userBottom_button_weight_plus.setOnTouchListener { _, event ->
+            if (event.action == MotionEvent.ACTION_UP) {
+                weightCounter.cancel()
+            }
+            false
+        }
+        viewOfLayout.userBottom_button_weight_plus.setOnLongClickListener {
+            valueToModify = 3
+            increaseValue = true
+            weightCounter.start()
+            return@setOnLongClickListener true
+        }
+
+        //Canopy
+        //Canopy  -
+        viewOfLayout.userBottom_button_height_minus.setOnClickListener {
+
+            var size :Int = Integer.parseInt(viewOfLayout.userBottom_editNumber_height.text.toString())
+            size -= 1
+            viewOfLayout.userBottom_editNumber_height.setText(size.toString())
+//            setCalculatorWingLoading(defaultValues.weight,defaultValues.weight_tandem,defaultValues.equipment,defaultValues.canopy,defaultValues.unit_KG)
+        }
+        viewOfLayout.userBottom_button_height_minus.setOnTouchListener { _, event ->
+            if (event.action == MotionEvent.ACTION_UP) {
+                weightCounter.cancel()
+            }
+            false
+        }
+        viewOfLayout.userBottom_button_height_minus.setOnLongClickListener {
+            valueToModify = 4
+            increaseValue = false
+            weightCounter.start()
+            return@setOnLongClickListener true
+        }
+
+        //Canopy  +
+        viewOfLayout.userBottom_button_height_plus.setOnClickListener {
+            var size :Int = Integer.parseInt(viewOfLayout.userBottom_editNumber_height.text.toString())
+            size += 1
+            viewOfLayout.userBottom_editNumber_height.setText(size.toString())
+//            setCalculatorWingLoading(defaultValues.weight,defaultValues.weight_tandem,defaultValues.equipment,defaultValues.canopy,defaultValues.unit_KG)
+        }
+        viewOfLayout.userBottom_button_height_plus.setOnTouchListener { _, event ->
+            if (event.action == MotionEvent.ACTION_UP) {
+                weightCounter.cancel()
+            }
+            false
+        }
+        viewOfLayout.userBottom_button_height_plus.setOnLongClickListener {
+            valueToModify = 4
+            increaseValue = true
+            weightCounter.start()
+            return@setOnLongClickListener true
+        }
+
+//*Handling of +/- buttons for all values
+////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-
-
-
-        setBackgroud()
+        setBackground()
         // Inflate the layout for this fragment
         return viewOfLayout
     }
 
-//On resuming to fragment - after adding item-
-    override fun onResume() {
-        super.onResume()
-    //Refresh data from database
-        getDataFromDataBase()
-
-    }
-
-    private fun getDataFromDataBase ()
-    {
-        val dbHandler = MindOrksDBOpenHelper(activity!!, null)
-        val cursor = dbHandler.getAllName()
-
-        //For CustomListView
-        var listview = viewOfLayout.ListView_Items
-        var list = mutableListOf<Model_for_CustomListView>()
-
-        if(cursor!!.count>=0) {
-            //https://blog.mindorks.com/android-sqlite-database-in-kotlin
-            viewOfLayout.TestingtextView2.text = "" //Deletes previous entries
-            listview.adapter = Model_for_CustomListView_Adapter(
-                activity!!.applicationContext,
-                R.layout.row_for_listview_items,
-                list
-            ) //Clear entries
-//            cursor.moveToFirst()
-
-            //no idea ... If removed - if click add to database after "database empty" nothing happens (1st time only)
-//            viewOfLayout.TestingtextView2.append(
-//                (cursor.getString(
-//                    cursor.getColumnIndex(
-//                        MindOrksDBOpenHelper.COLUMN_NAME
-//                    )
-//                ))
-//            )
-
-            viewOfLayout.TestingtextView2.append(System.getProperty("line.separator"))
-            while (cursor.moveToNext()) {
-                viewOfLayout.TestingtextView2.append(
-                    (cursor.getString(
-                        cursor.getColumnIndex(
-                            MindOrksDBOpenHelper.COLUMN_NAME
-                        )
-                    ))
-                )
-                viewOfLayout.TestingtextView2.append(System.getProperty("line.separator"))
-
-                list.add(
-                    Model_for_CustomListView(
-                        cursor.getString(cursor.getColumnIndex(MindOrksDBOpenHelper.COLUMN_ID)),
-                        cursor.getString(cursor.getColumnIndex(MindOrksDBOpenHelper.COLUMN_NAME)),
-                        R.drawable.ic_pie_chart_selected_24dp,
-                        cursor.getString(cursor.getColumnIndex(MindOrksDBOpenHelper.COLUMN_WEIGHT)),
-                        cursor.getString(cursor.getColumnIndex(MindOrksDBOpenHelper.COLUMN_EQUIPMENT)),
-                        cursor.getString(cursor.getColumnIndex(MindOrksDBOpenHelper.COLUMN_CANOPY))
-                    )
-                )
-                listview.adapter = Model_for_CustomListView_Adapter(
-                    activity!!.applicationContext,
-                    R.layout.row_for_listview_items,
-                    list
-                )
-            }
-            cursor.close()
-
-            //For CustomListView
-//            var listview = viewOfLayout.LitsView_Items
-//            var list = mutableListOf<Model_for_CustomListView>()
 
 
-//            list.add(Model_for_CustomListView("1st item", "Description for 1st item", R.drawable.ic_pie_chart_selected_24dp))
-//            list.add(Model_for_CustomListView("2nd item", "Description for 2nd item", R.drawable.ic_pie_chart_default_24dp))
-//            list.add(Model_for_CustomListView("3rd item", "Description for 3rd item", R.drawable.ic_add_circle_outline_selected_24dp))
-//            list.add(Model_for_CustomListView("4th item", "Description for 4th item", R.drawable.ic_add_circle_outline_default_24dp))
-//        viewOfLayout.LitsView_Items.adapter = ListViewCustomAdaptor(activity!!.applicationContext)
-//            listview.adapter = Model_for_CustomListView_Adapter (activity!!.applicationContext, R.layout.row_for_listview_items, list)
-
-//            viewOfLayout.LitsView_Items.setOnItemClickListener { parent:AdapterView<*>, view:View, position:Int, id:Long ->
-//                if(position == 0)
-//                {
-//                    Toast.makeText(activity!!.applicationContext, "you click on 1st", Toast.LENGTH_SHORT).show()
-//                }
-//                if(position == 1)
-//                {
-//                    Toast.makeText( activity!!.applicationContext, "you click on 2nd", Toast.LENGTH_SHORT).show()
-//                }
-//                if(position == 2)
-//                {
-//                    Toast.makeText( activity!!.applicationContext, "you click on 3rd", Toast.LENGTH_SHORT).show()
-//                }
-//                if(position == 3)
-//                {
-//                    Toast.makeText( activity!!.applicationContext, "you click on 4th", Toast.LENGTH_SHORT).show()
-//                }
-//
-//            }
-
-
-
-
-
-        }
-        else
-        {
-                //Generate default "item" if database is empty
-            viewOfLayout.TestingtextView2.text ="DataBase Is Empty"
-        }
-
-    }
-
-    fun GetNumberOfItemsInTheList():Int
-    {
-        val dbHandler = MindOrksDBOpenHelper(activity!!, null)
-        val cursor = dbHandler.getAllName()
-        return cursor!!.count
-    }
     //Set background
-    private fun setBackgroud()
+    private fun setBackground()
     {
         when((activity as StartingActivity?)?.getImageSelecter())
         {
@@ -271,7 +545,62 @@ class ListFragment : Fragment() {
             }
         }
     }
+    //Handling of on hold + and - buttons
+    private fun onHoldTotalValue(size : Int, increase:Boolean, decrease: Boolean):Int
+    {
+        var result = size%10
 
+        if(result == 0)
+        {
+            result = 10
+        }else
+        {
+            if(decrease)
+            {
+                //no handling needed
+            }
+            if(increase)
+            {
+                result = 10 - result
+            }
+        }
+
+
+        return result
+    }
+//*Handling of on hold + and - buttons
+
+//Calculator values updater
+//Functions used to convert kg/lbs
+    private fun convertKGtoLBS(value :Int):Int
+    {
+        return (value*2.20462).roundToInt()
+    }
+    private fun convertLBStoKG(value: Int):Int
+    {
+        return (value/2.20462).roundToInt()
+    }
+
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
+//Function used to save current values in the app
+    private fun saveData()
+    {
+        val editor: SharedPreferences.Editor = shared_preferences_save2.edit()
+        editor.putInt("userTop_weight",    viewOfLayout.userTop_editNumber_weight.text.toString().toInt())
+        editor.putInt("userTop_height", viewOfLayout.userTop_editNumber_height.text.toString().toInt())
+//        editor.putInt("userTop_suit", viewOfLayout.userTop_editNumber_weight.text.toString().toInt())
+        editor.putInt("userBottom_weight",    viewOfLayout.userBottom_editNumber_weight.text.toString().toInt())
+        editor.putInt("userBottom_height", viewOfLayout.userBottom_editNumber_height.text.toString().toInt())
+//        editor.putInt("userBottom_suit", viewOfLayout.editNumber_equipment.text.toString().toInt())
+        editor.putBoolean("kg", viewOfLayout.radioButton_KG2.isChecked)
+        editor.putBoolean("lbs", viewOfLayout.radioButton_LBS2.isChecked)
+        editor.putBoolean("SAVED", true)
+        editor.apply()
+
+    }
+//*Function used to save current values in the app
+////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 }

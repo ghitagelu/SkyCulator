@@ -9,45 +9,541 @@
     android:tag="tag_of_fragment_list">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/Main_constraintLayout2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:animateLayoutChanges="true"
         android:background="@color/navBar_color_transparent"
-        tools:layout_editor_absoluteX="-195dp"
-        tools:layout_editor_absoluteY="-538dp">
+        android:splitMotionEvents="false">
 
-        <Button
-            android:id="@+id/listfragment_button_test"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Add to DB"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ListView_Items" />
 
-        <Button
-            android:id="@+id/buttonClearDB"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="DELETE"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ListView_Items" />
-
-        <ListView
-            android:id="@+id/ListView_Items"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/Radio_constraintLayout"
             android:layout_width="match_parent"
-            android:layout_height="450dp"
-            android:background="@color/navBar_color_transparent"
+            android:layout_height="50dp"
+            android:layout_marginTop="2dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/TestingtextView2"
+            <RadioGroup
+                android:id="@+id/radioGroup2"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/textView_NE_units"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <RadioButton
+                    android:id="@+id/radioButton_KG2"
+                    android:layout_width="75dp"
+                    android:layout_height="match_parent"
+                    android:buttonTint="@drawable/button_states"
+                    android:checked="false"
+                    android:text="KG"
+                    android:textColor="#000000"
+                    android:textSize="20sp" />
+
+                <RadioButton
+                    android:id="@+id/radioButton_LBS2"
+                    android:layout_width="75dp"
+                    android:layout_height="match_parent"
+                    android:buttonTint="@drawable/button_states"
+                    android:checked="true"
+                    android:text="LBS"
+                    android:textColor="#000000"
+                    android:textColorLink="@color/selected_icons_color"
+                    android:textSize="20sp" />
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/textView_NE_units"
+                android:layout_width="75dp"
+                android:layout_height="match_parent"
+                android:paddingTop="5dp"
+                android:text="@string/units"
+                android:textAlignment="center"
+                android:textColor="#000000"
+                android:textSize="25sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/userTop_ConstraintLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/Radio_constraintLayout">
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/userTop_Weight_constraintLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:id="@+id/userTop_textView_weight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="35dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="4dp"
+                    android:paddingTop="5dp"
+                    android:text="Weight"
+                    android:textAlignment="center"
+                    android:textColor="#000000"
+                    android:textSize="15sp"
+                    app:layout_constraintBottom_toTopOf="@+id/userTop_seekBar_weight"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <Button
+                    android:id="@+id/userTop_button_weight_minus"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/navigation_bar_shape"
+                    android:backgroundTint="@color/selected_icons_color"
+                    android:paddingTop="0dp"
+                    android:text="-"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/secondary_text_light"
+                    android:textSize="25sp"
+                    app:layout_constraintBottom_toTopOf="@+id/userTop_seekBar_weight"
+                    app:layout_constraintEnd_toStartOf="@+id/userTop_editNumber_weight"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <EditText
+                    android:id="@+id/userTop_editNumber_weight"
+                    android:layout_width="100dp"
+                    android:layout_height="35dp"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/navigation_bar_shape"
+                    android:backgroundTint="@color/selected_icons_color"
+                    android:ems="10"
+                    android:focusable="false"
+                    android:includeFontPadding="false"
+                    android:inputType="number"
+                    android:longClickable="false"
+                    android:paddingVertical="10dp"
+                    android:textAlignment="center"
+                    android:textSize="15sp"
+                    app:layout_constraintBottom_toTopOf="@+id/userTop_seekBar_weight"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <Button
+                    android:id="@+id/userTop_button_weight_plus"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/navigation_bar_shape"
+                    android:backgroundTint="@color/selected_icons_color"
+                    android:paddingTop="0dp"
+                    android:text="+"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/secondary_text_light"
+                    android:textSize="25sp"
+                    app:layout_constraintBottom_toTopOf="@+id/userTop_seekBar_weight"
+                    app:layout_constraintStart_toEndOf="@+id/userTop_editNumber_weight"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/userTop_textView_weight_units"
+                    android:layout_width="wrap_content"
+                    android:layout_height="35dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginEnd="8dp"
+                    android:paddingTop="5dp"
+                    android:text=" kg"
+                    android:textAlignment="center"
+                    android:textColor="#000000"
+                    android:textSize="15sp"
+                    app:layout_constraintBottom_toTopOf="@+id/userTop_seekBar_weight"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <SeekBar
+                    android:id="@+id/userTop_seekBar_weight"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:max="265"
+                    android:min="99"
+                    android:progress="1"
+                    android:progressDrawable="@drawable/seek_bar_calculator_fragment_color_0"
+                    android:thumb="@drawable/ic_seek_bar_thumb_weight_0"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/userTop_Height_constraintLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/userTop_Weight_constraintLayout">
+
+                <TextView
+                    android:id="@+id/userTop_textView_height"
+                    android:layout_width="wrap_content"
+                    android:layout_height="35dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="4dp"
+                    android:paddingTop="5dp"
+                    android:text="Height"
+                    android:textAlignment="center"
+                    android:textColor="#000000"
+                    android:textSize="15sp"
+                    app:layout_constraintBottom_toTopOf="@+id/userTop_seekBar_height"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <Button
+                    android:id="@+id/userTop_button_height_minus"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/navigation_bar_shape"
+                    android:backgroundTint="@color/selected_icons_color"
+                    android:paddingTop="0dp"
+                    android:text="-"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/secondary_text_light"
+                    android:textSize="25sp"
+                    app:layout_constraintBottom_toTopOf="@+id/userTop_seekBar_height"
+                    app:layout_constraintEnd_toStartOf="@+id/userTop_editNumber_height"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <EditText
+                    android:id="@+id/userTop_editNumber_height"
+                    android:layout_width="100dp"
+                    android:layout_height="35dp"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/navigation_bar_shape"
+                    android:backgroundTint="@color/selected_icons_color"
+                    android:ems="10"
+                    android:focusable="false"
+                    android:includeFontPadding="false"
+                    android:inputType="number"
+                    android:longClickable="false"
+                    android:paddingVertical="10dp"
+                    android:textAlignment="center"
+                    android:textSize="15sp"
+                    app:layout_constraintBottom_toTopOf="@+id/userTop_seekBar_height"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <Button
+                    android:id="@+id/userTop_button_height_plus"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/navigation_bar_shape"
+                    android:backgroundTint="@color/selected_icons_color"
+                    android:paddingTop="0dp"
+                    android:text="+"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/secondary_text_light"
+                    android:textSize="25sp"
+                    app:layout_constraintBottom_toTopOf="@+id/userTop_seekBar_height"
+                    app:layout_constraintStart_toEndOf="@+id/userTop_editNumber_height"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/userTop_textView_height_units"
+                    android:layout_width="wrap_content"
+                    android:layout_height="35dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginEnd="8dp"
+                    android:paddingTop="5dp"
+                    android:text=" cm"
+                    android:textAlignment="center"
+                    android:textColor="#000000"
+                    android:textSize="15sp"
+                    app:layout_constraintBottom_toTopOf="@+id/userTop_seekBar_height"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <SeekBar
+                    android:id="@+id/userTop_seekBar_height"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:max="265"
+                    android:min="99"
+                    android:progress="1"
+                    android:progressDrawable="@drawable/seek_bar_calculator_fragment_color_0"
+                    android:thumb="@drawable/ic_seek_bar_thumb_weight_0"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/result_ConstraintLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@+id/userBottom_ConstraintLayout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/userTop_ConstraintLayout"
+            >
+
+            <Button
+                android:id="@+id/button3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Button"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/userBottom_ConstraintLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@+id/constraintLayout2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/userBottom_Weight_constraintLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                app:layout_constraintBottom_toTopOf="@+id/userBottom_Height_constraintLayout"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:id="@+id/userBottom_textView_weight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="35dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="4dp"
+                    android:paddingTop="5dp"
+                    android:text="Weight"
+                    android:textAlignment="center"
+                    android:textColor="#000000"
+                    android:textSize="15sp"
+                    app:layout_constraintBottom_toTopOf="@+id/userBottom_seekBar_weight"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <Button
+                    android:id="@+id/userBottom_button_weight_minus"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/navigation_bar_shape"
+                    android:backgroundTint="@color/selected_icons_color"
+                    android:paddingTop="0dp"
+                    android:text="-"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/secondary_text_light"
+                    android:textSize="25sp"
+                    app:layout_constraintBottom_toTopOf="@+id/userBottom_seekBar_weight"
+                    app:layout_constraintEnd_toStartOf="@+id/userBottom_editNumber_weight"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <EditText
+                    android:id="@+id/userBottom_editNumber_weight"
+                    android:layout_width="100dp"
+                    android:layout_height="35dp"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/navigation_bar_shape"
+                    android:backgroundTint="@color/selected_icons_color"
+                    android:ems="10"
+                    android:focusable="false"
+                    android:includeFontPadding="false"
+                    android:inputType="number"
+                    android:longClickable="false"
+                    android:paddingVertical="10dp"
+                    android:textAlignment="center"
+                    android:textSize="15sp"
+                    app:layout_constraintBottom_toTopOf="@+id/userBottom_seekBar_weight"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <Button
+                    android:id="@+id/userBottom_button_weight_plus"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/navigation_bar_shape"
+                    android:backgroundTint="@color/selected_icons_color"
+                    android:paddingTop="0dp"
+                    android:text="+"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/secondary_text_light"
+                    android:textSize="25sp"
+                    app:layout_constraintBottom_toTopOf="@+id/userBottom_seekBar_weight"
+                    app:layout_constraintStart_toEndOf="@+id/userBottom_editNumber_weight"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/userBottom_textView_weight_units"
+                    android:layout_width="wrap_content"
+                    android:layout_height="35dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginEnd="8dp"
+                    android:paddingTop="5dp"
+                    android:text=" kg"
+                    android:textAlignment="center"
+                    android:textColor="#000000"
+                    android:textSize="15sp"
+                    app:layout_constraintBottom_toTopOf="@+id/userBottom_seekBar_weight"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <SeekBar
+                    android:id="@+id/userBottom_seekBar_weight"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:max="265"
+                    android:min="99"
+                    android:progress="1"
+                    android:progressDrawable="@drawable/seek_bar_calculator_fragment_color_0"
+                    android:thumb="@drawable/ic_seek_bar_thumb_weight_0"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/userBottom_Height_constraintLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/userBottom_Weight_constraintLayout">
+
+                <TextView
+                    android:id="@+id/userBottom_textView_height"
+                    android:layout_width="wrap_content"
+                    android:layout_height="35dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="4dp"
+                    android:paddingTop="5dp"
+                    android:text="Height"
+                    android:textAlignment="center"
+                    android:textColor="#000000"
+                    android:textSize="15sp"
+                    app:layout_constraintBottom_toTopOf="@+id/userBottom_seekBar_height"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <Button
+                    android:id="@+id/userBottom_button_height_minus"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/navigation_bar_shape"
+                    android:backgroundTint="@color/selected_icons_color"
+                    android:paddingTop="0dp"
+                    android:text="-"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/secondary_text_light"
+                    android:textSize="25sp"
+                    app:layout_constraintBottom_toTopOf="@+id/userBottom_seekBar_height"
+                    app:layout_constraintEnd_toStartOf="@+id/userBottom_editNumber_height"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <EditText
+                    android:id="@+id/userBottom_editNumber_height"
+                    android:layout_width="100dp"
+                    android:layout_height="35dp"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/navigation_bar_shape"
+                    android:backgroundTint="@color/selected_icons_color"
+                    android:ems="10"
+                    android:focusable="false"
+                    android:includeFontPadding="false"
+                    android:inputType="number"
+                    android:longClickable="false"
+                    android:paddingVertical="10dp"
+                    android:textAlignment="center"
+                    android:textSize="15sp"
+                    app:layout_constraintBottom_toTopOf="@+id/userBottom_seekBar_height"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <Button
+                    android:id="@+id/userBottom_button_height_plus"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/navigation_bar_shape"
+                    android:backgroundTint="@color/selected_icons_color"
+                    android:paddingTop="0dp"
+                    android:text="+"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/secondary_text_light"
+                    android:textSize="25sp"
+                    app:layout_constraintBottom_toTopOf="@+id/userBottom_seekBar_height"
+                    app:layout_constraintStart_toEndOf="@+id/userBottom_editNumber_height"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/userBottom_textView_height_units"
+                    android:layout_width="wrap_content"
+                    android:layout_height="35dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginEnd="8dp"
+                    android:paddingTop="5dp"
+                    android:text=" cm"
+                    android:textAlignment="center"
+                    android:textColor="#000000"
+                    android:textSize="15sp"
+                    app:layout_constraintBottom_toTopOf="@+id/userBottom_seekBar_height"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <SeekBar
+                    android:id="@+id/userBottom_seekBar_height"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:max="265"
+                    android:min="99"
+                    android:progress="1"
+                    android:progressDrawable="@drawable/seek_bar_calculator_fragment_color_0"
+                    android:thumb="@drawable/ic_seek_bar_thumb_weight_0"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout2"
             android:layout_width="match_parent"
             android:layout_height="100dp"
+
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent">
 
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
