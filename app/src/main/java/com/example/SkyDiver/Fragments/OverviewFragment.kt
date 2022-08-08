@@ -1016,6 +1016,11 @@ class OverviewFragment : Fragment() {
 //Handling of seek bar thumbs icons updating on certain progress
     private fun InitIcons ()
     {
+        //Init animation for constraintLayouts //enable animation transition from kg to lbs and vice-versa
+        TransitionManager.beginDelayedTransition(viewOfLayout.Weight_constraintLayout, AutoTransition())
+        TransitionManager.beginDelayedTransition(viewOfLayout.Weight_tandem_constraintLayout, AutoTransition())
+        TransitionManager.beginDelayedTransition(viewOfLayout.Equipment_constraintLayout, AutoTransition())
+
         //weight
         HandlerUpdateIcons(0)
         //weight_tandem
@@ -1150,7 +1155,7 @@ class OverviewFragment : Fragment() {
 //Animation for tandem weigh appearance
     private fun expand_tandem()
     {
-        var result : Int
+        val result : Int
         if(viewOfLayout.checkBox_tandem.isChecked)
         {
             result = View.VISIBLE
@@ -1159,8 +1164,6 @@ class OverviewFragment : Fragment() {
         {
             result = View.GONE
         }
-
-        TransitionManager.beginDelayedTransition(viewOfLayout.Weight_tandem_constraintLayout, AutoTransition())
         viewOfLayout.Weight_tandem_constraintLayout.visibility = result
     }
 

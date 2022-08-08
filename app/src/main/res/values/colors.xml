@@ -12,6 +12,9 @@
     <color name="transparent_purple">#65673AB7</color>
     <color name="transparent_yellow">#7CFFBF00</color>
 
+<!--  F O N T   C O L O R   U S E D   F O R   T E X T  -->
+    <color name="font_text">#CE000000</color>
+    <color name="font_shadow">#8DFFFFFF</color>
 
 <!--  B O T T O M     N A V     B A R  -->
     <!--    // NavBar color (navigation_bar_shape.xml) -->

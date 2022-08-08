@@ -37,34 +37,34 @@
 
                 <RadioButton
                     android:id="@+id/radioButton_KG"
+                    style="@style/BlackTextFontWithWhiteBorder"
                     android:layout_width="75dp"
                     android:layout_height="match_parent"
                     android:buttonTint="@drawable/button_states"
                     android:checked="false"
                     android:text="KG"
-                    android:textColor="#000000"
                     android:textSize="20sp" />
 
                 <RadioButton
                     android:id="@+id/radioButton_LBS"
+                    style="@style/BlackTextFontWithWhiteBorder"
                     android:layout_width="75dp"
                     android:layout_height="match_parent"
                     android:buttonTint="@drawable/button_states"
                     android:checked="true"
                     android:text="LBS"
-                    android:textColor="#000000"
                     android:textColorLink="@color/selected_icons_color"
                     android:textSize="20sp" />
             </RadioGroup>
 
             <TextView
                 android:id="@+id/textView_NE_units"
+                style="@style/BlackTextFontWithWhiteBorder"
                 android:layout_width="75dp"
                 android:layout_height="match_parent"
                 android:paddingTop="5dp"
                 android:text="@string/units"
                 android:textAlignment="center"
-                android:textColor="#000000"
                 android:textSize="25sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -72,14 +72,14 @@
 
             <CheckBox
                 android:id="@+id/checkBox_tandem"
+                style="@style/BlackTextFontWithWhiteBorder"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_marginEnd="5dp"
 
+                android:layout_marginEnd="5dp"
                 android:buttonTint="@drawable/button_states"
                 android:checked="false"
                 android:text="@string/tandem"
-                android:textColor="#000000"
                 android:textSize="20sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -96,6 +96,7 @@
 
             <TextView
                 android:id="@+id/textView_weight"
+                style="@style/BlackTextFontWithWhiteBorder"
                 android:layout_width="wrap_content"
                 android:layout_height="35dp"
                 android:layout_marginStart="8dp"
@@ -103,7 +104,6 @@
                 android:paddingTop="5dp"
                 android:text="Weight"
                 android:textAlignment="center"
-                android:textColor="#000000"
                 android:textSize="15sp"
                 app:layout_constraintBottom_toTopOf="@+id/seekBar_weight"
                 app:layout_constraintStart_toStartOf="parent"
@@ -163,6 +163,7 @@
 
             <TextView
                 android:id="@+id/textView_weight_units"
+                style="@style/BlackTextFontWithWhiteBorder"
                 android:layout_width="wrap_content"
                 android:layout_height="35dp"
                 android:layout_marginTop="4dp"
@@ -170,7 +171,6 @@
                 android:paddingTop="5dp"
                 android:text=" kg"
                 android:textAlignment="center"
-                android:textColor="#000000"
                 android:textSize="15sp"
                 app:layout_constraintBottom_toTopOf="@+id/seekBar_weight"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -201,6 +201,7 @@
 
             <TextView
                 android:id="@+id/textView_weight_tandem"
+                style="@style/BlackTextFontWithWhiteBorder"
                 android:layout_width="wrap_content"
                 android:layout_height="35dp"
                 android:layout_marginStart="8dp"
@@ -208,7 +209,6 @@
                 android:paddingTop="5dp"
                 android:text="Weight"
                 android:textAlignment="center"
-                android:textColor="#000000"
                 android:textSize="15sp"
                 app:layout_constraintBottom_toTopOf="@+id/seekBar_weight_tandem"
                 app:layout_constraintStart_toStartOf="parent"
@@ -268,6 +268,7 @@
 
             <TextView
                 android:id="@+id/textView_weight_tandem_units"
+                style="@style/BlackTextFontWithWhiteBorder"
                 android:layout_width="wrap_content"
                 android:layout_height="35dp"
                 android:layout_marginTop="4dp"
@@ -275,7 +276,6 @@
                 android:paddingTop="5dp"
                 android:text=" kg"
                 android:textAlignment="center"
-                android:textColor="#000000"
                 android:textSize="15sp"
                 app:layout_constraintBottom_toTopOf="@+id/seekBar_weight_tandem"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -305,6 +305,7 @@
 
             <TextView
                 android:id="@+id/textView_equipment"
+                style="@style/BlackTextFontWithWhiteBorder"
                 android:layout_width="wrap_content"
                 android:layout_height="35dp"
                 android:layout_marginStart="8dp"
@@ -312,7 +313,6 @@
                 android:paddingTop="5dp"
                 android:text="Equipment"
                 android:textAlignment="center"
-                android:textColor="#000000"
                 android:textSize="15sp"
                 app:layout_constraintBottom_toTopOf="@+id/seekBar_equipment"
                 app:layout_constraintStart_toStartOf="parent"
@@ -373,6 +373,7 @@
 
             <TextView
                 android:id="@+id/textView_equipment_units"
+                style="@style/BlackTextFontWithWhiteBorder"
                 android:layout_width="wrap_content"
                 android:layout_height="35dp"
                 android:layout_marginTop="4dp"
@@ -380,7 +381,6 @@
                 android:paddingTop="5dp"
                 android:text=" kg"
                 android:textAlignment="center"
-                android:textColor="#000000"
                 android:textSize="15sp"
                 app:layout_constraintBottom_toTopOf="@+id/seekBar_equipment"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -412,6 +412,7 @@
 
             <TextView
                 android:id="@+id/textView_canopy"
+                style="@style/BlackTextFontWithWhiteBorder"
                 android:layout_width="wrap_content"
                 android:layout_height="35dp"
                 android:layout_marginStart="8dp"
@@ -419,7 +420,6 @@
                 android:paddingTop="5dp"
                 android:text="Canopy"
                 android:textAlignment="center"
-                android:textColor="#000000"
                 android:textSize="15sp"
                 app:layout_constraintBottom_toTopOf="@+id/seekBar_canopy"
                 app:layout_constraintStart_toStartOf="parent"
@@ -479,6 +479,7 @@
 
             <TextView
                 android:id="@+id/textView_canopy_units"
+                style="@style/BlackTextFontWithWhiteBorder"
                 android:layout_width="wrap_content"
                 android:layout_height="35dp"
                 android:layout_marginTop="4dp"
@@ -486,7 +487,6 @@
                 android:paddingTop="5dp"
                 android:text=" sq ft"
                 android:textAlignment="center"
-                android:textColor="#000000"
                 android:textSize="15sp"
                 app:layout_constraintBottom_toTopOf="@+id/seekBar_canopy"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -518,6 +518,7 @@
 
             <TextView
                 android:id="@+id/textView_load"
+                style="@style/BlackTextFontWithWhiteBorder"
                 android:layout_width="wrap_content"
                 android:layout_height="35dp"
                 android:layout_marginStart="8dp"
@@ -525,7 +526,6 @@
                 android:paddingTop="5dp"
                 android:text="Load"
                 android:textAlignment="center"
-                android:textColor="#000000"
                 android:textSize="15sp"
                 app:layout_constraintBottom_toTopOf="@+id/seekBar_load"
                 app:layout_constraintStart_toStartOf="parent"
@@ -608,13 +608,13 @@
 
             <TextView
                 android:id="@+id/textView_jumps_level"
+                style="@style/BlackTextFontWithWhiteBorder"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="1dp"
                 android:gravity="center"
                 android:text="TextView"
                 android:textAlignment="center"
-                android:textColor="#000000"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />

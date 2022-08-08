@@ -1,9 +1,12 @@
 package com.example.SkyDiver.Fragments
 
+import android.animation.LayoutTransition
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.transition.AutoTransition
+import android.transition.TransitionManager
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -61,6 +64,7 @@ class ListFragment : Fragment() {
                 {
                     setUnitsLBS()
                 }
+                init()
                 viewOfLayout.userTop_editNumber_weight.setText(userTop_weight.toString())
                 viewOfLayout.userTop_editNumber_height.setText(userTop_height.toString())
                 viewOfLayout.userBottom_editNumber_weight.setText(userBottom_weight.toString())
@@ -518,13 +522,21 @@ class ListFragment : Fragment() {
 
 //*Handling of +/- buttons for all values
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-
+////////////////////////////////////////////////////////////////////////////////////////////////////
+        //Animation enabled for constraint container of all other constraintLayouts
+        //Side Note:   android:animateLayoutChanges="true" needed aswell
+        viewOfLayout.Main_constraintLayout2.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
 
         setBackground()
         // Inflate the layout for this fragment
         return viewOfLayout
     }
 
+    private fun init()
+    {
+        TransitionManager.beginDelayedTransition(viewOfLayout.userTop_Weight_constraintLayout, AutoTransition())
+        TransitionManager.beginDelayedTransition(viewOfLayout.userBottom_Weight_constraintLayout, AutoTransition())
+    }
 
 
     //Set background
