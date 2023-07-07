@@ -43,7 +43,7 @@
                     android:buttonTint="@drawable/button_states"
                     android:checked="false"
                     android:text="KG"
-                    android:textSize="20sp" />
+                    android:textSize="20dp" />
 
                 <RadioButton
                     android:id="@+id/radioButton_LBS"
@@ -54,7 +54,7 @@
                     android:checked="true"
                     android:text="LBS"
                     android:textColorLink="@color/selected_icons_color"
-                    android:textSize="20sp" />
+                    android:textSize="20dp" />
             </RadioGroup>
 
             <TextView
@@ -65,7 +65,7 @@
                 android:paddingTop="5dp"
                 android:text="@string/units"
                 android:textAlignment="center"
-                android:textSize="25sp"
+                android:textSize="25dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -80,7 +80,7 @@
                 android:buttonTint="@drawable/button_states"
                 android:checked="false"
                 android:text="@string/tandem"
-                android:textSize="20sp"
+                android:textSize="20dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -104,7 +104,7 @@
                 android:paddingTop="5dp"
                 android:text="Weight"
                 android:textAlignment="center"
-                android:textSize="15sp"
+                android:textSize="15dp"
                 app:layout_constraintBottom_toTopOf="@+id/seekBar_weight"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -120,7 +120,7 @@
                 android:text="-"
                 android:textAlignment="center"
                 android:textColor="@android:color/secondary_text_light"
-                android:textSize="25sp"
+                android:textSize="25dp"
                 app:layout_constraintBottom_toTopOf="@+id/seekBar_weight"
                 app:layout_constraintEnd_toStartOf="@+id/editNumber_weight"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -139,7 +139,7 @@
                 android:longClickable="false"
                 android:paddingVertical="10dp"
                 android:textAlignment="center"
-                android:textSize="15sp"
+                android:textSize="15dp"
                 app:layout_constraintBottom_toTopOf="@+id/seekBar_weight"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -156,7 +156,7 @@
                 android:text="+"
                 android:textAlignment="center"
                 android:textColor="@android:color/secondary_text_light"
-                android:textSize="25sp"
+                android:textSize="25dp"
                 app:layout_constraintBottom_toTopOf="@+id/seekBar_weight"
                 app:layout_constraintStart_toEndOf="@+id/editNumber_weight"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -171,7 +171,7 @@
                 android:paddingTop="5dp"
                 android:text=" kg"
                 android:textAlignment="center"
-                android:textSize="15sp"
+                android:textSize="15dp"
                 app:layout_constraintBottom_toTopOf="@+id/seekBar_weight"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -209,7 +209,7 @@
                 android:paddingTop="5dp"
                 android:text="Weight"
                 android:textAlignment="center"
-                android:textSize="15sp"
+                android:textSize="15dp"
                 app:layout_constraintBottom_toTopOf="@+id/seekBar_weight_tandem"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -225,7 +225,7 @@
                 android:text="-"
                 android:textAlignment="center"
                 android:textColor="@android:color/secondary_text_light"
-                android:textSize="25sp"
+                android:textSize="25dp"
                 app:layout_constraintBottom_toTopOf="@+id/seekBar_weight_tandem"
                 app:layout_constraintEnd_toStartOf="@+id/editNumber_weight_tandem"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -244,7 +244,7 @@
                 android:longClickable="false"
                 android:paddingVertical="10dp"
                 android:textAlignment="center"
-                android:textSize="15sp"
+                android:textSize="15dp"
                 app:layout_constraintBottom_toTopOf="@+id/seekBar_weight_tandem"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -261,7 +261,7 @@
                 android:text="+"
                 android:textAlignment="center"
                 android:textColor="@android:color/secondary_text_light"
-                android:textSize="25sp"
+                android:textSize="25dp"
                 app:layout_constraintBottom_toTopOf="@+id/seekBar_weight_tandem"
                 app:layout_constraintStart_toEndOf="@+id/editNumber_weight_tandem"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -276,7 +276,7 @@
                 android:paddingTop="5dp"
                 android:text=" kg"
                 android:textAlignment="center"
-                android:textSize="15sp"
+                android:textSize="15dp"
                 app:layout_constraintBottom_toTopOf="@+id/seekBar_weight_tandem"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -313,7 +313,7 @@
                 android:paddingTop="5dp"
                 android:text="Equipment"
                 android:textAlignment="center"
-                android:textSize="15sp"
+                android:textSize="15dp"
                 app:layout_constraintBottom_toTopOf="@+id/seekBar_equipment"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -330,7 +330,7 @@
                 android:text="-"
                 android:textAlignment="center"
                 android:textColor="@android:color/secondary_text_light"
-                android:textSize="25sp"
+                android:textSize="25dp"
                 app:layout_constraintBottom_toTopOf="@+id/seekBar_equipment"
                 app:layout_constraintEnd_toStartOf="@+id/editNumber_equipment"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -349,7 +349,7 @@
                 android:longClickable="false"
                 android:paddingVertical="10dp"
                 android:textAlignment="center"
-                android:textSize="15sp"
+                android:textSize="15dp"
                 app:layout_constraintBottom_toTopOf="@+id/seekBar_equipment"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -366,7 +366,7 @@
                 android:text="+"
                 android:textAlignment="center"
                 android:textColor="@android:color/secondary_text_light"
-                android:textSize="25sp"
+                android:textSize="25dp"
                 app:layout_constraintBottom_toTopOf="@+id/seekBar_equipment"
                 app:layout_constraintStart_toEndOf="@+id/editNumber_equipment"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -381,7 +381,7 @@
                 android:paddingTop="5dp"
                 android:text=" kg"
                 android:textAlignment="center"
-                android:textSize="15sp"
+                android:textSize="15dp"
                 app:layout_constraintBottom_toTopOf="@+id/seekBar_equipment"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -420,7 +420,7 @@
                 android:paddingTop="5dp"
                 android:text="Canopy"
                 android:textAlignment="center"
-                android:textSize="15sp"
+                android:textSize="15dp"
                 app:layout_constraintBottom_toTopOf="@+id/seekBar_canopy"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -436,7 +436,7 @@
                 android:text="-"
                 android:textAlignment="center"
                 android:textColor="@android:color/secondary_text_light"
-                android:textSize="25sp"
+                android:textSize="25dp"
                 app:layout_constraintBottom_toTopOf="@+id/seekBar_canopy"
                 app:layout_constraintEnd_toStartOf="@+id/editNumber_canopy"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -455,7 +455,7 @@
                 android:longClickable="false"
                 android:paddingVertical="10dp"
                 android:textAlignment="center"
-                android:textSize="15sp"
+                android:textSize="15dp"
                 app:layout_constraintBottom_toTopOf="@+id/seekBar_canopy"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -472,7 +472,7 @@
                 android:text="+"
                 android:textAlignment="center"
                 android:textColor="@android:color/secondary_text_light"
-                android:textSize="25sp"
+                android:textSize="25dp"
                 app:layout_constraintBottom_toTopOf="@+id/seekBar_canopy"
                 app:layout_constraintStart_toEndOf="@+id/editNumber_canopy"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -487,7 +487,7 @@
                 android:paddingTop="5dp"
                 android:text=" sq ft"
                 android:textAlignment="center"
-                android:textSize="15sp"
+                android:textSize="15dp"
                 app:layout_constraintBottom_toTopOf="@+id/seekBar_canopy"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -526,7 +526,7 @@
                 android:paddingTop="5dp"
                 android:text="Load"
                 android:textAlignment="center"
-                android:textSize="15sp"
+                android:textSize="15dp"
                 app:layout_constraintBottom_toTopOf="@+id/seekBar_load"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -542,7 +542,7 @@
                 android:text="-"
                 android:textAlignment="center"
                 android:textColor="@android:color/secondary_text_light"
-                android:textSize="25sp"
+                android:textSize="25dp"
                 app:layout_constraintBottom_toTopOf="@+id/seekBar_load"
                 app:layout_constraintEnd_toStartOf="@+id/editNumber_load"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -561,7 +561,7 @@
                 android:longClickable="false"
                 android:paddingVertical="10dp"
                 android:textAlignment="center"
-                android:textSize="15sp"
+                android:textSize="15dp"
                 app:layout_constraintBottom_toTopOf="@+id/seekBar_load"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -578,7 +578,7 @@
                 android:text="+"
                 android:textAlignment="center"
                 android:textColor="@android:color/secondary_text_light"
-                android:textSize="25sp"
+                android:textSize="25dp"
                 app:layout_constraintBottom_toTopOf="@+id/seekBar_load"
                 app:layout_constraintStart_toEndOf="@+id/editNumber_load"
                 app:layout_constraintTop_toTopOf="parent" />
