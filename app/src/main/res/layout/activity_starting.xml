@@ -54,20 +54,20 @@
             android:layout_height="fill_parent"
             android:layout_width="0dp"/>
 
-        <ImageButton
-            android:id="@+id/addBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_margin="5dp"
-            android:background="#001472BD"
-            android:contentDescription="@string/switch_to_overview"
-            android:padding="10dp"
-            android:src="@drawable/ic_add_circle_outline_default_24dp"
-            android:visibility="invisible"
-            >
+<!--        <ImageButton-->
+<!--            android:id="@+id/addBtn"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_gravity="center_vertical"-->
+<!--            android:layout_margin="5dp"-->
+<!--            android:background="#001472BD"-->
+<!--            android:contentDescription="@string/switch_to_overview"-->
+<!--            android:padding="10dp"-->
+<!--            android:src="@drawable/ic_add_circle_outline_default_24dp"-->
+<!--            android:visibility="invisible"-->
+<!--            >-->
 
-        </ImageButton>
+<!--        </ImageButton>-->
 
 
     </LinearLayout>
