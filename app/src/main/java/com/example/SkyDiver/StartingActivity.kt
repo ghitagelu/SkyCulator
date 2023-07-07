@@ -24,7 +24,7 @@ class StartingActivity : AppCompatActivity() {
     private lateinit var mPagerAdapter: PagerAdapter
     private lateinit var homeBtn: ImageButton
     private lateinit var listBtn: ImageButton
-    private lateinit var addBtn: ImageButton
+//    private lateinit var addBtn: ImageButton
     var selectedImage:Int = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,20 +65,20 @@ class StartingActivity : AppCompatActivity() {
         }
 
 
-        addBtn = findViewById(R.id.addBtn)
-        // https://stackoverflow.com/questions/48323793/how-to-set-setonclicklistener-for-a-button-in-a-fragment-of-navigationdraweracti
-        addBtn.setSafeOnClickListener {
-            val text = "ADD ITEM "
-            val duration = Toast.LENGTH_SHORT
-
-            val toast = Toast.makeText(applicationContext, text, duration)
-            toast.show()
-
-            val intent = Intent(this, Add_IncomeOrExpense::class.java)
-            startActivityForResult(intent,REQUEST_amount)
-
-
-        }
+//        addBtn = findViewById(R.id.addBtn)
+//        // https://stackoverflow.com/questions/48323793/how-to-set-setonclicklistener-for-a-button-in-a-fragment-of-navigationdraweracti
+//        addBtn.setSafeOnClickListener {
+//            val text = "ADD ITEM "
+//            val duration = Toast.LENGTH_SHORT
+//
+//            val toast = Toast.makeText(applicationContext, text, duration)
+//            toast.show()
+//
+//            val intent = Intent(this, Add_IncomeOrExpense::class.java)
+//            startActivityForResult(intent,REQUEST_amount)
+//
+//
+//        }
 
 
         //add page change listener
@@ -108,7 +108,7 @@ class StartingActivity : AppCompatActivity() {
         //Default nav bar selection INIT
         mViewPager.currentItem = 0
         homeBtn.setImageResource(R.drawable.ic_pie_chart_selected_24dp)
-        addBtn.visibility = View.INVISIBLE
+//        addBtn.visibility = View.INVISIBLE
 
 
 
@@ -126,14 +126,14 @@ class StartingActivity : AppCompatActivity() {
         {
             homeBtn.setImageResource(R.drawable.ic_pie_chart_selected_24dp)
             listBtn.setImageResource(R.drawable.ic_view_list_default_24dp)
-            addBtn.visibility = View.INVISIBLE
+//            addBtn.visibility = View.INVISIBLE
         }
         //List view
         if(position==1)
         {
             homeBtn.setImageResource(R.drawable.ic_pie_chart_default_24dp)
             listBtn.setImageResource(R.drawable.ic_view_list_selected_24dp)
-            addBtn.visibility = View.VISIBLE
+//            addBtn.visibility = View.VISIBLE
         }
     }
 
