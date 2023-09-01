@@ -43,7 +43,8 @@
                     android:buttonTint="@drawable/button_states"
                     android:checked="false"
                     android:text="KG"
-                    android:textSize="20dp" />
+                    android:textSize="20dp"
+                    android:soundEffectsEnabled="false"/>
 
                 <RadioButton
                     android:id="@+id/radioButton_LBS2"
@@ -54,7 +55,8 @@
                     android:checked="true"
                     android:text="LBS"
                     android:textColorLink="@color/selected_icons_color"
-                    android:textSize="20dp" />
+                    android:textSize="20dp"
+                    android:soundEffectsEnabled="false" />
             </RadioGroup>
 
             <TextView
@@ -118,6 +120,7 @@
                     android:textAlignment="center"
                     android:textColor="@android:color/secondary_text_light"
                     android:textSize="25dp"
+                    android:soundEffectsEnabled="false"
                     app:layout_constraintBottom_toTopOf="@+id/userTop_seekBar_weight"
                     app:layout_constraintEnd_toStartOf="@+id/userTop_editNumber_weight"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -154,6 +157,7 @@
                     android:textAlignment="center"
                     android:textColor="@android:color/secondary_text_light"
                     android:textSize="25dp"
+                    android:soundEffectsEnabled="false"
                     app:layout_constraintBottom_toTopOf="@+id/userTop_seekBar_weight"
                     app:layout_constraintStart_toEndOf="@+id/userTop_editNumber_weight"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -222,6 +226,7 @@
                     android:textAlignment="center"
                     android:textColor="@android:color/secondary_text_light"
                     android:textSize="25dp"
+                    android:soundEffectsEnabled="false"
                     app:layout_constraintBottom_toTopOf="@+id/userTop_seekBar_height"
                     app:layout_constraintEnd_toStartOf="@+id/userTop_editNumber_height"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -258,6 +263,7 @@
                     android:textAlignment="center"
                     android:textColor="@android:color/secondary_text_light"
                     android:textSize="25dp"
+                    android:soundEffectsEnabled="false"
                     app:layout_constraintBottom_toTopOf="@+id/userTop_seekBar_height"
                     app:layout_constraintStart_toEndOf="@+id/userTop_editNumber_height"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -356,6 +362,7 @@
                     android:textAlignment="center"
                     android:textColor="@android:color/secondary_text_light"
                     android:textSize="25dp"
+                    android:soundEffectsEnabled="false"
                     app:layout_constraintBottom_toTopOf="@+id/userBottom_seekBar_weight"
                     app:layout_constraintEnd_toStartOf="@+id/userBottom_editNumber_weight"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -392,6 +399,7 @@
                     android:textAlignment="center"
                     android:textColor="@android:color/secondary_text_light"
                     android:textSize="25dp"
+                    android:soundEffectsEnabled="false"
                     app:layout_constraintBottom_toTopOf="@+id/userBottom_seekBar_weight"
                     app:layout_constraintStart_toEndOf="@+id/userBottom_editNumber_weight"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -461,6 +469,7 @@
                     android:textAlignment="center"
                     android:textColor="@android:color/secondary_text_light"
                     android:textSize="25dp"
+                    android:soundEffectsEnabled="false"
                     app:layout_constraintBottom_toTopOf="@+id/userBottom_seekBar_height"
                     app:layout_constraintEnd_toStartOf="@+id/userBottom_editNumber_height"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -497,6 +506,7 @@
                     android:textAlignment="center"
                     android:textColor="@android:color/secondary_text_light"
                     android:textSize="25dp"
+                    android:soundEffectsEnabled="false"
                     app:layout_constraintBottom_toTopOf="@+id/userBottom_seekBar_height"
                     app:layout_constraintStart_toEndOf="@+id/userBottom_editNumber_height"
                     app:layout_constraintTop_toTopOf="parent" />
