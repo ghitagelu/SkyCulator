@@ -529,7 +529,18 @@ class ListFragment : Fragment() {
 
         viewOfLayout.button3_result.setOnClickListener() {
 
-            val result = calculateAcceleration(1.0,1.1,1.3,1.3,12.3,1.2).toString()
+            //    Tight-Fitting Athletic Clothing (e.g., Spandex, Lycra): 0.1
+            //    Regular Casual Clothing (e.g., Jeans and T-Shirt):0.7
+            //    Wingsuit: 1 - 1.5
+            //    Winter Coat and Heavier Clothing: 1 - 1.2
+            val result = calculateAcceleration(
+                userTop_editNumber_height.text.toString().toDouble()/100,
+                userBottom_editNumber_height.text.toString().toDouble()/100,
+                userTop_editNumber_weight.text.toString().toDouble(),
+                userBottom_editNumber_weight.text.toString().toDouble(),
+                1.0,
+                1.0
+            )
             viewOfLayout.text_result.setText(result.toString())
 
         }
