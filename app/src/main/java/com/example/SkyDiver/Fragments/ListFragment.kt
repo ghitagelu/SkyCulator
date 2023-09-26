@@ -15,6 +15,8 @@ import android.widget.SeekBar
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
+import com.example.SkyDiver.FreeFallCalculations.FreeFallCalculator
+import com.example.SkyDiver.FreeFallCalculations.calculateAcceleration
 import com.example.SkyDiver.R
 import com.example.SkyDiver.StartingActivity
 import kotlinx.android.synthetic.main.fragment_list.*
@@ -523,6 +525,16 @@ class ListFragment : Fragment() {
 //*Handling of +/- buttons for all values
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+        viewOfLayout.button3_result.setOnClickListener() {
+
+            val result = calculateAcceleration(1.0,1.1,1.3,1.3,12.3,1.2).toString()
+            viewOfLayout.text_result.setText(result.toString())
+
+        }
+
+
         //Animation enabled for constraint container of all other constraintLayouts
         //Side Note:   android:animateLayoutChanges="true" needed aswell
         viewOfLayout.Main_constraintLayout2.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)

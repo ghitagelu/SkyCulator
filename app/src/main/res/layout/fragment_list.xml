@@ -309,12 +309,24 @@
             app:layout_constraintTop_toBottomOf="@+id/userTop_ConstraintLayout">
 
             <Button
-                android:id="@+id/button3"
+                android:id="@+id/button3_result"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Button"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />
+
+            <EditText
+                android:id="@+id/text_result"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:text="Name"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
