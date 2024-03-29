@@ -8,24 +8,23 @@
     android:id="@+id/linearLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@mipmap/img_starting_image">
+    android:background="@color/seek_bar_secondary_progress">
 
     <!-- Don't worry about the id names I have named the id's with reference to the file name for consistency -->
 
+
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="182dp"
-        android:layout_height="130dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="200dp"
-        android:layout_marginEnd="16dp"
-        android:src="@drawable/ic_launcher_background"
-        app:layout_constraintBottom_toTopOf="@+id/textView"
-        app:layout_constraintDimensionRatio="w,1:1"
+        android:layout_width="307dp"
+        android:layout_height="291dp"
+        android:layout_marginStart="52dp"
+        android:layout_marginTop="84dp"
+        android:layout_marginEnd="52dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@android:drawable/sym_def_app_icon" />
+        app:srcCompat="@drawable/ic_seek_bar_thumb_canopee_starting_icon" />
 
     <TextView
         android:id="@+id/textView"
@@ -62,7 +61,7 @@
         android:layout_marginEnd="80dp"
         android:layout_marginBottom="8dp"
         android:gravity="center"
-        android:text="Ram Soft Dev"
+        android:text="SkyCulator"
         android:textAlignment="center"
         android:textColor="@color/colorPrimary"
         android:textSize="15dp"
