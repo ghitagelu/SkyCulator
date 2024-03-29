@@ -22,8 +22,8 @@ internal class PagerViewAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) 
     }
 
     override fun getCount(): Int {
-
-        return 2
+        //TODO : FRAGMENT CHANGE - switch this to "2" - will swipe left to change fragments
+        return 1
     }
 
 }

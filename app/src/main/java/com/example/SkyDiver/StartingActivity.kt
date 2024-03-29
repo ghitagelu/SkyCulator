@@ -61,7 +61,13 @@ class StartingActivity : AppCompatActivity() {
 
         listBtn = findViewById(R.id.listBtn)
         listBtn.setOnClickListener {
-            mViewPager.currentItem =1
+            // TODO: FRAGMENT CHANGE - enable next line to allow changing to 2nd fragment when tap on button made
+//            mViewPager.currentItem =1
+
+            val text = "Free fall speed calculator available on next update"
+            val duration = Toast.LENGTH_SHORT
+            val toast = Toast.makeText(applicationContext, text, duration)
+            toast.show()
         }
 
 
