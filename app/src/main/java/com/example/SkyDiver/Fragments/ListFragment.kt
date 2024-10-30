@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.os.CountDownTimer
 import android.transition.AutoTransition
 import android.transition.TransitionManager
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -19,10 +20,7 @@ import com.example.SkyDiver.FreeFallCalculations.FreeFallCalculator
 import com.example.SkyDiver.FreeFallCalculations.calculateAcceleration
 import com.example.SkyDiver.R
 import com.example.SkyDiver.StartingActivity
-import kotlinx.android.synthetic.main.fragment_list.*
-import kotlinx.android.synthetic.main.fragment_list.view.*
-import kotlinx.android.synthetic.main.fragment_overview.*
-import kotlinx.android.synthetic.main.fragment_overview.view.*
+import com.example.SkyDiver.databinding.FragmentListBinding
 import kotlin.math.roundToInt
 
 
@@ -30,21 +28,28 @@ import kotlin.math.roundToInt
  * A simple [Fragment] subclass.
  */
 class ListFragment : Fragment() {
-    private lateinit var viewOfLayout: View
+//    private lateinit var binding: View
 
     lateinit var shared_preferences_save2: SharedPreferences
     var valueToModify = 0
     var increaseValue = true
     var cowntdowninterval:Long = 650
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
 
+    private var _binding: FragmentListBinding? = null
+    // This property is only valid between onCreateView and
+// onDestroyView.
+    private val binding get() = _binding!!
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        Log.d("App stages", "Fragment List starting")
         shared_preferences_save2 =this.activity!!.getSharedPreferences("save_calculator_values", Context.MODE_PRIVATE)
         class SeekBarLimits(
-            var seekBar_weight_min: Int,        var seekBar_weight_max: Int,
+            var seekBarWeight_min: Int,        var seekBarWeight_max: Int,
         )
         class UsersValues(
             var userTop_weight: Int,
@@ -58,6 +63,7 @@ class ListFragment : Fragment() {
         ) {
             //Handling of changing the units types
             fun setCalculatorValues() {
+
                 if(unit_KG)
                 {
                     setUnitsKG()
@@ -67,22 +73,23 @@ class ListFragment : Fragment() {
                     setUnitsLBS()
                 }
                 init()
-                viewOfLayout.userTop_editNumber_weight.setText(userTop_weight.toString())
-                viewOfLayout.userTop_editNumber_height.setText(userTop_height.toString())
-                viewOfLayout.userBottom_editNumber_weight.setText(userBottom_weight.toString())
-                viewOfLayout.userBottom_editNumber_height.setText(userBottom_height.toString())
 
-                viewOfLayout.userTop_seekBar_weight.progress =userTop_weight
-                viewOfLayout.userTop_seekBar_height.progress =userTop_height
-                viewOfLayout.userBottom_seekBar_weight.progress =userBottom_weight
-                viewOfLayout.userBottom_seekBar_height.progress =userBottom_height
+                binding.userTopEditNumberWeight.setText(userTop_weight.toString())
+                binding.userTopEditNumberHeight.setText(userTop_height.toString())
+                binding.userBottomEditNumberWeight.setText(userBottom_weight.toString())
+                binding.userBottomEditNumberHeight.setText(userBottom_height.toString())
+
+                binding.userTopSeekBarWeight.progress =userTop_weight
+                binding.userTopSeekBarHeight.progress =userTop_height
+                binding.userBottomSeekBarWeight.progress =userBottom_weight
+                binding.userBottomSeekBarHeight.progress =userBottom_height
 
             }
             fun setUnitsKG()
             {
-                viewOfLayout.radioButton_KG2.isChecked=true
-                viewOfLayout.userTop_textView_weight_units.text=" kg"
-                viewOfLayout.userBottom_textView_weight_units.text=" kg"
+                binding.radioButtonKG2.isChecked=true
+                binding.userTopTextViewWeightWnits.text=" kg"
+                binding.userBottomTextViewWeightUnits.text=" kg"
 
 
 //Set seekbar limits
@@ -94,9 +101,9 @@ class ListFragment : Fragment() {
 
             fun setUnitsLBS()
             {
-                viewOfLayout.radioButton_LBS2.isChecked=true
-                viewOfLayout.userTop_textView_weight_units.text=" lbs"
-                viewOfLayout.userBottom_textView_weight_units.text= " lbs"
+                binding.radioButtonLBS2.isChecked=true
+                binding.userTopTextViewWeightWnits.text=" lbs"
+                binding.userBottomTextViewWeightUnits.text= " lbs"
 
                 val defaultSeekBarLimits = SeekBarLimits(99,300)
 
@@ -105,12 +112,12 @@ class ListFragment : Fragment() {
             }
             fun setSeekBarLimits(defaultSeekBarLimits:SeekBarLimits)
             {
-                viewOfLayout.userTop_seekBar_weight.min = defaultSeekBarLimits.seekBar_weight_min
-                viewOfLayout.userTop_seekBar_weight.max = defaultSeekBarLimits.seekBar_weight_max
-                viewOfLayout.userBottom_seekBar_weight.min = defaultSeekBarLimits.seekBar_weight_min
-                viewOfLayout.userBottom_seekBar_weight.max = defaultSeekBarLimits.seekBar_weight_max
-                viewOfLayout.userTop_seekBar_weight.secondaryProgress = 0
-                viewOfLayout.userBottom_seekBar_weight.secondaryProgress = 0
+                binding.userTopSeekBarWeight.min = defaultSeekBarLimits.seekBarWeight_min                
+                binding.userTopSeekBarWeight.max = defaultSeekBarLimits.seekBarWeight_max
+                binding.userBottomSeekBarWeight.min = defaultSeekBarLimits.seekBarWeight_min
+                binding.userBottomSeekBarWeight.max = defaultSeekBarLimits.seekBarWeight_max
+                binding.userTopSeekBarWeight.secondaryProgress = 0
+                binding.userBottomSeekBarWeight.secondaryProgress = 0
 
             }
         }
@@ -127,7 +134,7 @@ class ListFragment : Fragment() {
             unit_LBS = shared_preferences_save2.getBoolean("lbs", true)
         )
 
-        viewOfLayout =inflater.inflate(R.layout.fragment_list, container, false)
+//        binding =inflater.inflate(R.layout.fragment_list, container, false)
 
         //Set "Tandem" checkbox false on 1st run, then get the saved value from last use
 
@@ -135,9 +142,9 @@ class ListFragment : Fragment() {
 
 
 //Radio buttons handling
-        viewOfLayout.radioGroup2.setOnCheckedChangeListener { buttonView, isChecked ->
+        binding.radioGroup2.setOnCheckedChangeListener { buttonView, isChecked ->
 
-            if(isChecked == radioButton_KG2.id) {
+            if(isChecked == binding.radioButtonKG2.id) {
                 //Kilograms
                 defaultValues.userTop_weight = convertLBStoKG(defaultValues.userTop_weight)
                 defaultValues.userBottom_weight = convertLBStoKG(defaultValues.userBottom_weight)
@@ -149,7 +156,7 @@ class ListFragment : Fragment() {
 
             }
 
-            if(isChecked == radioButton_LBS2.id) {
+            if(isChecked == binding.radioButtonLBS2.id) {
                 //LBS
                 defaultValues.userTop_weight = convertKGtoLBS(defaultValues.userTop_weight)
                 defaultValues.userBottom_weight = convertKGtoLBS(defaultValues.userBottom_weight)
@@ -166,81 +173,81 @@ class ListFragment : Fragment() {
 //UserTop
     //UserTop- Weight
         //UserTop- Weight- Textview
-        viewOfLayout.userTop_editNumber_weight.doAfterTextChanged {
+        binding.userTopEditNumberWeight.doAfterTextChanged {
 
-            if(viewOfLayout.userTop_editNumber_weight.text.toString()!="") {
-                var value = Integer.parseInt(viewOfLayout.userTop_editNumber_weight.text.toString())
+            if(binding.userTopEditNumberWeight.text.toString()!="") {
+                var value = Integer.parseInt(binding.userTopEditNumberWeight.text.toString())
 
-                if(value > viewOfLayout.userTop_seekBar_weight.max) {
-                    value = viewOfLayout.userTop_seekBar_weight.max
-                    viewOfLayout.userTop_editNumber_weight.setText(value.toString())
+                if(value > binding.userTopSeekBarWeight.max) {
+                    value = binding.userTopSeekBarWeight.max
+                    binding.userTopEditNumberWeight.setText(value.toString())
                 }
-                if(value < viewOfLayout.userTop_seekBar_weight.min) {
-                    value = viewOfLayout.userTop_seekBar_weight.min
-                    viewOfLayout.userTop_editNumber_weight.setText(value.toString())
+                if(value < binding.userTopSeekBarWeight.min) {
+                    value = binding.userTopSeekBarWeight.min
+                    binding.userTopEditNumberWeight.setText(value.toString())
                 }
 
-                viewOfLayout.userTop_seekBar_weight.progress=value
+                binding.userTopSeekBarWeight.progress=value
                 defaultValues.userTop_weight = value
 
 //                setCalculatorWingLoading(defaultValues.weight,defaultValues.weight_tandem,defaultValues.equipment,defaultValues.canopy,defaultValues.unit_KG)
             }
         }
-        viewOfLayout.userTop_editNumber_height.doAfterTextChanged {
+        binding.userTopEditNumberHeight.doAfterTextChanged {
 
-            if(viewOfLayout.userTop_editNumber_height.text.toString()!="") {
-                var value = Integer.parseInt(viewOfLayout.userTop_editNumber_height.text.toString())
+            if(binding.userTopEditNumberHeight.text.toString()!="") {
+                var value = Integer.parseInt(binding.userTopEditNumberHeight.text.toString())
 
-                if(value > viewOfLayout.userTop_seekBar_height.max) {
-                    value = viewOfLayout.userTop_seekBar_height.max
-                    viewOfLayout.userTop_editNumber_height.setText(value.toString())
+                if(value > binding.userTopSeekBarHeight.max) {
+                    value = binding.userTopSeekBarHeight.max
+                    binding.userTopEditNumberHeight.setText(value.toString())
                 }
-                if(value < viewOfLayout.userTop_seekBar_height.min) {
-                    value = viewOfLayout.userTop_seekBar_height.min
-                    viewOfLayout.userTop_editNumber_height.setText(value.toString())
+                if(value < binding.userTopSeekBarHeight.min) {
+                    value = binding.userTopSeekBarHeight.min
+                    binding.userTopEditNumberHeight.setText(value.toString())
                 }
 
-                viewOfLayout.userTop_seekBar_height.progress=value
+                binding.userTopSeekBarHeight.progress=value
                 defaultValues.userTop_height = value
 
 //                setCalculatorWingLoading(defaultValues.weight,defaultValues.weight_tandem,defaultValues.equipment,defaultValues.canopy,defaultValues.unit_KG)
             }
         }
-        viewOfLayout.userBottom_editNumber_weight.doAfterTextChanged {
+        binding.userBottomEditNumberWeight.doAfterTextChanged {
 
-            if(viewOfLayout.userBottom_editNumber_weight.text.toString()!="") {
-                var value = Integer.parseInt(viewOfLayout.userBottom_editNumber_weight.text.toString())
+            if(binding.userBottomEditNumberWeight.text.toString()!="") {
+                var value = Integer.parseInt(binding.userBottomEditNumberWeight.text.toString())
 
-                if(value > viewOfLayout.userBottom_seekBar_weight.max) {
-                    value = viewOfLayout.userBottom_seekBar_weight.max
-                    viewOfLayout.userBottom_editNumber_weight.setText(value.toString())
+                if(value > binding.userBottomSeekBarWeight.max) {
+                    value = binding.userBottomSeekBarWeight.max
+                    binding.userBottomEditNumberWeight.setText(value.toString())
                 }
-                if(value < viewOfLayout.userBottom_seekBar_weight.min) {
-                    value = viewOfLayout.userBottom_seekBar_weight.min
-                    viewOfLayout.userBottom_editNumber_weight.setText(value.toString())
+                if(value < binding.userBottomSeekBarWeight.min) {
+                    value = binding.userBottomSeekBarWeight.min
+                    binding.userBottomEditNumberWeight.setText(value.toString())
                 }
 
-                viewOfLayout.userBottom_seekBar_weight.progress=value
+                binding.userBottomSeekBarWeight.progress=value
                 defaultValues.userBottom_weight = value
 
 //                setCalculatorWingLoading(defaultValues.weight,defaultValues.weight_tandem,defaultValues.equipment,defaultValues.canopy,defaultValues.unit_KG)
             }
         }
-        viewOfLayout.userBottom_editNumber_height.doAfterTextChanged {
+        binding.userBottomEditNumberHeight.doAfterTextChanged {
 
-            if(viewOfLayout.userBottom_editNumber_height.text.toString()!="") {
-                var value = Integer.parseInt(viewOfLayout.userBottom_editNumber_height.text.toString())
+            if(binding.userBottomEditNumberHeight.text.toString()!="") {
+                var value = Integer.parseInt(binding.userBottomEditNumberHeight.text.toString())
 
-                if(value > viewOfLayout.userBottom_seekBar_height.max) {
-                    value = viewOfLayout.userBottom_seekBar_height.max
-                    viewOfLayout.userBottom_editNumber_height.setText(value.toString())
+                if(value > binding.userBottomSeekBarHeight.max) {
+                    value = binding.userBottomSeekBarHeight.max
+                    binding.userBottomEditNumberHeight.setText(value.toString())
                 }
-                if(value < viewOfLayout.userBottom_seekBar_height.min) {
-                    value = viewOfLayout.userBottom_seekBar_height.min
-                    viewOfLayout.userBottom_editNumber_height.setText(value.toString())
+                if(value < binding.userBottomSeekBarHeight.min) {
+                    value = binding.userBottomSeekBarHeight.min
+                    binding.userBottomEditNumberHeight.setText(value.toString())
                 }
 
-                viewOfLayout.userBottom_seekBar_height.progress=value
+                binding.userBottomSeekBarHeight.progress=value
                 defaultValues.userBottom_height = value
 
 //                setCalculatorWingLoading(defaultValues.weight,defaultValues.weight_tandem,defaultValues.equipment,defaultValues.canopy,defaultValues.unit_KG)
@@ -248,11 +255,11 @@ class ListFragment : Fragment() {
         }
 
 
-        viewOfLayout.userTop_seekBar_weight.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
+        binding.userTopSeekBarWeight.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 if(fromUser) {
-                    viewOfLayout.userTop_editNumber_weight.setText(progress.toString())
-                    viewOfLayout.userTop_editNumber_weight.setSelection(viewOfLayout.userTop_editNumber_weight.length())
+                    binding.userTopEditNumberWeight.setText(progress.toString())
+                    binding.userTopEditNumberWeight.setSelection(binding.userTopEditNumberWeight.length())
 //                    clearFocusFromButtons()
 //                    setCalculatorWingLoading(defaultValues.weight,defaultValues.weight_tandem,defaultValues.equipment,defaultValues.canopy,defaultValues.unit_KG)
                 }
@@ -261,11 +268,11 @@ class ListFragment : Fragment() {
             override fun onStartTrackingTouch(seekBar: SeekBar?) {}
             override fun onStopTrackingTouch(seekBar: SeekBar?) {}
         })
-        viewOfLayout.userTop_seekBar_height.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
+        binding.userTopSeekBarHeight.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 if(fromUser) {
-                    viewOfLayout.userTop_editNumber_height.setText(progress.toString())
-                    viewOfLayout.userTop_editNumber_height.setSelection(viewOfLayout.userTop_editNumber_height.length())
+                    binding.userTopEditNumberHeight.setText(progress.toString())
+                    binding.userTopEditNumberHeight.setSelection(binding.userTopEditNumberHeight.length())
 //                    clearFocusFromButtons()
 //                    setCalculatorWingLoading(defaultValues.weight,defaultValues.weight_tandem,defaultValues.equipment,defaultValues.canopy,defaultValues.unit_KG)
                 }
@@ -275,11 +282,11 @@ class ListFragment : Fragment() {
             override fun onStopTrackingTouch(seekBar: SeekBar?) {}
         })
 
-        viewOfLayout.userBottom_seekBar_weight.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
+        binding.userBottomSeekBarWeight.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 if(fromUser) {
-                    viewOfLayout.userBottom_editNumber_weight.setText(progress.toString())
-                    viewOfLayout.userBottom_editNumber_weight.setSelection(viewOfLayout.userBottom_editNumber_weight.length())
+                    binding.userBottomEditNumberWeight.setText(progress.toString())
+                    binding.userBottomEditNumberWeight.setSelection(binding.userBottomEditNumberWeight.length())
 //                    clearFocusFromButtons()
 //                    setCalculatorWingLoading(defaultValues.weight,defaultValues.weight_tandem,defaultValues.equipment,defaultValues.canopy,defaultValues.unit_KG)
                 }
@@ -288,11 +295,11 @@ class ListFragment : Fragment() {
             override fun onStartTrackingTouch(seekBar: SeekBar?) {}
             override fun onStopTrackingTouch(seekBar: SeekBar?) {}
         })
-        viewOfLayout.userBottom_seekBar_height.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
+        binding.userBottomSeekBarHeight.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 if(fromUser) {
-                    viewOfLayout.userBottom_editNumber_height.setText(progress.toString())
-                    viewOfLayout.userBottom_editNumber_height.setSelection(viewOfLayout.userBottom_editNumber_height.length())
+                    binding.userBottomEditNumberHeight.setText(progress.toString())
+                    binding.userBottomEditNumberHeight.setSelection(binding.userBottomEditNumberHeight.length())
 //                    clearFocusFromButtons()
 //                    setCalculatorWingLoading(defaultValues.weight,defaultValues.weight_tandem,defaultValues.equipment,defaultValues.canopy,defaultValues.unit_KG)
                 }
@@ -309,45 +316,45 @@ class ListFragment : Fragment() {
             when(valueToModify)
             {
                 1->{
-                    var size :Int = Integer.parseInt(viewOfLayout.userTop_editNumber_weight.text.toString())
+                    var size :Int = Integer.parseInt(binding.userTopEditNumberWeight.text.toString())
                     if(increaseValue)
                     {
                         size += onHoldTotalValue(size, increase = true, decrease = false)
                     }else{
                         size -=onHoldTotalValue(size, increase = false, decrease = true)
                     }
-                    viewOfLayout.userTop_editNumber_weight.setText(size.toString())
+                    binding.userTopEditNumberWeight.setText(size.toString())
                 }
                 2->{
-                    var size :Int = Integer.parseInt(viewOfLayout.userTop_editNumber_height.text.toString())
+                    var size :Int = Integer.parseInt(binding.userTopEditNumberHeight.text.toString())
                     if(increaseValue)
                     {
                         size += onHoldTotalValue(size, increase = true, decrease = false)
                     }else{
                         size -= onHoldTotalValue(size, increase = false, decrease = true)
                     }
-                    viewOfLayout.userTop_editNumber_height.setText(size.toString())
+                    binding.userTopEditNumberHeight.setText(size.toString())
                 }
                 3->{
-                    var size :Int = Integer.parseInt(viewOfLayout.userBottom_editNumber_weight.text.toString())
+                    var size :Int = Integer.parseInt(binding.userBottomEditNumberWeight.text.toString())
                     if(increaseValue)
                     {
                         size += onHoldTotalValue(size, increase = true, decrease = false)
                     }else{
                         size -= onHoldTotalValue(size, increase = false, decrease = true)
                     }
-                    viewOfLayout.userBottom_editNumber_weight.setText(size.toString())
+                    binding.userBottomEditNumberWeight.setText(size.toString())
 //                    setCalculatorWingLoading(defaultValues.weight,defaultValues.weight_tandem,defaultValues.equipment,defaultValues.canopy,defaultValues.unit_KG)
                 }
                 4->{
-                    var size :Int = Integer.parseInt(viewOfLayout.userBottom_editNumber_height.text.toString())
+                    var size :Int = Integer.parseInt(binding.userBottomEditNumberHeight.text.toString())
                     if(increaseValue)
                     {
                         size += onHoldTotalValue(size, increase = true, decrease = false)
                     }else{
                         size -= onHoldTotalValue(size, increase = false, decrease = true)
                     }
-                    viewOfLayout.userBottom_editNumber_height.setText(size.toString())
+                    binding.userBottomEditNumberHeight.setText(size.toString())
                 }
                 else -> {
                     //nothing
@@ -366,18 +373,18 @@ class ListFragment : Fragment() {
 //User Top
     //UserTop
         //Weight -
-        viewOfLayout.userTop_button_weight_minus.setOnClickListener {
-            var size :Int = Integer.parseInt(viewOfLayout.userTop_editNumber_weight.text.toString())
+        binding.userTopButtonWeightMinus.setOnClickListener {
+            var size :Int = Integer.parseInt(binding.userTopEditNumberWeight.text.toString())
             size -= 1
-            viewOfLayout.userTop_editNumber_weight.setText(size.toString())
+            binding.userTopEditNumberWeight.setText(size.toString())
         }
-        viewOfLayout.userTop_button_weight_minus.setOnTouchListener { _, event ->
+        binding.userTopButtonWeightMinus.setOnTouchListener { _, event ->
             if (event.action == MotionEvent.ACTION_UP) {
                 weightCounter.cancel()
             }
             false
         }
-        viewOfLayout.userTop_button_weight_minus.setOnLongClickListener{
+        binding.userTopButtonWeightMinus.setOnLongClickListener{
             valueToModify = 1
             increaseValue = false
             weightCounter.start()
@@ -385,18 +392,18 @@ class ListFragment : Fragment() {
         }
 
         //Weight +
-        viewOfLayout.userTop_button_weight_plus.setOnClickListener {
-            var size :Int = Integer.parseInt(viewOfLayout.userTop_editNumber_weight.text.toString())
+        binding.userTopButtonWeightPlus.setOnClickListener {
+            var size :Int = Integer.parseInt(binding.userTopEditNumberWeight.text.toString())
             size += 1
-            viewOfLayout.userTop_editNumber_weight.setText(size.toString())
+            binding.userTopEditNumberWeight.setText(size.toString())
         }
-        viewOfLayout.userTop_button_weight_plus.setOnTouchListener { _, event ->
+        binding.userTopButtonWeightPlus.setOnTouchListener { _, event ->
             if (event.action == MotionEvent.ACTION_UP) {
                 weightCounter.cancel()
             }
             false
         }
-        viewOfLayout.userTop_button_weight_plus.setOnLongClickListener {
+        binding.userTopButtonWeightPlus.setOnLongClickListener {
             valueToModify = 1
             increaseValue = true
             weightCounter.start()
@@ -405,18 +412,18 @@ class ListFragment : Fragment() {
 //User Top
         //UserTop
         //Height_tandem -
-        viewOfLayout.userTop_button_height_minus.setOnClickListener {
-            var size :Int = Integer.parseInt(viewOfLayout.userTop_editNumber_height.text.toString())
+        binding.userTopButtonHeightMinus.setOnClickListener {
+            var size :Int = Integer.parseInt(binding.userTopEditNumberHeight.text.toString())
             size -= 1
-            viewOfLayout.userTop_editNumber_height.setText(size.toString())
+            binding.userTopEditNumberHeight.setText(size.toString())
         }
-        viewOfLayout.userTop_button_height_minus.setOnTouchListener { _, event ->
+        binding.userTopButtonHeightMinus.setOnTouchListener { _, event ->
             if (event.action == MotionEvent.ACTION_UP) {
                 weightCounter.cancel()
             }
             false
         }
-        viewOfLayout.userTop_button_height_minus.setOnLongClickListener{
+        binding.userTopButtonHeightMinus.setOnLongClickListener{
             valueToModify = 2
             increaseValue = false
             weightCounter.start()
@@ -424,18 +431,18 @@ class ListFragment : Fragment() {
         }
 
         //Weight_tandem +
-        viewOfLayout.userTop_button_height_plus.setOnClickListener {
-            var size :Int = Integer.parseInt(viewOfLayout.userTop_editNumber_height.text.toString())
+        binding.userTopButtonHeightPlus.setOnClickListener {
+            var size :Int = Integer.parseInt(binding.userTopEditNumberHeight.text.toString())
             size += 1
-            viewOfLayout.userTop_editNumber_height.setText(size.toString())
+            binding.userTopEditNumberHeight.setText(size.toString())
         }
-        viewOfLayout.userTop_button_height_plus.setOnTouchListener { _, event ->
+        binding.userTopButtonHeightPlus.setOnTouchListener { _, event ->
             if (event.action == MotionEvent.ACTION_UP) {
                 weightCounter.cancel()
             }
             false
         }
-        viewOfLayout.userTop_button_height_plus.setOnLongClickListener {
+        binding.userTopButtonHeightPlus.setOnLongClickListener {
             valueToModify = 2
             increaseValue = true
             weightCounter.start()
@@ -444,36 +451,36 @@ class ListFragment : Fragment() {
 
 //User Bottom
         //Equipment -
-        viewOfLayout.userBottom_button_weight_minus.setOnClickListener {
-            var size :Int = Integer.parseInt(viewOfLayout.userBottom_editNumber_weight.text.toString())
+        binding.userBottomButtonWeightMinus.setOnClickListener {
+            var size :Int = Integer.parseInt(binding.userBottomEditNumberWeight.text.toString())
             size -= 1
-            viewOfLayout.userBottom_editNumber_weight.setText(size.toString())
+            binding.userBottomEditNumberWeight.setText(size.toString())
         }
-        viewOfLayout.userBottom_button_weight_minus.setOnTouchListener { _, event ->
+        binding.userBottomButtonWeightMinus.setOnTouchListener { _, event ->
             if (event.action == MotionEvent.ACTION_UP) {
                 weightCounter.cancel()
             }
             false
         }
-        viewOfLayout.userBottom_button_weight_minus.setOnLongClickListener {
+        binding.userBottomButtonWeightMinus.setOnLongClickListener {
             valueToModify = 3
             increaseValue = false
             weightCounter.start()
             return@setOnLongClickListener true
         }
         //Equipment +
-        viewOfLayout.userBottom_button_weight_plus.setOnClickListener {
-            var size :Int = Integer.parseInt(viewOfLayout.userBottom_editNumber_weight.text.toString())
+        binding.userBottomButtonWeightPlus.setOnClickListener {
+            var size :Int = Integer.parseInt(binding.userBottomEditNumberWeight.text.toString())
             size += 1
-            viewOfLayout.userBottom_editNumber_weight.setText(size.toString())
+            binding.userBottomEditNumberWeight.setText(size.toString())
         }
-        viewOfLayout.userBottom_button_weight_plus.setOnTouchListener { _, event ->
+        binding.userBottomButtonWeightPlus.setOnTouchListener { _, event ->
             if (event.action == MotionEvent.ACTION_UP) {
                 weightCounter.cancel()
             }
             false
         }
-        viewOfLayout.userBottom_button_weight_plus.setOnLongClickListener {
+        binding.userBottomButtonWeightPlus.setOnLongClickListener {
             valueToModify = 3
             increaseValue = true
             weightCounter.start()
@@ -482,20 +489,20 @@ class ListFragment : Fragment() {
 
         //Canopy
         //Canopy  -
-        viewOfLayout.userBottom_button_height_minus.setOnClickListener {
+        binding.userBottomButtonHeightMinus.setOnClickListener {
 
-            var size :Int = Integer.parseInt(viewOfLayout.userBottom_editNumber_height.text.toString())
+            var size :Int = Integer.parseInt(binding.userBottomEditNumberHeight.text.toString())
             size -= 1
-            viewOfLayout.userBottom_editNumber_height.setText(size.toString())
+            binding.userBottomEditNumberHeight.setText(size.toString())
 //            setCalculatorWingLoading(defaultValues.weight,defaultValues.weight_tandem,defaultValues.equipment,defaultValues.canopy,defaultValues.unit_KG)
         }
-        viewOfLayout.userBottom_button_height_minus.setOnTouchListener { _, event ->
+        binding.userBottomButtonHeightMinus.setOnTouchListener { _, event ->
             if (event.action == MotionEvent.ACTION_UP) {
                 weightCounter.cancel()
             }
             false
         }
-        viewOfLayout.userBottom_button_height_minus.setOnLongClickListener {
+        binding.userBottomButtonHeightMinus.setOnLongClickListener {
             valueToModify = 4
             increaseValue = false
             weightCounter.start()
@@ -503,19 +510,19 @@ class ListFragment : Fragment() {
         }
 
         //Canopy  +
-        viewOfLayout.userBottom_button_height_plus.setOnClickListener {
-            var size :Int = Integer.parseInt(viewOfLayout.userBottom_editNumber_height.text.toString())
+        binding.userBottomButtonHeightPlus.setOnClickListener {
+            var size :Int = Integer.parseInt(binding.userBottomEditNumberHeight.text.toString())
             size += 1
-            viewOfLayout.userBottom_editNumber_height.setText(size.toString())
+            binding.userBottomEditNumberHeight.setText(size.toString())
 //            setCalculatorWingLoading(defaultValues.weight,defaultValues.weight_tandem,defaultValues.equipment,defaultValues.canopy,defaultValues.unit_KG)
         }
-        viewOfLayout.userBottom_button_height_plus.setOnTouchListener { _, event ->
+        binding.userBottomButtonHeightPlus.setOnTouchListener { _, event ->
             if (event.action == MotionEvent.ACTION_UP) {
                 weightCounter.cancel()
             }
             false
         }
-        viewOfLayout.userBottom_button_height_plus.setOnLongClickListener {
+        binding.userBottomButtonHeightPlus.setOnLongClickListener {
             valueToModify = 4
             increaseValue = true
             weightCounter.start()
@@ -527,38 +534,47 @@ class ListFragment : Fragment() {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-        viewOfLayout.button3_result.setOnClickListener() {
+        binding.button3Result.setOnClickListener() {
 
             //    Tight-Fitting Athletic Clothing (e.g., Spandex, Lycra): 0.1
             //    Regular Casual Clothing (e.g., Jeans and T-Shirt):0.7
             //    Wingsuit: 1 - 1.5
             //    Winter Coat and Heavier Clothing: 1 - 1.2
             val result = calculateAcceleration(
-                userTop_editNumber_height.text.toString().toDouble()/100,
-                userBottom_editNumber_height.text.toString().toDouble()/100,
-                userTop_editNumber_weight.text.toString().toDouble(),
-                userBottom_editNumber_weight.text.toString().toDouble(),
+                binding.userTopEditNumberHeight.text.toString().toDouble()/100,
+                binding.userBottomEditNumberHeight.text.toString().toDouble()/100,
+                binding.userTopEditNumberWeight.text.toString().toDouble(),
+                binding.userBottomEditNumberWeight.text.toString().toDouble(),
                 1.0,
                 1.0
             )
-            viewOfLayout.text_result.setText(result.toString())
+            binding.textResult.setText(result.toString())
 
         }
 
 
         //Animation enabled for constraint container of all other constraintLayouts
         //Side Note:   android:animateLayoutChanges="true" needed aswell
-        viewOfLayout.Main_constraintLayout2.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
+        binding.MainConstraintLayout2.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
 
         setBackground()
+
+
         // Inflate the layout for this fragment
-        return viewOfLayout
+        _binding = FragmentListBinding.inflate(inflater, container, false)
+        val view = binding.root
+        return view
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     private fun init()
     {
-        TransitionManager.beginDelayedTransition(viewOfLayout.userTop_Weight_constraintLayout, AutoTransition())
-        TransitionManager.beginDelayedTransition(viewOfLayout.userBottom_Weight_constraintLayout, AutoTransition())
+        TransitionManager.beginDelayedTransition(binding.userTopWeightConstraintLayout, AutoTransition())
+        TransitionManager.beginDelayedTransition(binding.userBottomWeightConstraintLayout, AutoTransition())
     }
 
 
@@ -567,16 +583,16 @@ class ListFragment : Fragment() {
     {
         when((activity as StartingActivity?)?.getImageSelecter())
         {
-            1->viewOfLayout.layout_main_for_background2.background = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.clouds12, null)
-            2->viewOfLayout.layout_main_for_background2.background = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.clouds22, null)
-            3->viewOfLayout.layout_main_for_background2.background = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.clouds32, null)
-            4->viewOfLayout.layout_main_for_background2.background = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.clouds42, null)
-            5->viewOfLayout.layout_main_for_background2.background = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.clouds52, null)
-            6->viewOfLayout.layout_main_for_background2.background = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.clouds62, null)
-            7->viewOfLayout.layout_main_for_background2.background = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.clouds72, null)
-            8->viewOfLayout.layout_main_for_background2.background = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.clouds82, null)
+            1->binding.layoutMainForBackground2.background = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.clouds12, null)
+            2->binding.layoutMainForBackground2.background = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.clouds22, null)
+            3->binding.layoutMainForBackground2.background = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.clouds32, null)
+            4->binding.layoutMainForBackground2.background = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.clouds42, null)
+            5->binding.layoutMainForBackground2.background = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.clouds52, null)
+            6->binding.layoutMainForBackground2.background = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.clouds62, null)
+            7->binding.layoutMainForBackground2.background = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.clouds72, null)
+            8->binding.layoutMainForBackground2.background = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.clouds82, null)
             else -> {
-                viewOfLayout.layout_main_for_background2.background = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.clouds12, null)
+                binding.layoutMainForBackground2.background = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.clouds12, null)
             }
         }
     }
@@ -622,14 +638,14 @@ class ListFragment : Fragment() {
     private fun saveData()
     {
         val editor: SharedPreferences.Editor = shared_preferences_save2.edit()
-        editor.putInt("userTop_weight",    viewOfLayout.userTop_editNumber_weight.text.toString().toInt())
-        editor.putInt("userTop_height", viewOfLayout.userTop_editNumber_height.text.toString().toInt())
-//        editor.putInt("userTop_suit", viewOfLayout.userTop_editNumber_weight.text.toString().toInt())
-        editor.putInt("userBottom_weight",    viewOfLayout.userBottom_editNumber_weight.text.toString().toInt())
-        editor.putInt("userBottom_height", viewOfLayout.userBottom_editNumber_height.text.toString().toInt())
-//        editor.putInt("userBottom_suit", viewOfLayout.editNumber_equipment.text.toString().toInt())
-        editor.putBoolean("kg", viewOfLayout.radioButton_KG2.isChecked)
-        editor.putBoolean("lbs", viewOfLayout.radioButton_LBS2.isChecked)
+        editor.putInt("userTop_weight",    binding.userTopEditNumberWeight.text.toString().toInt())
+        editor.putInt("userTop_height", binding.userTopEditNumberHeight.text.toString().toInt())
+//        editor.putInt("userTop_suit", binding.userTopEditNumberWeight.text.toString().toInt())
+        editor.putInt("userBottom_weight",    binding.userBottomEditNumberWeight.text.toString().toInt())
+        editor.putInt("userBottom_height", binding.userBottomEditNumberHeight.text.toString().toInt())
+//        editor.putInt("userBottom_suit", binding.editNumberEquipment.text.toString().toInt())
+        editor.putBoolean("kg", binding.radioButtonKG2.isChecked)
+        editor.putBoolean("lbs", binding.radioButtonLBS2.isChecked)
         editor.putBoolean("SAVED", true)
         editor.apply()
 

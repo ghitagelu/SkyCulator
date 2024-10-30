@@ -2,14 +2,14 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/layout_main_for_background2"
+    android:id="@+id/layoutMainForBackground2"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@mipmap/img_background_clouds_2"
     android:tag="tag_of_fragment_list">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/Main_constraintLayout2"
+        android:id="@+id/MainConstraintLayout2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:animateLayoutChanges="true"
@@ -18,7 +18,7 @@
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/Radio_constraintLayout"
+            android:id="@+id/RadioConstraintLayout"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginTop="2dp"
@@ -32,11 +32,11 @@
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/textView_NE_units"
+                app:layout_constraintStart_toEndOf="@+id/textViewNEUnits"
                 app:layout_constraintTop_toTopOf="parent">
 
                 <RadioButton
-                    android:id="@+id/radioButton_KG2"
+                    android:id="@+id/radioButtonKG2"
                     style="@style/BlackTextFontWithWhiteBorder"
                     android:layout_width="75dp"
                     android:layout_height="match_parent"
@@ -47,7 +47,7 @@
                     android:soundEffectsEnabled="false"/>
 
                 <RadioButton
-                    android:id="@+id/radioButton_LBS2"
+                    android:id="@+id/radioButtonLBS2"
                     style="@style/BlackTextFontWithWhiteBorder"
                     android:layout_width="75dp"
                     android:layout_height="match_parent"
@@ -60,7 +60,7 @@
             </RadioGroup>
 
             <TextView
-                android:id="@+id/textView_NE_units"
+                android:id="@+id/textViewNEUnits"
                 style="@style/BlackTextFontWithWhiteBorder"
                 android:layout_width="75dp"
                 android:layout_height="match_parent"
@@ -81,11 +81,11 @@
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/Radio_constraintLayout">
+            app:layout_constraintTop_toBottomOf="@+id/RadioConstraintLayout">
 
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/userTop_Weight_constraintLayout"
+                android:id="@+id/userTop_WeightConstraintLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
@@ -104,12 +104,12 @@
                     android:text="Weight"
                     android:textAlignment="center"
                     android:textSize="15dp"
-                    app:layout_constraintBottom_toTopOf="@+id/userTop_seekBar_weight"
+                    app:layout_constraintBottom_toTopOf="@+id/userTop_seekBarWeight"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <Button
-                    android:id="@+id/userTop_button_weight_minus"
+                    android:id="@+id/userTopButtonWeightMinus"
                     android:layout_width="35dp"
                     android:layout_height="35dp"
                     android:layout_marginTop="4dp"
@@ -121,12 +121,12 @@
                     android:textColor="@android:color/secondary_text_light"
                     android:textSize="25dp"
                     android:soundEffectsEnabled="false"
-                    app:layout_constraintBottom_toTopOf="@+id/userTop_seekBar_weight"
-                    app:layout_constraintEnd_toStartOf="@+id/userTop_editNumber_weight"
+                    app:layout_constraintBottom_toTopOf="@+id/userTop_seekBarWeight"
+                    app:layout_constraintEnd_toStartOf="@+id/userTop_editNumberWeight"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <EditText
-                    android:id="@+id/userTop_editNumber_weight"
+                    android:id="@+id/userTop_editNumberWeight"
                     android:layout_width="100dp"
                     android:layout_height="35dp"
                     android:layout_marginTop="4dp"
@@ -140,13 +140,13 @@
                     android:paddingVertical="10dp"
                     android:textAlignment="center"
                     android:textSize="15dp"
-                    app:layout_constraintBottom_toTopOf="@+id/userTop_seekBar_weight"
+                    app:layout_constraintBottom_toTopOf="@+id/userTop_seekBarWeight"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <Button
-                    android:id="@+id/userTop_button_weight_plus"
+                    android:id="@+id/userTopButtonWeightPlus"
                     android:layout_width="35dp"
                     android:layout_height="35dp"
                     android:layout_marginTop="4dp"
@@ -158,12 +158,12 @@
                     android:textColor="@android:color/secondary_text_light"
                     android:textSize="25dp"
                     android:soundEffectsEnabled="false"
-                    app:layout_constraintBottom_toTopOf="@+id/userTop_seekBar_weight"
-                    app:layout_constraintStart_toEndOf="@+id/userTop_editNumber_weight"
+                    app:layout_constraintBottom_toTopOf="@+id/userTop_seekBarWeight"
+                    app:layout_constraintStart_toEndOf="@+id/userTop_editNumberWeight"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/userTop_textView_weight_units"
+                    android:id="@+id/userTopTextViewWeightWnits"
                     style="@style/BlackTextFontWithWhiteBorder"
                     android:layout_width="wrap_content"
                     android:layout_height="35dp"
@@ -173,12 +173,12 @@
                     android:text=" kg"
                     android:textAlignment="center"
                     android:textSize="15dp"
-                    app:layout_constraintBottom_toTopOf="@+id/userTop_seekBar_weight"
+                    app:layout_constraintBottom_toTopOf="@+id/userTop_seekBarWeight"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <SeekBar
-                    android:id="@+id/userTop_seekBar_weight"
+                    android:id="@+id/userTop_seekBarWeight"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:max="265"
@@ -197,7 +197,7 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/userTop_Weight_constraintLayout">
+                app:layout_constraintTop_toBottomOf="@+id/userTop_WeightConstraintLayout">
 
                 <TextView
                     android:id="@+id/userTop_textView_height"
@@ -210,12 +210,12 @@
                     android:text="Height"
                     android:textAlignment="center"
                     android:textSize="15dp"
-                    app:layout_constraintBottom_toTopOf="@+id/userTop_seekBar_height"
+                    app:layout_constraintBottom_toTopOf="@+id/userTopSeekBarHeight"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <Button
-                    android:id="@+id/userTop_button_height_minus"
+                    android:id="@+id/userTopButtonHeightMinus"
                     android:layout_width="35dp"
                     android:layout_height="35dp"
                     android:layout_marginTop="4dp"
@@ -227,7 +227,7 @@
                     android:textColor="@android:color/secondary_text_light"
                     android:textSize="25dp"
                     android:soundEffectsEnabled="false"
-                    app:layout_constraintBottom_toTopOf="@+id/userTop_seekBar_height"
+                    app:layout_constraintBottom_toTopOf="@+id/userTopSeekBarHeight"
                     app:layout_constraintEnd_toStartOf="@+id/userTop_editNumber_height"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -246,13 +246,13 @@
                     android:paddingVertical="10dp"
                     android:textAlignment="center"
                     android:textSize="15dp"
-                    app:layout_constraintBottom_toTopOf="@+id/userTop_seekBar_height"
+                    app:layout_constraintBottom_toTopOf="@+id/userTopSeekBarHeight"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <Button
-                    android:id="@+id/userTop_button_height_plus"
+                    android:id="@+id/userTopButtonHeightPlus"
                     android:layout_width="35dp"
                     android:layout_height="35dp"
                     android:layout_marginTop="4dp"
@@ -264,7 +264,7 @@
                     android:textColor="@android:color/secondary_text_light"
                     android:textSize="25dp"
                     android:soundEffectsEnabled="false"
-                    app:layout_constraintBottom_toTopOf="@+id/userTop_seekBar_height"
+                    app:layout_constraintBottom_toTopOf="@+id/userTopSeekBarHeight"
                     app:layout_constraintStart_toEndOf="@+id/userTop_editNumber_height"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -279,12 +279,12 @@
                     android:text=" cm"
                     android:textAlignment="center"
                     android:textSize="15dp"
-                    app:layout_constraintBottom_toTopOf="@+id/userTop_seekBar_height"
+                    app:layout_constraintBottom_toTopOf="@+id/userTopSeekBarHeight"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <SeekBar
-                    android:id="@+id/userTop_seekBar_height"
+                    android:id="@+id/userTopSeekBarHeight"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:max="265"
@@ -309,7 +309,7 @@
             app:layout_constraintTop_toBottomOf="@+id/userTop_ConstraintLayout">
 
             <Button
-                android:id="@+id/button3_result"
+                android:id="@+id/button3Result"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Button"
@@ -317,7 +317,7 @@
                 app:layout_constraintEnd_toEndOf="parent" />
 
             <EditText
-                android:id="@+id/text_result"
+                android:id="@+id/textResult"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ems="10"
@@ -338,7 +338,7 @@
             app:layout_constraintStart_toStartOf="parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/userBottom_Weight_constraintLayout"
+                android:id="@+id/userBottom_WeightConstraintLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
 
@@ -358,12 +358,12 @@
                     android:textAlignment="center"
                     style="@style/BlackTextFontWithWhiteBorder"
                     android:textSize="15dp"
-                    app:layout_constraintBottom_toTopOf="@+id/userBottom_seekBar_weight"
+                    app:layout_constraintBottom_toTopOf="@+id/userBottomSeekBarWeight"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <Button
-                    android:id="@+id/userBottom_button_weight_minus"
+                    android:id="@+id/userBottomButtonWeightMinus"
                     android:layout_width="35dp"
                     android:layout_height="35dp"
                     android:layout_marginTop="4dp"
@@ -375,12 +375,12 @@
                     android:textColor="@android:color/secondary_text_light"
                     android:textSize="25dp"
                     android:soundEffectsEnabled="false"
-                    app:layout_constraintBottom_toTopOf="@+id/userBottom_seekBar_weight"
-                    app:layout_constraintEnd_toStartOf="@+id/userBottom_editNumber_weight"
+                    app:layout_constraintBottom_toTopOf="@+id/userBottomSeekBarWeight"
+                    app:layout_constraintEnd_toStartOf="@+id/userBottom_editNumberWeight"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <EditText
-                    android:id="@+id/userBottom_editNumber_weight"
+                    android:id="@+id/userBottom_editNumberWeight"
                     android:layout_width="100dp"
                     android:layout_height="35dp"
                     android:layout_marginTop="4dp"
@@ -394,13 +394,13 @@
                     android:paddingVertical="10dp"
                     android:textAlignment="center"
                     android:textSize="15dp"
-                    app:layout_constraintBottom_toTopOf="@+id/userBottom_seekBar_weight"
+                    app:layout_constraintBottom_toTopOf="@+id/userBottomSeekBarWeight"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <Button
-                    android:id="@+id/userBottom_button_weight_plus"
+                    android:id="@+id/userBottomButtonWeightPlus"
                     android:layout_width="35dp"
                     android:layout_height="35dp"
                     android:layout_marginTop="4dp"
@@ -412,12 +412,12 @@
                     android:textColor="@android:color/secondary_text_light"
                     android:textSize="25dp"
                     android:soundEffectsEnabled="false"
-                    app:layout_constraintBottom_toTopOf="@+id/userBottom_seekBar_weight"
-                    app:layout_constraintStart_toEndOf="@+id/userBottom_editNumber_weight"
+                    app:layout_constraintBottom_toTopOf="@+id/userBottomSeekBarWeight"
+                    app:layout_constraintStart_toEndOf="@+id/userBottom_editNumberWeight"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/userBottom_textView_weight_units"
+                    android:id="@+id/userBottomTextViewWeightUnits"
                     android:layout_width="wrap_content"
                     android:layout_height="35dp"
                     android:layout_marginTop="4dp"
@@ -427,12 +427,12 @@
                     android:textAlignment="center"
                     style="@style/BlackTextFontWithWhiteBorder"
                     android:textSize="15dp"
-                    app:layout_constraintBottom_toTopOf="@+id/userBottom_seekBar_weight"
+                    app:layout_constraintBottom_toTopOf="@+id/userBottomSeekBarWeight"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <SeekBar
-                    android:id="@+id/userBottom_seekBar_weight"
+                    android:id="@+id/userBottomSeekBarWeight"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:max="265"
@@ -452,7 +452,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/userBottom_Weight_constraintLayout">
+                app:layout_constraintTop_toBottomOf="@+id/userBottom_WeightConstraintLayout">
 
                 <TextView
                     android:id="@+id/userBottom_textView_height"
@@ -465,12 +465,12 @@
                     android:textAlignment="center"
                     style="@style/BlackTextFontWithWhiteBorder"
                     android:textSize="15dp"
-                    app:layout_constraintBottom_toTopOf="@+id/userBottom_seekBar_height"
+                    app:layout_constraintBottom_toTopOf="@+id/userBottomSeekBarHeight"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <Button
-                    android:id="@+id/userBottom_button_height_minus"
+                    android:id="@+id/userBottomButtonHeightMinus"
                     android:layout_width="35dp"
                     android:layout_height="35dp"
                     android:layout_marginTop="4dp"
@@ -482,7 +482,7 @@
                     android:textColor="@android:color/secondary_text_light"
                     android:textSize="25dp"
                     android:soundEffectsEnabled="false"
-                    app:layout_constraintBottom_toTopOf="@+id/userBottom_seekBar_height"
+                    app:layout_constraintBottom_toTopOf="@+id/userBottomSeekBarHeight"
                     app:layout_constraintEnd_toStartOf="@+id/userBottom_editNumber_height"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -501,13 +501,13 @@
                     android:paddingVertical="10dp"
                     android:textAlignment="center"
                     android:textSize="15dp"
-                    app:layout_constraintBottom_toTopOf="@+id/userBottom_seekBar_height"
+                    app:layout_constraintBottom_toTopOf="@+id/userBottomSeekBarHeight"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <Button
-                    android:id="@+id/userBottom_button_height_plus"
+                    android:id="@+id/userBottomButtonHeightPlus"
                     android:layout_width="35dp"
                     android:layout_height="35dp"
                     android:layout_marginTop="4dp"
@@ -519,7 +519,7 @@
                     android:textColor="@android:color/secondary_text_light"
                     android:textSize="25dp"
                     android:soundEffectsEnabled="false"
-                    app:layout_constraintBottom_toTopOf="@+id/userBottom_seekBar_height"
+                    app:layout_constraintBottom_toTopOf="@+id/userBottomSeekBarHeight"
                     app:layout_constraintStart_toEndOf="@+id/userBottom_editNumber_height"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -534,12 +534,12 @@
                     android:textAlignment="center"
                     style="@style/BlackTextFontWithWhiteBorder"
                     android:textSize="15dp"
-                    app:layout_constraintBottom_toTopOf="@+id/userBottom_seekBar_height"
+                    app:layout_constraintBottom_toTopOf="@+id/userBottomSeekBarHeight"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <SeekBar
-                    android:id="@+id/userBottom_seekBar_height"
+                    android:id="@+id/userBottomSeekBarHeight"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:max="265"

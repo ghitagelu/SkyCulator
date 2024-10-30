@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.os.CountDownTimer
 import android.transition.AutoTransition
 import android.transition.TransitionManager
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -19,8 +20,7 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import com.example.SkyDiver.R
 import com.example.SkyDiver.StartingActivity
-import kotlinx.android.synthetic.main.fragment_overview.*
-import kotlinx.android.synthetic.main.fragment_overview.view.*
+import com.example.SkyDiver.databinding.FragmentOverviewBinding
 import kotlin.math.roundToInt
 
 
@@ -28,10 +28,18 @@ import kotlin.math.roundToInt
  * A simple [Fragment] subclass.
  */
 class OverviewFragment : Fragment() {
-    private lateinit var viewOfLayout: View
+
+//    private lateinit var binding: View
 //    private var clickedonloadtextview =false
     private var init = true //used for the init of Load seekbar progress
     lateinit var shared_preferences_save: SharedPreferences
+
+    private var _binding: FragmentOverviewBinding? = null
+    // This property is only valid between onCreateView and
+// onDestroyView.
+    private val binding get() = _binding!!
+
+
 
     //Table of content for the type of actions
     //
@@ -48,18 +56,21 @@ class OverviewFragment : Fragment() {
     var load_underflow :Boolean= false
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        _binding = FragmentOverviewBinding.inflate(inflater, container, false)
+        Log.d("App stages", "Fragment Overview starting")
         shared_preferences_save =this.activity!!.getSharedPreferences("save_calculator_values", Context.MODE_PRIVATE)
-//        viewOfLayout.layout_main_for_background.setBackgroundResource(R.drawable.clouds11)
+//        binding.layoutMainForBackground.setBackgroundResource(R.drawable.clouds11)
 
 
         class SeekBarLimits(
-            var seekBar_weight_min: Int,        var seekBar_weight_max: Int,
-            var seekBar_weight_tandem_min: Int, var seekBar_weight_tandem_max: Int,
-            var seekBar_equipment_min :Int,     var seekBar_equipment_max :Int,
-            var seekBar_canopy_min :Int,        var seekBar_canopy_max :Int
+            var seekBarWeight_min: Int,        var seekBarWeight_max: Int,
+            var seekBarWeightTandem_min: Int, var seekBarWeightTandem_max: Int,
+            var seekBarEquipment_min :Int,     var seekBarEquipment_max :Int,
+            var seekBarCanopy_min :Int,        var seekBarCanopy_max :Int
         )
          class UserValues(
             var weight: Int,
@@ -73,7 +84,7 @@ class OverviewFragment : Fragment() {
             //Handling of changing the units types
             fun setCalculatorValues()
             {
-                var tandem = viewOfLayout.checkBox_tandem.isChecked
+                var tandem = binding.checkBoxTandem.isChecked
                 if(unit_KG)
                 {
                     setUnitsKG(tandem)
@@ -83,16 +94,16 @@ class OverviewFragment : Fragment() {
                     setUnitsLBS(tandem)
                 }
 //
-                viewOfLayout.editNumber_weight.setText(weight.toString())
-                viewOfLayout.editNumber_weight_tandem.setText(weight_tandem.toString())
-                viewOfLayout.editNumber_equipment.setText(equipment.toString())
-                viewOfLayout.editNumber_canopy.setText(canopy.toString())
+                binding.editNumberWeight.setText(weight.toString())
+                binding.editNumberWeightTandem.setText(weight_tandem.toString())
+                binding.editNumberEquipment.setText(equipment.toString())
+                binding.editNumberCanopy.setText(canopy.toString())
                 setCalculatorWingLoading(weight,weight_tandem,equipment,canopy,unit_KG)
 
-                viewOfLayout.seekBar_weight.progress =weight
-                viewOfLayout.seekBar_weight_tandem.progress =weight_tandem
-                viewOfLayout.seekBar_equipment.progress =equipment
-                viewOfLayout.seekBar_canopy.progress =canopy
+                binding.seekBarWeight.progress =weight
+                binding.seekBarWeightTandem.progress =weight_tandem
+                binding.seekBarEquipment.progress =equipment
+                binding.seekBarCanopy.progress =canopy
 
                 handlingOfJumpsConstraintLayout()
                 InitIcons ()
@@ -101,24 +112,24 @@ class OverviewFragment : Fragment() {
             }
             fun setUnitsKG(tandem: Boolean)
             {
-                viewOfLayout.radioButton_KG.isChecked=true
-                viewOfLayout.textView_weight_units.text=" kg"
-                viewOfLayout.textView_weight_tandem_units.text=" kg"
-                viewOfLayout.textView_equipment_units.text = " kg"
+                binding.radioButtonKG.isChecked=true
+                binding.textViewWeightUnits.text=" kg"
+                binding.textViewWeightTandemUnits.text=" kg"
+                binding.textViewEquipmentUnits.text = " kg"
 
 //Values for tandem
                 //If tandem = false
-                var expand_seekBar_equipment_min  = 0
-                var expand_seekBar_equipment_max  = 0
-                var expand_seekBar_canopy_min     = 0
-                var expand_seekBar_canopy_max     = 0
+                var expand_seekBarEquipment_min  = 0
+                var expand_seekBarEquipment_max  = 0
+                var expand_seekBarCanopy_min     = 0
+                var expand_seekBarCanopy_max     = 0
                 //If tandem = true
                 if(tandem)
                 {
-                     expand_seekBar_equipment_min  = 10
-                     expand_seekBar_equipment_max  = 20
-                     expand_seekBar_canopy_min     = 200
-                     expand_seekBar_canopy_max     = 100
+                     expand_seekBarEquipment_min  = 10
+                     expand_seekBarEquipment_max  = 20
+                     expand_seekBarCanopy_min     = 200
+                     expand_seekBarCanopy_max     = 100
                 }
 //*Values for tandem
 
@@ -127,56 +138,56 @@ class OverviewFragment : Fragment() {
                 val defaultSeekBarLimits = SeekBarLimits(
                     45,136 ,
                     45,136 ,
-                    5 + expand_seekBar_equipment_min,25 + expand_seekBar_equipment_max,
-                    50 + expand_seekBar_canopy_min,350 + expand_seekBar_canopy_max)
+                    5 + expand_seekBarEquipment_min,25 + expand_seekBarEquipment_max,
+                    50 + expand_seekBarCanopy_min,350 + expand_seekBarCanopy_max)
                 //Call to set the limits for the seek bar
                 setSeekBarLimits(defaultSeekBarLimits)
             }
 
             fun setUnitsLBS(tandem: Boolean)
             {
-                viewOfLayout.radioButton_LBS.isChecked=true
-                viewOfLayout.textView_weight_units.text=" lbs"
-                viewOfLayout.textView_weight_tandem_units.text=" lbs"
-                viewOfLayout.textView_equipment_units.text = " lbs"
+                binding.radioButtonLBS.isChecked=true
+                binding.textViewWeightUnits.text=" lbs"
+                binding.textViewWeightTandemUnits.text=" lbs"
+                binding.textViewEquipmentUnits.text = " lbs"
 
 //Values for tandem
                 //If tandem = false
-                var expand_seekBar_equipment_min  = 0
-                var expand_seekBar_equipment_max  = 0
-                var expand_seekBar_canopy_min     = 0
-                var expand_seekBar_canopy_max     = 0
+                var expand_seekBarEquipment_min  = 0
+                var expand_seekBarEquipment_max  = 0
+                var expand_seekBarCanopy_min     = 0
+                var expand_seekBarCanopy_max     = 0
                 //If tandem = true
                 if(tandem)
                 {
-                    expand_seekBar_equipment_min  = 22
-                    expand_seekBar_equipment_max  = 45
-                    expand_seekBar_canopy_min     = 200
-                    expand_seekBar_canopy_max     = 100
+                    expand_seekBarEquipment_min  = 22
+                    expand_seekBarEquipment_max  = 45
+                    expand_seekBarCanopy_min     = 200
+                    expand_seekBarCanopy_max     = 100
                 }
 //*Values for tandem
                 val defaultSeekBarLimits = SeekBarLimits(
                     99,300,
                     99,300,
-                    11 + expand_seekBar_equipment_min,55 + expand_seekBar_equipment_max,
-                    50 + expand_seekBar_canopy_min,350 + expand_seekBar_canopy_max)
+                    11 + expand_seekBarEquipment_min,55 + expand_seekBarEquipment_max,
+                    50 + expand_seekBarCanopy_min,350 + expand_seekBarCanopy_max)
 
                 setSeekBarLimits(defaultSeekBarLimits)
             }
 
             fun setSeekBarLimits(defaultSeekBarLimits:SeekBarLimits)
             {
-                viewOfLayout.seekBar_weight.min = defaultSeekBarLimits.seekBar_weight_min
-                viewOfLayout.seekBar_weight.max = defaultSeekBarLimits.seekBar_weight_max
-                viewOfLayout.seekBar_weight.secondaryProgress = 0
-                viewOfLayout.seekBar_weight_tandem.min = defaultSeekBarLimits.seekBar_weight_tandem_min
-                viewOfLayout.seekBar_weight_tandem.max = defaultSeekBarLimits.seekBar_weight_tandem_max
-                viewOfLayout.seekBar_weight_tandem.secondaryProgress = 0
-                viewOfLayout.seekBar_equipment.min = defaultSeekBarLimits.seekBar_equipment_min
-                viewOfLayout.seekBar_equipment.max= defaultSeekBarLimits.seekBar_equipment_max
-                viewOfLayout.seekBar_equipment.secondaryProgress = 0
-                viewOfLayout.seekBar_canopy.min = defaultSeekBarLimits.seekBar_canopy_min
-                viewOfLayout.seekBar_canopy.max = defaultSeekBarLimits.seekBar_canopy_max
+                binding.seekBarWeight.min = defaultSeekBarLimits.seekBarWeight_min
+                binding.seekBarWeight.max = defaultSeekBarLimits.seekBarWeight_max
+                binding.seekBarWeight.secondaryProgress = 0
+                binding.seekBarWeightTandem.min = defaultSeekBarLimits.seekBarWeightTandem_min
+                binding.seekBarWeightTandem.max = defaultSeekBarLimits.seekBarWeightTandem_max
+                binding.seekBarWeightTandem.secondaryProgress = 0
+                binding.seekBarEquipment.min = defaultSeekBarLimits.seekBarEquipment_min
+                binding.seekBarEquipment.max= defaultSeekBarLimits.seekBarEquipment_max
+                binding.seekBarEquipment.secondaryProgress = 0
+                binding.seekBarCanopy.min = defaultSeekBarLimits.seekBarCanopy_min
+                binding.seekBarCanopy.max = defaultSeekBarLimits.seekBarCanopy_max
             }
         }
 //////////////////////////////////////////////////////////////////////////////////////////////////// I N I T I A L I S I N G ////////////////////////////////////////
@@ -190,19 +201,19 @@ class OverviewFragment : Fragment() {
             )
 
 
-        //Make viewOfLayout = this fragment
-        viewOfLayout =inflater.inflate(R.layout.fragment_overview, container, false)
+        //Make binding = this fragment
+//        binding =inflater.inflate(R.layout.fragment_overview, container, false)
 
 //Set initial valuse
         //Set "Tandem" checkbox false on 1st run, then get the saved value from last use
-        viewOfLayout.checkBox_tandem.isChecked = shared_preferences_save.getBoolean("Tandem_checked",  false)
+        binding.checkBoxTandem.isChecked = shared_preferences_save.getBoolean("Tandem_checked",  false)
         //Set default values
         defaultValues.setCalculatorValues()
 ////////////////////////////////////////////////////////////////////////////////////////////////////*I N I T I A L I S I N G ////////////////////////////////////////
 //Radio buttons handling
-        viewOfLayout.radioGroup.setOnCheckedChangeListener { buttonView, isChecked ->
+        binding.radioGroup.setOnCheckedChangeListener { buttonView, isChecked ->
 
-            if(isChecked == radioButton_KG.id) {
+            if(isChecked == binding.radioButtonKG.id) {
             //Kilograms
                 defaultValues.weight = convertLBStoKG(defaultValues.weight)
                 defaultValues.weight_tandem = convertLBStoKG(defaultValues.weight_tandem)
@@ -214,7 +225,7 @@ class OverviewFragment : Fragment() {
 
             }
 
-            if(isChecked == radioButton_LBS.id) {
+            if(isChecked == binding.radioButtonLBS.id) {
             //LBS
                 defaultValues.weight = convertKGtoLBS(defaultValues.weight)
                 defaultValues.weight_tandem = convertKGtoLBS(defaultValues.weight_tandem)
@@ -229,10 +240,10 @@ class OverviewFragment : Fragment() {
 //*Radio buttons handling
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //Tandem checkbox handling
-        viewOfLayout.checkBox_tandem.setOnCheckedChangeListener { buttonView, isChecked ->
+        binding.checkBoxTandem.setOnCheckedChangeListener { buttonView, isChecked ->
             defaultValues.setCalculatorValues()
 
-            if(checkBox_tandem.isChecked) {
+            if(binding.checkBoxTandem.isChecked) {
 
                 Toast.makeText(
                     activity,
@@ -250,42 +261,42 @@ class OverviewFragment : Fragment() {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //Handling of TextView
         //Weight :Text field handling
-        viewOfLayout.editNumber_weight.doAfterTextChanged {
+        binding.editNumberWeight.doAfterTextChanged {
 
-            if(viewOfLayout.editNumber_weight.text.toString()!="") {
-                var value = Integer.parseInt(viewOfLayout.editNumber_weight.text.toString())
+            if(binding.editNumberWeight.text.toString()!="") {
+                var value = Integer.parseInt(binding.editNumberWeight.text.toString())
 
-                if(value > viewOfLayout.seekBar_weight.max) {
-                    value = viewOfLayout.seekBar_weight.max
-                    viewOfLayout.editNumber_weight.setText(value.toString())
+                if(value > binding.seekBarWeight.max) {
+                    value = binding.seekBarWeight.max
+                    binding.editNumberWeight.setText(value.toString())
                 }
-                if(value < viewOfLayout.seekBar_weight.min) {
-                    value = viewOfLayout.seekBar_weight.min
-                    viewOfLayout.editNumber_weight.setText(value.toString())
+                if(value < binding.seekBarWeight.min) {
+                    value = binding.seekBarWeight.min
+                    binding.editNumberWeight.setText(value.toString())
                 }
 
-                viewOfLayout.seekBar_weight.progress=value
+                binding.seekBarWeight.progress=value
                 defaultValues.weight = value
 
                 setCalculatorWingLoading(defaultValues.weight,defaultValues.weight_tandem,defaultValues.equipment,defaultValues.canopy,defaultValues.unit_KG)
             }
         }
         //Weight_tandem :Text field handling
-        viewOfLayout.editNumber_weight_tandem.doAfterTextChanged {
+        binding.editNumberWeightTandem.doAfterTextChanged {
 
-            if(viewOfLayout.editNumber_weight_tandem.text.toString()!="") {
-                var value = Integer.parseInt(viewOfLayout.editNumber_weight_tandem.text.toString())
+            if(binding.editNumberWeightTandem.text.toString()!="") {
+                var value = Integer.parseInt(binding.editNumberWeightTandem.text.toString())
 
-                if(value > viewOfLayout.seekBar_weight_tandem.max) {
-                    value = viewOfLayout.seekBar_weight_tandem.max
-                    viewOfLayout.editNumber_weight_tandem.setText(value.toString())
+                if(value > binding.seekBarWeightTandem.max) {
+                    value = binding.seekBarWeightTandem.max
+                    binding.editNumberWeightTandem.setText(value.toString())
                 }
-                if(value < viewOfLayout.seekBar_weight_tandem.min) {
-                    value = viewOfLayout.seekBar_weight_tandem.min
-                    viewOfLayout.editNumber_weight_tandem.setText(value.toString())
+                if(value < binding.seekBarWeightTandem.min) {
+                    value = binding.seekBarWeightTandem.min
+                    binding.editNumberWeightTandem.setText(value.toString())
                 }
 
-                viewOfLayout.seekBar_weight_tandem.progress=value
+                binding.seekBarWeightTandem.progress=value
                 defaultValues.weight_tandem = value
 
                 setCalculatorWingLoading(defaultValues.weight,defaultValues.weight_tandem,defaultValues.equipment,defaultValues.canopy,defaultValues.unit_KG)
@@ -293,21 +304,21 @@ class OverviewFragment : Fragment() {
         }
 
         //Equipment :Text field handling
-        viewOfLayout.editNumber_equipment.doAfterTextChanged {
+        binding.editNumberEquipment.doAfterTextChanged {
 
-            if(viewOfLayout.editNumber_equipment.text.toString()!="") {
-                var value = Integer.parseInt(viewOfLayout.editNumber_equipment.text.toString())
+            if(binding.editNumberEquipment.text.toString()!="") {
+                var value = Integer.parseInt(binding.editNumberEquipment.text.toString())
 
-                if(value > viewOfLayout.seekBar_equipment.max) {
-                    value = viewOfLayout.seekBar_equipment.max
-                    viewOfLayout.editNumber_equipment.setText(value.toString())
+                if(value > binding.seekBarEquipment.max) {
+                    value = binding.seekBarEquipment.max
+                    binding.editNumberEquipment.setText(value.toString())
                 }
-                if(value < viewOfLayout.seekBar_equipment.min) {
-                    value = viewOfLayout.seekBar_equipment.min
-                    viewOfLayout.editNumber_equipment.setText(value.toString())
+                if(value < binding.seekBarEquipment.min) {
+                    value = binding.seekBarEquipment.min
+                    binding.editNumberEquipment.setText(value.toString())
                 }
 
-                viewOfLayout.seekBar_equipment.progress=value
+                binding.seekBarEquipment.progress=value
                 defaultValues.equipment = value
 
                 setCalculatorWingLoading(defaultValues.weight,defaultValues.weight_tandem,defaultValues.equipment,defaultValues.canopy,defaultValues.unit_KG)
@@ -315,42 +326,42 @@ class OverviewFragment : Fragment() {
         }
 
         //Canopy :Text field handling
-        viewOfLayout.editNumber_canopy.doAfterTextChanged {
+        binding.editNumberCanopy.doAfterTextChanged {
 
-            if(viewOfLayout.editNumber_canopy.text.toString()!="") {
-                var value = Integer.parseInt(viewOfLayout.editNumber_canopy.text.toString())
+            if(binding.editNumberCanopy.text.toString()!="") {
+                var value = Integer.parseInt(binding.editNumberCanopy.text.toString())
 
-                if(value > viewOfLayout.seekBar_canopy.max) {
-                    value = viewOfLayout.seekBar_canopy.max
-                    viewOfLayout.editNumber_canopy.setText(value.toString())
+                if(value > binding.seekBarCanopy.max) {
+                    value = binding.seekBarCanopy.max
+                    binding.editNumberCanopy.setText(value.toString())
                 }
-                if(value < viewOfLayout.seekBar_canopy.min) {
-                    value = viewOfLayout.seekBar_canopy.min
-                    viewOfLayout.editNumber_canopy.setText(value.toString())
+                if(value < binding.seekBarCanopy.min) {
+                    value = binding.seekBarCanopy.min
+                    binding.editNumberCanopy.setText(value.toString())
                 }
 
-                viewOfLayout.seekBar_canopy.progress=value
+                binding.seekBarCanopy.progress=value
                 defaultValues.canopy = value
             }
 
         }
 
         //Load :Text field handling
-        viewOfLayout.editNumber_load.doAfterTextChanged() {
+        binding.editNumberLoad.doAfterTextChanged() {
 
-            if(viewOfLayout.editNumber_load.text.toString()!="") {
-                var value = ((viewOfLayout.editNumber_load.text.toString()).toDouble()*100).toInt()
+            if(binding.editNumberLoad.text.toString()!="") {
+                var value = ((binding.editNumberLoad.text.toString()).toDouble()*100).toInt()
 
-                if(value > viewOfLayout.seekBar_load.max) {
-                    value = viewOfLayout.seekBar_load.max
-                    viewOfLayout.editNumber_load.setText((value.toDouble()/100).toString())
+                if(value > binding.seekBarLoad.max) {
+                    value = binding.seekBarLoad.max
+                    binding.editNumberLoad.setText((value.toDouble()/100).toString())
                 }
-                load_overflow = value == viewOfLayout.seekBar_load.max
+                load_overflow = value == binding.seekBarLoad.max
 
-                if(value < viewOfLayout.seekBar_load.min) {
+                if(value < binding.seekBarLoad.min) {
                     load_underflow = true
-                    value = viewOfLayout.seekBar_load.min
-                    viewOfLayout.editNumber_load.setText((value.toDouble()/100).toString())
+                    value = binding.seekBarLoad.min
+                    binding.editNumberLoad.setText((value.toDouble()/100).toString())
                 }
 
                 handlingOfJumpsConstraintLayout()
@@ -364,35 +375,35 @@ class OverviewFragment : Fragment() {
         //Function used to update load seekbar
         fun updateLoad(nochange:Boolean, increase:Boolean, decrease:Boolean, onHold:Boolean)
         {
-            var progress = viewOfLayout.seekBar_load.progress
+            var progress = binding.seekBarLoad.progress
             if(nochange) {/*D O  N O T H I N G*/    }
             if(increase)
             {
                 if(onHold)
                 {
-                    viewOfLayout.seekBar_load.progress = progress + onHoldTotalValue(progress,increase = true, decrease = false)
+                    binding.seekBarLoad.progress = progress + onHoldTotalValue(progress,increase = true, decrease = false)
                 }
                 else
                 {
-                    viewOfLayout.seekBar_load.progress = progress + 1
+                    binding.seekBarLoad.progress = progress + 1
                 }
             }else if(decrease)
             {
                 if(onHold)
                 {
-                    viewOfLayout.seekBar_load.progress = progress - onHoldTotalValue(progress, increase = false, decrease = true)
+                    binding.seekBarLoad.progress = progress - onHoldTotalValue(progress, increase = false, decrease = true)
                 }
                 else
                 {
-                    viewOfLayout.seekBar_load.progress = progress - 1
+                    binding.seekBarLoad.progress = progress - 1
                 }
             }
 
-            progress = viewOfLayout.seekBar_load.progress
-            viewOfLayout.editNumber_load.setText((progress.toDouble() / 100).toString())
-            viewOfLayout.editNumber_load.setSelection(viewOfLayout.editNumber_load.length())
+            progress = binding.seekBarLoad.progress
+            binding.editNumberLoad.setText((progress.toDouble() / 100).toString())
+            binding.editNumberLoad.setSelection(binding.editNumberLoad.length())
 
-            val value = ((viewOfLayout.editNumber_load.text.toString()).toDouble() * 100).toInt()
+            val value = ((binding.editNumberLoad.text.toString()).toDouble() * 100).toInt()
 
             setCalculatorWingSize(
                 defaultValues.weight,
@@ -405,11 +416,11 @@ class OverviewFragment : Fragment() {
         }
 
         //Weight seekBar
-        viewOfLayout.seekBar_weight.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
+        binding.seekBarWeight.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 if(fromUser) {
-                    viewOfLayout.editNumber_weight.setText(progress.toString())
-                    viewOfLayout.editNumber_weight.setSelection(viewOfLayout.editNumber_weight.length())
+                    binding.editNumberWeight.setText(progress.toString())
+                    binding.editNumberWeight.setSelection(binding.editNumberWeight.length())
                     clearFocusFromButtons()
                     setCalculatorWingLoading(defaultValues.weight,defaultValues.weight_tandem,defaultValues.equipment,defaultValues.canopy,defaultValues.unit_KG)
                 }
@@ -419,11 +430,11 @@ class OverviewFragment : Fragment() {
             override fun onStopTrackingTouch(seekBar: SeekBar?) {}
         })
         //Weight_tandem seekBar
-        viewOfLayout.seekBar_weight_tandem.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
+        binding.seekBarWeightTandem.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 if(fromUser) {
-                    viewOfLayout.editNumber_weight_tandem.setText(progress.toString())
-                    viewOfLayout.editNumber_weight_tandem.setSelection(viewOfLayout.editNumber_weight_tandem.length())
+                    binding.editNumberWeightTandem.setText(progress.toString())
+                    binding.editNumberWeightTandem.setSelection(binding.editNumberWeightTandem.length())
                     clearFocusFromButtons()
                     setCalculatorWingLoading(defaultValues.weight,defaultValues.weight_tandem,defaultValues.equipment,defaultValues.canopy,defaultValues.unit_KG)
                 }
@@ -434,11 +445,11 @@ class OverviewFragment : Fragment() {
         })
 
         //Equipment seekBar
-        viewOfLayout.seekBar_equipment.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
+        binding.seekBarEquipment.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 if(fromUser) {
-                    viewOfLayout.editNumber_equipment.setText(progress.toString())
-                    viewOfLayout.editNumber_equipment.setSelection(viewOfLayout.editNumber_equipment.length())
+                    binding.editNumberEquipment.setText(progress.toString())
+                    binding.editNumberEquipment.setSelection(binding.editNumberEquipment.length())
                     clearFocusFromButtons()
                     setCalculatorWingLoading(defaultValues.weight,defaultValues.weight_tandem,defaultValues.equipment,defaultValues.canopy,defaultValues.unit_KG)
                 }
@@ -449,11 +460,11 @@ class OverviewFragment : Fragment() {
         })
 
         //Canopy seekBar
-        viewOfLayout.seekBar_canopy.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
+        binding.seekBarCanopy.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 if(fromUser) {
-                    viewOfLayout.editNumber_canopy.setText(progress.toString())
-                    viewOfLayout.editNumber_canopy.setSelection(viewOfLayout.editNumber_canopy.length())
+                    binding.editNumberCanopy.setText(progress.toString())
+                    binding.editNumberCanopy.setSelection(binding.editNumberCanopy.length())
                     clearFocusFromButtons()
                     setCalculatorWingLoading(defaultValues.weight,defaultValues.weight_tandem,defaultValues.equipment,defaultValues.canopy,defaultValues.unit_KG)
                 }
@@ -464,7 +475,7 @@ class OverviewFragment : Fragment() {
         })
 
         //Load seekBar
-        viewOfLayout.seekBar_load.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
+        binding.seekBarLoad.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 if(fromUser) {
                     updateLoad( nochange = false, increase = false, decrease = false, onHold = false)
@@ -474,15 +485,7 @@ class OverviewFragment : Fragment() {
             override fun onStopTrackingTouch(seekBar: SeekBar?) {}
         })
 
-        //tresar icoanele de la proggress bar cand dai click pe view
-        viewOfLayout.setOnClickListener {
-            Toast.makeText(
-                    activity,
-                    "FRAGMENT CLICKED ",
 
-                    Toast.LENGTH_SHORT
-                ).show()
-        }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 //Handling of +/- buttons for all values
@@ -492,34 +495,34 @@ class OverviewFragment : Fragment() {
             when(valueToModify)
             {
                 1->{
-                    var size :Int = Integer.parseInt(viewOfLayout.editNumber_weight.text.toString())
+                    var size :Int = Integer.parseInt(binding.editNumberWeight.text.toString())
                     if(increaseValue)
                     {
                         size += onHoldTotalValue(size, increase = true, decrease = false)
                     }else{
                         size -=onHoldTotalValue(size, increase = false, decrease = true)
                     }
-                    viewOfLayout.editNumber_weight.setText(size.toString())
+                    binding.editNumberWeight.setText(size.toString())
                 }
                 2->{
-                    var size :Int = Integer.parseInt(viewOfLayout.editNumber_equipment.text.toString())
+                    var size :Int = Integer.parseInt(binding.editNumberEquipment.text.toString())
                     if(increaseValue)
                     {
                         size += onHoldTotalValue(size, increase = true, decrease = false)
                     }else{
                         size -= onHoldTotalValue(size, increase = false, decrease = true)
                     }
-                    viewOfLayout.editNumber_equipment.setText(size.toString())
+                    binding.editNumberEquipment.setText(size.toString())
                 }
                 3->{
-                    var size :Int = Integer.parseInt(viewOfLayout.editNumber_canopy.text.toString())
+                    var size :Int = Integer.parseInt(binding.editNumberCanopy.text.toString())
                     if(increaseValue)
                     {
                         size += onHoldTotalValue(size, increase = true, decrease = false)
                     }else{
                         size -= onHoldTotalValue(size, increase = false, decrease = true)
                     }
-                    viewOfLayout.editNumber_canopy.setText(size.toString())
+                    binding.editNumberCanopy.setText(size.toString())
                     setCalculatorWingLoading(defaultValues.weight,defaultValues.weight_tandem,defaultValues.equipment,defaultValues.canopy,defaultValues.unit_KG)
                 }
                 4->{
@@ -531,14 +534,14 @@ class OverviewFragment : Fragment() {
                     }
                 }
                 5->{
-                    var size :Int = Integer.parseInt(viewOfLayout.editNumber_weight_tandem.text.toString())
+                    var size :Int = Integer.parseInt(binding.editNumberWeightTandem.text.toString())
                     if(increaseValue)
                     {
                         size += onHoldTotalValue(size, increase = true, decrease = false)
                     }else{
                         size -=onHoldTotalValue(size, increase = false, decrease = true)
                     }
-                    viewOfLayout.editNumber_weight_tandem.setText(size.toString())
+                    binding.editNumberWeightTandem.setText(size.toString())
                 }
 
                 else -> {
@@ -557,18 +560,18 @@ class OverviewFragment : Fragment() {
     /////////////////////////////////B U T T O N S //////////////////////////////////////////
     //Weight
         //Weight -
-        viewOfLayout.button_weight_minus.setOnClickListener {
-            var size :Int = Integer.parseInt(viewOfLayout.editNumber_weight.text.toString())
+        binding.buttonWeightMinus.setOnClickListener {
+            var size :Int = Integer.parseInt(binding.editNumberWeight.text.toString())
             size -= 1
-            viewOfLayout.editNumber_weight.setText(size.toString())
+            binding.editNumberWeight.setText(size.toString())
         }
-        viewOfLayout.button_weight_minus.setOnTouchListener { _, event ->
+        binding.buttonWeightMinus.setOnTouchListener { _, event ->
             if (event.action == MotionEvent.ACTION_UP) {
                 weightCounter.cancel()
             }
             false
         }
-        viewOfLayout.button_weight_minus.setOnLongClickListener{
+        binding.buttonWeightMinus.setOnLongClickListener{
              valueToModify = 1
              increaseValue = false
             weightCounter.start()
@@ -576,18 +579,18 @@ class OverviewFragment : Fragment() {
         }
 
         //Weight +
-        viewOfLayout.button_weight_plus.setOnClickListener {
-            var size :Int = Integer.parseInt(viewOfLayout.editNumber_weight.text.toString())
+        binding.buttonWeightPlus.setOnClickListener {
+            var size :Int = Integer.parseInt(binding.editNumberWeight.text.toString())
             size += 1
-            viewOfLayout.editNumber_weight.setText(size.toString())
+            binding.editNumberWeight.setText(size.toString())
         }
-        viewOfLayout.button_weight_plus.setOnTouchListener { _, event ->
+        binding.buttonWeightPlus.setOnTouchListener { _, event ->
             if (event.action == MotionEvent.ACTION_UP) {
                 weightCounter.cancel()
             }
             false
         }
-        viewOfLayout.button_weight_plus.setOnLongClickListener {
+        binding.buttonWeightPlus.setOnLongClickListener {
             valueToModify = 1
             increaseValue = true
             weightCounter.start()
@@ -596,18 +599,18 @@ class OverviewFragment : Fragment() {
 
     //Weight_tandem
         //Weight_tandem -
-        viewOfLayout.button_weight_tandem_minus.setOnClickListener {
-            var size :Int = Integer.parseInt(viewOfLayout.editNumber_weight_tandem.text.toString())
+        binding.buttonWeightTandemMinus.setOnClickListener {
+            var size :Int = Integer.parseInt(binding.editNumberWeightTandem.text.toString())
             size -= 1
-            viewOfLayout.editNumber_weight_tandem.setText(size.toString())
+            binding.editNumberWeightTandem.setText(size.toString())
         }
-        viewOfLayout.button_weight_tandem_minus.setOnTouchListener { _, event ->
+        binding.buttonWeightTandemMinus.setOnTouchListener { _, event ->
             if (event.action == MotionEvent.ACTION_UP) {
                 weightCounter.cancel()
             }
             false
         }
-        viewOfLayout.button_weight_tandem_minus.setOnLongClickListener{
+        binding.buttonWeightTandemMinus.setOnLongClickListener{
              valueToModify = 5
              increaseValue = false
             weightCounter.start()
@@ -615,18 +618,18 @@ class OverviewFragment : Fragment() {
         }
 
         //Weight_tandem +
-        viewOfLayout.button_weight_tandem_plus.setOnClickListener {
-            var size :Int = Integer.parseInt(viewOfLayout.editNumber_weight_tandem.text.toString())
+        binding.buttonWeightTandemPlus.setOnClickListener {
+            var size :Int = Integer.parseInt(binding.editNumberWeightTandem.text.toString())
             size += 1
-            viewOfLayout.editNumber_weight_tandem.setText(size.toString())
+            binding.editNumberWeightTandem.setText(size.toString())
         }
-        viewOfLayout.button_weight_tandem_plus.setOnTouchListener { _, event ->
+        binding.buttonWeightTandemPlus.setOnTouchListener { _, event ->
             if (event.action == MotionEvent.ACTION_UP) {
                 weightCounter.cancel()
             }
             false
         }
-        viewOfLayout.button_weight_tandem_plus.setOnLongClickListener {
+        binding.buttonWeightTandemPlus.setOnLongClickListener {
             valueToModify = 5
             increaseValue = true
             weightCounter.start()
@@ -635,36 +638,36 @@ class OverviewFragment : Fragment() {
 
     //Equipment
         //Equipment -
-        viewOfLayout.button_equipment_minus.setOnClickListener {
-            var size :Int = Integer.parseInt(viewOfLayout.editNumber_equipment.text.toString())
+        binding.buttonEquipmentMinus.setOnClickListener {
+            var size :Int = Integer.parseInt(binding.editNumberEquipment.text.toString())
             size -= 1
-            viewOfLayout.editNumber_equipment.setText(size.toString())
+            binding.editNumberEquipment.setText(size.toString())
         }
-        viewOfLayout.button_equipment_minus.setOnTouchListener { _, event ->
+        binding.buttonEquipmentMinus.setOnTouchListener { _, event ->
             if (event.action == MotionEvent.ACTION_UP) {
                 weightCounter.cancel()
             }
             false
         }
-        viewOfLayout.button_equipment_minus.setOnLongClickListener {
+        binding.buttonEquipmentMinus.setOnLongClickListener {
             valueToModify = 2
             increaseValue = false
             weightCounter.start()
             return@setOnLongClickListener true
         }
         //Equipment +
-        viewOfLayout.button_equipment_plus.setOnClickListener {
-            var size :Int = Integer.parseInt(viewOfLayout.editNumber_equipment.text.toString())
+        binding.buttonEquipmentPlus.setOnClickListener {
+            var size :Int = Integer.parseInt(binding.editNumberEquipment.text.toString())
             size += 1
-            viewOfLayout.editNumber_equipment.setText(size.toString())
+            binding.editNumberEquipment.setText(size.toString())
         }
-        viewOfLayout.button_equipment_plus.setOnTouchListener { _, event ->
+        binding.buttonEquipmentPlus.setOnTouchListener { _, event ->
             if (event.action == MotionEvent.ACTION_UP) {
                 weightCounter.cancel()
             }
             false
         }
-        viewOfLayout.button_equipment_plus.setOnLongClickListener {
+        binding.buttonEquipmentPlus.setOnLongClickListener {
             valueToModify = 2
             increaseValue = true
             weightCounter.start()
@@ -673,20 +676,20 @@ class OverviewFragment : Fragment() {
 
     //Canopy
         //Canopy  -
-        viewOfLayout.button_canopy_minus.setOnClickListener {
+        binding.buttonCanopyMinus.setOnClickListener {
 
-            var size :Int = Integer.parseInt(viewOfLayout.editNumber_canopy.text.toString())
+            var size :Int = Integer.parseInt(binding.editNumberCanopy.text.toString())
             size -= 1
-            viewOfLayout.editNumber_canopy.setText(size.toString())
+            binding.editNumberCanopy.setText(size.toString())
             setCalculatorWingLoading(defaultValues.weight,defaultValues.weight_tandem,defaultValues.equipment,defaultValues.canopy,defaultValues.unit_KG)
         }
-        viewOfLayout.button_canopy_minus.setOnTouchListener { _, event ->
+        binding.buttonCanopyMinus.setOnTouchListener { _, event ->
             if (event.action == MotionEvent.ACTION_UP) {
                 weightCounter.cancel()
             }
             false
         }
-        viewOfLayout.button_canopy_minus.setOnLongClickListener {
+        binding.buttonCanopyMinus.setOnLongClickListener {
             valueToModify = 3
             increaseValue = false
             weightCounter.start()
@@ -694,19 +697,19 @@ class OverviewFragment : Fragment() {
         }
 
         //Canopy  +
-        viewOfLayout.button_canopy_plus.setOnClickListener {
-            var size :Int = Integer.parseInt(viewOfLayout.editNumber_canopy.text.toString())
+        binding.buttonCanopyPlus.setOnClickListener {
+            var size :Int = Integer.parseInt(binding.editNumberCanopy.text.toString())
             size += 1
-            viewOfLayout.editNumber_canopy.setText(size.toString())
+            binding.editNumberCanopy.setText(size.toString())
             setCalculatorWingLoading(defaultValues.weight,defaultValues.weight_tandem,defaultValues.equipment,defaultValues.canopy,defaultValues.unit_KG)
         }
-        viewOfLayout.button_canopy_plus.setOnTouchListener { _, event ->
+        binding.buttonCanopyPlus.setOnTouchListener { _, event ->
             if (event.action == MotionEvent.ACTION_UP) {
                 weightCounter.cancel()
             }
             false
         }
-        viewOfLayout.button_canopy_plus.setOnLongClickListener {
+        binding.buttonCanopyPlus.setOnLongClickListener {
             valueToModify = 3
             increaseValue = true
             weightCounter.start()
@@ -715,32 +718,32 @@ class OverviewFragment : Fragment() {
 
     //Load
         //Load -
-        viewOfLayout.button_load_minus.setOnClickListener {
+        binding.buttonLoadMinus.setOnClickListener {
             updateLoad(nochange = false, increase = false, decrease = true, onHold = false)
         }
-        viewOfLayout.button_load_minus.setOnTouchListener { _, event ->
+        binding.buttonLoadMinus.setOnTouchListener { _, event ->
             if (event.action == MotionEvent.ACTION_UP) {
                 weightCounter.cancel()
             }
             false
         }
-        viewOfLayout.button_load_minus.setOnLongClickListener {
+        binding.buttonLoadMinus.setOnLongClickListener {
             valueToModify = 4
             increaseValue = false
             weightCounter.start()
             return@setOnLongClickListener true
         }
         //Load +
-        viewOfLayout.button_load_plus.setOnClickListener {
+        binding.buttonLoadPlus.setOnClickListener {
             updateLoad(nochange = false, increase = true, decrease = false, onHold = false)
         }
-        viewOfLayout.button_load_plus.setOnTouchListener { _, event ->
+        binding.buttonLoadPlus.setOnTouchListener { _, event ->
             if (event.action == MotionEvent.ACTION_UP) {
                 weightCounter.cancel()
             }
             false
         }
-        viewOfLayout.button_load_plus.setOnLongClickListener {
+        binding.buttonLoadPlus.setOnLongClickListener {
             valueToModify = 4
             increaseValue = true
             weightCounter.start()
@@ -750,13 +753,18 @@ class OverviewFragment : Fragment() {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
         //Animation enabled for constraint container of all other constraintLayouts
         //Side Note:   android:animateLayoutChanges="true" needed aswell
-        viewOfLayout.Main_constraintLayout.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
+        binding.MainConstraintLayout.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
 
+        
+        
         clearFocusFromButtons()
         //required to update fragment
         setBackground()
 
-        return viewOfLayout
+
+
+        val view = binding.root
+        return view
     }
 ///////////////////////////////////////////////////////// //////    //    //    ////    //////////////////////////////////////////// /////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////// //        ////  //    //  //  //////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -767,11 +775,11 @@ class OverviewFragment : Fragment() {
     // clear focus from all 4 edit text items
     private fun clearFocusFromButtons()
     {
-        viewOfLayout.editNumber_weight.clearFocus()
-        viewOfLayout.editNumber_weight_tandem.clearFocus()
-        viewOfLayout.editNumber_equipment.clearFocus()
-        viewOfLayout.editNumber_canopy.clearFocus()
-        viewOfLayout.editNumber_load.clearFocus()
+        binding.editNumberWeight.clearFocus()
+        binding.editNumberWeightTandem.clearFocus()
+        binding.editNumberEquipment.clearFocus()
+        binding.editNumberCanopy.clearFocus()
+        binding.editNumberLoad.clearFocus()
     }
 //*Close onScreen keyboard when user presses something else
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -779,13 +787,13 @@ class OverviewFragment : Fragment() {
     private fun saveData()
     {
         val editor: SharedPreferences.Editor = shared_preferences_save.edit()
-        editor.putInt("Weight",    viewOfLayout.editNumber_weight.text.toString().toInt())
-        editor.putInt("Weight_tandem", viewOfLayout.editNumber_weight_tandem.text.toString().toInt())
-        editor.putInt("Equipment", viewOfLayout.editNumber_equipment.text.toString().toInt())
-        editor.putInt("Canopy",    viewOfLayout.editNumber_canopy.text.toString().toInt())
-        editor.putBoolean("Tandem_checked", viewOfLayout.checkBox_tandem.isChecked)
-        editor.putBoolean("kg", viewOfLayout.radioButton_KG.isChecked)
-        editor.putBoolean("lbs", viewOfLayout.radioButton_LBS.isChecked)
+        editor.putInt("Weight",    binding.editNumberWeight.text.toString().toInt())
+        editor.putInt("Weight_tandem", binding.editNumberWeightTandem.text.toString().toInt())
+        editor.putInt("Equipment", binding.editNumberEquipment.text.toString().toInt())
+        editor.putInt("Canopy",    binding.editNumberCanopy.text.toString().toInt())
+        editor.putBoolean("Tandem_checked", binding.checkBoxTandem.isChecked)
+        editor.putBoolean("kg", binding.radioButtonKG.isChecked)
+        editor.putBoolean("lbs", binding.radioButtonLBS.isChecked)
         editor.putBoolean("SAVED", true)
         editor.apply()
     }
@@ -807,7 +815,7 @@ class OverviewFragment : Fragment() {
 
         val wingLoading:Double
         var totalWeight=weight+equipment
-        if(viewOfLayout.checkBox_tandem.isChecked)
+        if(binding.checkBoxTandem.isChecked)
         {
             totalWeight += weight_tandem
         }
@@ -817,19 +825,19 @@ class OverviewFragment : Fragment() {
 
         wingLoading= totalWeight.toDouble()/canopy.toDouble()
         val result = (wingLoading *100).toInt()
-            viewOfLayout.editNumber_load.setText((result.toDouble()/100).toString())
-            viewOfLayout.seekBar_load.progress = result
+            binding.editNumberLoad.setText((result.toDouble()/100).toString())
+            binding.seekBarLoad.progress = result
 
         if(init)//init of load seekbar
         {
-        var value = ((viewOfLayout.editNumber_load.text.toString()).toDouble()*100).toInt()
+        var value = ((binding.editNumberLoad.text.toString()).toDouble()*100).toInt()
 
-        if(value > viewOfLayout.seekBar_load.max) {
-            value = viewOfLayout.seekBar_load.max
-            viewOfLayout.editNumber_load.setText((value.toDouble()/100).toString())
+        if(value > binding.seekBarLoad.max) {
+            value = binding.seekBarLoad.max
+            binding.editNumberLoad.setText((value.toDouble()/100).toString())
 
         }
-        viewOfLayout.seekBar_load.progress=value
+        binding.seekBarLoad.progress=value
         init = false
         }
         saveData()
@@ -838,7 +846,7 @@ class OverviewFragment : Fragment() {
     private fun setCalculatorWingSize(weight:Int, weight_tandem:Int, equipment: Int, wingLoading:Int, unit_KG:Boolean) {
         val canopy:Double
         var totalWeight=weight+equipment
-        if(viewOfLayout.checkBox_tandem.isChecked)
+        if(binding.checkBoxTandem.isChecked)
         {
             totalWeight += weight_tandem
         }
@@ -848,7 +856,7 @@ class OverviewFragment : Fragment() {
         canopy= totalWeight.toDouble()/(wingLoading.toDouble())
         val temp = (canopy *100).toInt().toString()
 
-                    viewOfLayout.editNumber_canopy.setText(temp)
+                    binding.editNumberCanopy.setText(temp)
         saveData()
     }
 //*Calculator values updater
@@ -857,7 +865,7 @@ class OverviewFragment : Fragment() {
     //Update level of jumps
     private fun handlingOfJumpsConstraintLayout()
     {
-        val loadValue :Int = ((viewOfLayout.editNumber_load.text.toString()).toDouble()*100).toInt()
+        val loadValue :Int = ((binding.editNumberLoad.text.toString()).toDouble()*100).toInt()
 
         when(updateJumpValue(loadValue)){
             -1 ->{
@@ -865,77 +873,77 @@ class OverviewFragment : Fragment() {
             }
             0->{
                 //Result bar
-                viewOfLayout.textView_jumps_level.background = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.result_bar_shape_and_result_color_0, null)
-                viewOfLayout.textView_jumps_level.text ="BASIC: 0-200 JUMPS"
+                binding.textViewJumpsLevel.background = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.result_bar_shape_and_result_color_0, null)
+                binding.textViewJumpsLevel.text ="BASIC: 0-200 JUMPS"
                 //Seek bar progress
-                viewOfLayout.seekBar_weight.progressDrawable = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.seek_bar_calculator_fragment_color_0, null)
-                viewOfLayout.seekBar_weight_tandem.progressDrawable = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.seek_bar_calculator_fragment_color_0, null)
-                viewOfLayout.seekBar_equipment.progressDrawable = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.seek_bar_calculator_fragment_color_0, null)
-                viewOfLayout.seekBar_canopy.progressDrawable = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.seek_bar_calculator_fragment_color_0, null)
-                viewOfLayout.seekBar_load.progressDrawable = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.seek_bar_calculator_fragment_color_0, null)
+                binding.seekBarWeight.progressDrawable = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.seek_bar_calculator_fragment_color_0, null)
+                binding.seekBarWeightTandem.progressDrawable = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.seek_bar_calculator_fragment_color_0, null)
+                binding.seekBarEquipment.progressDrawable = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.seek_bar_calculator_fragment_color_0, null)
+                binding.seekBarCanopy.progressDrawable = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.seek_bar_calculator_fragment_color_0, null)
+                binding.seekBarLoad.progressDrawable = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.seek_bar_calculator_fragment_color_0, null)
                //thumbs icon change
                 if (load_underflow){
 
-                    viewOfLayout.seekBar_load.thumb = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.ic_seek_bar_thumb_load_0, null)
+                    binding.seekBarLoad.thumb = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.ic_seek_bar_thumb_load_0, null)
                 }else{
-                    viewOfLayout.seekBar_load.thumb = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.ic_seek_bar_thumb_load_0, null)
+                    binding.seekBarLoad.thumb = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.ic_seek_bar_thumb_load_0, null)
                 }
             }
 
             1->{
                 //Result bar
-                viewOfLayout.textView_jumps_level.background = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.result_bar_shape_and_result_color_1, null)
-                viewOfLayout.textView_jumps_level.text ="INTERMEDIATE: 200-600 JUMPS"
+                binding.textViewJumpsLevel.background = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.result_bar_shape_and_result_color_1, null)
+                binding.textViewJumpsLevel.text ="INTERMEDIATE: 200-600 JUMPS"
                 //Seek bar progress
-                viewOfLayout.seekBar_weight.progressDrawable = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.seek_bar_calculator_fragment_color_1, null)
-                viewOfLayout.seekBar_weight_tandem.progressDrawable = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.seek_bar_calculator_fragment_color_1, null)
-                viewOfLayout.seekBar_equipment.progressDrawable = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.seek_bar_calculator_fragment_color_1, null)
-                viewOfLayout.seekBar_canopy.progressDrawable = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.seek_bar_calculator_fragment_color_1, null)
-                viewOfLayout.seekBar_load.progressDrawable = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.seek_bar_calculator_fragment_color_1, null)
+                binding.seekBarWeight.progressDrawable = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.seek_bar_calculator_fragment_color_1, null)
+                binding.seekBarWeightTandem.progressDrawable = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.seek_bar_calculator_fragment_color_1, null)
+                binding.seekBarEquipment.progressDrawable = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.seek_bar_calculator_fragment_color_1, null)
+                binding.seekBarCanopy.progressDrawable = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.seek_bar_calculator_fragment_color_1, null)
+                binding.seekBarLoad.progressDrawable = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.seek_bar_calculator_fragment_color_1, null)
                 //thumbs icon change
-                viewOfLayout.seekBar_load.thumb = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.ic_seek_bar_thumb_load_1, null)
+                binding.seekBarLoad.thumb = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.ic_seek_bar_thumb_load_1, null)
             }
 
             2->{
                 //Result bar
-                viewOfLayout.textView_jumps_level.background = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.result_bar_shape_and_result_color_2, null)
-                viewOfLayout.textView_jumps_level.text ="ADVANCED: 600-1500 JUMPS"
+                binding.textViewJumpsLevel.background = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.result_bar_shape_and_result_color_2, null)
+                binding.textViewJumpsLevel.text ="ADVANCED: 600-1500 JUMPS"
                 //Seek bar progress
-                viewOfLayout.seekBar_weight.progressDrawable = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.seek_bar_calculator_fragment_color_2, null)
-                viewOfLayout.seekBar_weight_tandem.progressDrawable = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.seek_bar_calculator_fragment_color_2, null)
-                viewOfLayout.seekBar_equipment.progressDrawable = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.seek_bar_calculator_fragment_color_2, null)
-                viewOfLayout.seekBar_canopy.progressDrawable = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.seek_bar_calculator_fragment_color_2, null)
-                viewOfLayout.seekBar_load.progressDrawable = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.seek_bar_calculator_fragment_color_2, null)
+                binding.seekBarWeight.progressDrawable = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.seek_bar_calculator_fragment_color_2, null)
+                binding.seekBarWeightTandem.progressDrawable = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.seek_bar_calculator_fragment_color_2, null)
+                binding.seekBarEquipment.progressDrawable = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.seek_bar_calculator_fragment_color_2, null)
+                binding.seekBarCanopy.progressDrawable = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.seek_bar_calculator_fragment_color_2, null)
+                binding.seekBarLoad.progressDrawable = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.seek_bar_calculator_fragment_color_2, null)
                 //thumbs icon change
-                viewOfLayout.seekBar_load.thumb = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.ic_seek_bar_thumb_load_2, null)
+                binding.seekBarLoad.thumb = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.ic_seek_bar_thumb_load_2, null)
             }
 
             3->{
                 //Result bar
-                viewOfLayout.textView_jumps_level.background = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.result_bar_shape_and_result_color_3, null)
-                viewOfLayout.textView_jumps_level.text ="EXPERT: 1500+ JUMPS"
+                binding.textViewJumpsLevel.background = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.result_bar_shape_and_result_color_3, null)
+                binding.textViewJumpsLevel.text ="EXPERT: 1500+ JUMPS"
                 //Seek bar progress
-                viewOfLayout.seekBar_weight.progressDrawable = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.seek_bar_calculator_fragment_color_3, null)
-                viewOfLayout.seekBar_weight_tandem.progressDrawable = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.seek_bar_calculator_fragment_color_3, null)
-                viewOfLayout.seekBar_equipment.progressDrawable = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.seek_bar_calculator_fragment_color_3, null)
-                viewOfLayout.seekBar_canopy.progressDrawable = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.seek_bar_calculator_fragment_color_3, null)
-                viewOfLayout.seekBar_load.progressDrawable = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.seek_bar_calculator_fragment_color_3, null)
+                binding.seekBarWeight.progressDrawable = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.seek_bar_calculator_fragment_color_3, null)
+                binding.seekBarWeightTandem.progressDrawable = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.seek_bar_calculator_fragment_color_3, null)
+                binding.seekBarEquipment.progressDrawable = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.seek_bar_calculator_fragment_color_3, null)
+                binding.seekBarCanopy.progressDrawable = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.seek_bar_calculator_fragment_color_3, null)
+                binding.seekBarLoad.progressDrawable = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.seek_bar_calculator_fragment_color_3, null)
                 //thumbs icon change
-                viewOfLayout.seekBar_load.thumb = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.ic_seek_bar_thumb_load_3, null)
+                binding.seekBarLoad.thumb = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.ic_seek_bar_thumb_load_3, null)
             }
 
             4->{
                 //Result bar
-                viewOfLayout.textView_jumps_level.background = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.result_bar_shape_and_result_color_4, null)
-                viewOfLayout.textView_jumps_level.text ="EXPERT: 1500+ JUMPS"
+                binding.textViewJumpsLevel.background = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.result_bar_shape_and_result_color_4, null)
+                binding.textViewJumpsLevel.text ="EXPERT: 1500+ JUMPS"
                 //Seek bar progress
-                viewOfLayout.seekBar_weight.progressDrawable = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.seek_bar_calculator_fragment_color_4, null)
-                viewOfLayout.seekBar_weight_tandem.progressDrawable = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.seek_bar_calculator_fragment_color_4, null)
-                viewOfLayout.seekBar_equipment.progressDrawable = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.seek_bar_calculator_fragment_color_4, null)
-                viewOfLayout.seekBar_canopy.progressDrawable = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.seek_bar_calculator_fragment_color_4, null)
-                viewOfLayout.seekBar_load.progressDrawable = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.seek_bar_calculator_fragment_color_4, null)
+                binding.seekBarWeight.progressDrawable = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.seek_bar_calculator_fragment_color_4, null)
+                binding.seekBarWeightTandem.progressDrawable = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.seek_bar_calculator_fragment_color_4, null)
+                binding.seekBarEquipment.progressDrawable = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.seek_bar_calculator_fragment_color_4, null)
+                binding.seekBarCanopy.progressDrawable = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.seek_bar_calculator_fragment_color_4, null)
+                binding.seekBarLoad.progressDrawable = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.seek_bar_calculator_fragment_color_4, null)
                 //thumbs icon change
-                viewOfLayout.seekBar_load.thumb = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.ic_seek_bar_thumb_load_alt, null)
+                binding.seekBarLoad.thumb = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.ic_seek_bar_thumb_load_alt, null)
 
             }
             else -> {
@@ -999,16 +1007,16 @@ class OverviewFragment : Fragment() {
     {
         when((activity as StartingActivity?)?.getImageSelecter())
         {
-            1->viewOfLayout.layout_main_for_background.background = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.clouds11, null)
-            2->viewOfLayout.layout_main_for_background.background = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.clouds21, null)
-            3->viewOfLayout.layout_main_for_background.background = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.clouds31, null)
-            4->viewOfLayout.layout_main_for_background.background = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.clouds41, null)
-            5->viewOfLayout.layout_main_for_background.background = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.clouds51, null)
-            6->viewOfLayout.layout_main_for_background.background = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.clouds61, null)
-            7->viewOfLayout.layout_main_for_background.background = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.clouds71, null)
-            8->viewOfLayout.layout_main_for_background.background = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.clouds81, null)
+            1->binding.layoutMainForBackground.background = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.clouds11, null)
+            2->binding.layoutMainForBackground.background = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.clouds21, null)
+            3->binding.layoutMainForBackground.background = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.clouds31, null)
+            4->binding.layoutMainForBackground.background = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.clouds41, null)
+            5->binding.layoutMainForBackground.background = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.clouds51, null)
+            6->binding.layoutMainForBackground.background = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.clouds61, null)
+            7->binding.layoutMainForBackground.background = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.clouds71, null)
+            8->binding.layoutMainForBackground.background = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.clouds81, null)
             else -> {
-                viewOfLayout.layout_main_for_background.background = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.clouds11, null)
+                binding.layoutMainForBackground.background = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.clouds11, null)
             }
         }
     }
@@ -1017,9 +1025,9 @@ class OverviewFragment : Fragment() {
     private fun InitIcons ()
     {
         //Init animation for constraintLayouts //enable animation transition from kg to lbs and vice-versa
-        TransitionManager.beginDelayedTransition(viewOfLayout.Weight_constraintLayout, AutoTransition())
-        TransitionManager.beginDelayedTransition(viewOfLayout.Weight_tandem_constraintLayout, AutoTransition())
-        TransitionManager.beginDelayedTransition(viewOfLayout.Equipment_constraintLayout, AutoTransition())
+        TransitionManager.beginDelayedTransition(binding.WeightConstraintLayout, AutoTransition())
+        TransitionManager.beginDelayedTransition(binding.WeightTandemConstraintLayout, AutoTransition())
+        TransitionManager.beginDelayedTransition(binding.EquipmentConstraintLayout, AutoTransition())
 
         //weight
         HandlerUpdateIcons(0)
@@ -1038,88 +1046,88 @@ class OverviewFragment : Fragment() {
         when(type)
         {
             0 -> {
-                progress_max = viewOfLayout.seekBar_weight.max
-                progress_min = viewOfLayout.seekBar_weight.min
-                progress     = viewOfLayout.seekBar_weight.progress
+                progress_max = binding.seekBarWeight.max
+                progress_min = binding.seekBarWeight.min
+                progress     = binding.seekBarWeight.progress
                 when (progress) {
                     progress_min -> {
-                        viewOfLayout.seekBar_weight.thumb = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.ic_seek_bar_thumb_weight_0, null)
+                        binding.seekBarWeight.thumb = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.ic_seek_bar_thumb_weight_0, null)
                     }
                     progress_max -> {
-                        viewOfLayout.seekBar_weight.thumb = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.ic_seek_bar_thumb_weight_3, null)
+                        binding.seekBarWeight.thumb = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.ic_seek_bar_thumb_weight_3, null)
                     }
                     else -> {
                         when(getPercent(progress - progress_min,progress_max - progress_min)) {
-                            0->{viewOfLayout.seekBar_weight.thumb = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.ic_seek_bar_thumb_weight_0, null)}
-                            1->{viewOfLayout.seekBar_weight.thumb = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.ic_seek_bar_thumb_weight_1, null)}
-                            2->{viewOfLayout.seekBar_weight.thumb = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.ic_seek_bar_thumb_weight_2, null)}
-                            3->{viewOfLayout.seekBar_weight.thumb = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.ic_seek_bar_thumb_weight_3, null)}
+                            0->{binding.seekBarWeight.thumb = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.ic_seek_bar_thumb_weight_0, null)}
+                            1->{binding.seekBarWeight.thumb = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.ic_seek_bar_thumb_weight_1, null)}
+                            2->{binding.seekBarWeight.thumb = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.ic_seek_bar_thumb_weight_2, null)}
+                            3->{binding.seekBarWeight.thumb = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.ic_seek_bar_thumb_weight_3, null)}
                             else ->{}
                         }
                     }
                 }
             }
             1 -> {
-                progress_max = viewOfLayout.seekBar_equipment.max
-                progress_min = viewOfLayout.seekBar_equipment.min
-                progress     = viewOfLayout.seekBar_equipment.progress
+                progress_max = binding.seekBarEquipment.max
+                progress_min = binding.seekBarEquipment.min
+                progress     = binding.seekBarEquipment.progress
                 when (progress) {
                     progress_min -> {
-                        viewOfLayout.seekBar_equipment.thumb = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.ic_seek_bar_thumb_equipment_alt2, null)
+                        binding.seekBarEquipment.thumb = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.ic_seek_bar_thumb_equipment_alt2, null)
                     }
                     progress_max -> {
-                        viewOfLayout.seekBar_equipment.thumb = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.ic_seek_bar_thumb_equipment_3, null)
+                        binding.seekBarEquipment.thumb = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.ic_seek_bar_thumb_equipment_3, null)
                     }
                     else -> {
                         when(getPercent(progress - progress_min,progress_max - progress_min)) {
-                            0->{viewOfLayout.seekBar_equipment.thumb = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.ic_seek_bar_thumb_equipment_0, null)}
-                            1->{viewOfLayout.seekBar_equipment.thumb = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.ic_seek_bar_thumb_equipment_1, null)}
-                            2->{viewOfLayout.seekBar_equipment.thumb = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.ic_seek_bar_thumb_equipment_2, null)}
-                            3->{viewOfLayout.seekBar_equipment.thumb = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.ic_seek_bar_thumb_equipment_3, null)}
+                            0->{binding.seekBarEquipment.thumb = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.ic_seek_bar_thumb_equipment_0, null)}
+                            1->{binding.seekBarEquipment.thumb = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.ic_seek_bar_thumb_equipment_1, null)}
+                            2->{binding.seekBarEquipment.thumb = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.ic_seek_bar_thumb_equipment_2, null)}
+                            3->{binding.seekBarEquipment.thumb = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.ic_seek_bar_thumb_equipment_3, null)}
                             else ->{}
                         }
                     }
                 }
             }
             2 -> {
-                progress_max = viewOfLayout.seekBar_canopy.max
-                progress_min = viewOfLayout.seekBar_canopy.min
-                progress     = viewOfLayout.seekBar_canopy.progress
+                progress_max = binding.seekBarCanopy.max
+                progress_min = binding.seekBarCanopy.min
+                progress     = binding.seekBarCanopy.progress
                 when (progress) {
                     progress_min -> {
-                        viewOfLayout.seekBar_canopy.thumb = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.ic_seek_bar_thumb_canopee_alt, null)
+                        binding.seekBarCanopy.thumb = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.ic_seek_bar_thumb_canopee_alt, null)
                     }
                     progress_max -> {
-                        viewOfLayout.seekBar_canopy.thumb = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.ic_seek_bar_thumb_canopee_3, null)
+                        binding.seekBarCanopy.thumb = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.ic_seek_bar_thumb_canopee_3, null)
                     }
                     else -> {
                         when(getPercent(progress - progress_min,progress_max - progress_min)) {
-                            0->{viewOfLayout.seekBar_canopy.thumb = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.ic_seek_bar_thumb_canopee_0, null)}
-                            1->{viewOfLayout.seekBar_canopy.thumb = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.ic_seek_bar_thumb_canopee_1, null)}
-                            2->{viewOfLayout.seekBar_canopy.thumb = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.ic_seek_bar_thumb_canopee_2, null)}
-                            3->{viewOfLayout.seekBar_canopy.thumb = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.ic_seek_bar_thumb_canopee_3, null)}
+                            0->{binding.seekBarCanopy.thumb = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.ic_seek_bar_thumb_canopee_0, null)}
+                            1->{binding.seekBarCanopy.thumb = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.ic_seek_bar_thumb_canopee_1, null)}
+                            2->{binding.seekBarCanopy.thumb = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.ic_seek_bar_thumb_canopee_2, null)}
+                            3->{binding.seekBarCanopy.thumb = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.ic_seek_bar_thumb_canopee_3, null)}
                             else ->{}
                         }
                     }
                 }
             }
             4 -> {
-                progress_max = viewOfLayout.seekBar_weight_tandem.max
-                progress_min = viewOfLayout.seekBar_weight_tandem.min
-                progress     = viewOfLayout.seekBar_weight_tandem.progress
+                progress_max = binding.seekBarWeightTandem.max
+                progress_min = binding.seekBarWeightTandem.min
+                progress     = binding.seekBarWeightTandem.progress
                 when (progress) {
                     progress_min -> {
-                        viewOfLayout.seekBar_weight_tandem.thumb = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.ic_seek_bar_thumb_weight_0, null)
+                        binding.seekBarWeightTandem.thumb = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.ic_seek_bar_thumb_weight_0, null)
                     }
                     progress_max -> {
-                        viewOfLayout.seekBar_weight_tandem.thumb = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.ic_seek_bar_thumb_weight_3, null)
+                        binding.seekBarWeightTandem.thumb = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.ic_seek_bar_thumb_weight_3, null)
                     }
                     else -> {
                         when(getPercent(progress - progress_min,progress_max - progress_min)) {
-                            0->{viewOfLayout.seekBar_weight_tandem.thumb = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.ic_seek_bar_thumb_weight_0, null)}
-                            1->{viewOfLayout.seekBar_weight_tandem.thumb = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.ic_seek_bar_thumb_weight_1, null)}
-                            2->{viewOfLayout.seekBar_weight_tandem.thumb = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.ic_seek_bar_thumb_weight_2, null)}
-                            3->{viewOfLayout.seekBar_weight_tandem.thumb = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.ic_seek_bar_thumb_weight_3, null)}
+                            0->{binding.seekBarWeightTandem.thumb = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.ic_seek_bar_thumb_weight_0, null)}
+                            1->{binding.seekBarWeightTandem.thumb = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.ic_seek_bar_thumb_weight_1, null)}
+                            2->{binding.seekBarWeightTandem.thumb = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.ic_seek_bar_thumb_weight_2, null)}
+                            3->{binding.seekBarWeightTandem.thumb = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.ic_seek_bar_thumb_weight_3, null)}
                             else ->{}
                         }
                     }
@@ -1156,7 +1164,7 @@ class OverviewFragment : Fragment() {
     private fun expand_tandem()
     {
         val result : Int
-        if(viewOfLayout.checkBox_tandem.isChecked)
+        if(binding.checkBoxTandem.isChecked)
         {
             result = View.VISIBLE
         }
@@ -1164,7 +1172,7 @@ class OverviewFragment : Fragment() {
         {
             result = View.GONE
         }
-        viewOfLayout.Weight_tandem_constraintLayout.visibility = result
+        binding.WeightTandemConstraintLayout.visibility = result
     }
 
 //*Animation for tandem weigh appearance

@@ -1,6 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
+//apply plugin: 'kotlin-android-extensions'
 
 //Ensure type-safety by using Safe Args
 //To generate Java language code suitable for Java or mixed Java and Kotlin modules
@@ -9,6 +9,9 @@ apply plugin: "androidx.navigation.safeargs.kotlin"
 android {
     compileSdkVersion 30
 
+    buildFeatures {
+        viewBinding = true
+    }
 
     defaultConfig {
         applicationId "com.example.SkyDiver"
