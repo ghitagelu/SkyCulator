@@ -825,8 +825,8 @@ class OverviewFragment : Fragment() {
 
         wingLoading= totalWeight.toDouble()/canopy.toDouble()
         val result = (wingLoading *100).toInt()
-            binding.editNumberLoad.setText((result.toDouble()/100).toString())
-            binding.seekBarLoad.progress = result
+        binding.editNumberLoad.setText((result.toDouble()/100).toString())
+        binding.seekBarLoad.progress = result
 
         if(init)//init of load seekbar
         {
@@ -856,7 +856,7 @@ class OverviewFragment : Fragment() {
         canopy= totalWeight.toDouble()/(wingLoading.toDouble())
         val temp = (canopy *100).toInt().toString()
 
-                    binding.editNumberCanopy.setText(temp)
+        binding.editNumberCanopy.setText(temp)
         saveData()
     }
 //*Calculator values updater
