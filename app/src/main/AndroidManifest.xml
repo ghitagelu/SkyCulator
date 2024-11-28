@@ -10,14 +10,14 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name="com.example.SkyDiver.StartingActivity"
+            android:name="com.example.SkyCulator.StartingActivity"
             android:windowSoftInputMode="adjustPan"
             android:screenOrientation="sensorPortrait"
             tools:ignore="LockedOrientationActivity">
 
         </activity>
         <activity
-            android:name="com.example.SkyDiver.SplashActivity"
+            android:name="com.example.SkyCulator.SplashActivity"
             android:theme="@style/AppTheme.NoActionBarWithBackground"
             android:screenOrientation="sensorPortrait"
             tools:ignore="LockedOrientationActivity">
@@ -27,19 +27,19 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.example.SkyDiver.Add_PaymentReminder"
+            android:name="com.example.SkyCulator.Add_PaymentReminder"
             android:screenOrientation="sensorPortrait"
             tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name="com.example.SkyDiver.Add_IncomeOrExpense"
+            android:name="com.example.SkyCulator.Add_IncomeOrExpense"
             android:screenOrientation="sensorPortrait"
             tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name="com.example.SkyDiver.ListOfItems"
+            android:name="com.example.SkyCulator.ListOfItems"
             android:screenOrientation="sensorPortrait"
             tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name="com.example.SkyDiver.MainActivity"
+            android:name="com.example.SkyCulator.MainActivity"
             android:screenOrientation="sensorPortrait"
             tools:ignore="LockedOrientationActivity">
 
@@ -52,7 +52,7 @@
 
         </activity>
         <!--    Reciever for notification    -->
-        <receiver android:name="com.example.SkyDiver.ReminderBroadcast.ReminderBroadcast"/>
+        <receiver android:name="com.example.SkyCulator.ReminderBroadcast.ReminderBroadcast"/>
     </application>
 
 </manifest>

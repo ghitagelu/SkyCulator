@@ -1,11 +1,11 @@
 @file:Suppress("DEPRECATION")
 
-package com.example.SkyDiver
+package com.example.SkyCulator
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
-import com.example.SkyDiver.Fragments.*
+import com.example.SkyCulator.Fragments.*
 
 internal class PagerViewAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
     override fun getItem(position: Int): Fragment {

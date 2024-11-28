@@ -1,4 +1,4 @@
-package com.example.SkyDiver
+package com.example.SkyCulator
 
 
 import android.app.*
@@ -11,11 +11,11 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
-import com.example.SkyDiver.DataBaseHandler.ListItem
-import com.example.SkyDiver.DataBaseHandler.MindOrksDBOpenHelper
-import com.example.SkyDiver.ReminderBroadcast.ReminderBroadcast
-import com.example.SkyDiver.SafeClickListener.setSafeOnClickListener
-import com.example.SkyDiver.databinding.ActivityStartingBinding
+import com.example.SkyCulator.DataBaseHandler.ListItem
+import com.example.SkyCulator.DataBaseHandler.MindOrksDBOpenHelper
+import com.example.SkyCulator.ReminderBroadcast.ReminderBroadcast
+import com.example.SkyCulator.SafeClickListener.setSafeOnClickListener
+import com.example.SkyCulator.databinding.ActivityStartingBinding
 
 
 class StartingActivity : AppCompatActivity() {
@@ -60,7 +60,7 @@ class StartingActivity : AppCompatActivity() {
         listBtn.setOnClickListener {
             // TODO : FRAGMENT CHANGE - enable next line to allow changing to 2nd fragment when tap on button made
             // TODO : FRAGMENT CHANGE - switch this to "2" - will swipe left to change fragments
-            //            mViewPager.currentItem =1
+//                        mViewPager.currentItem =1
 
             val text = "Free fall speed calculator available on next update"
             val duration = Toast.LENGTH_SHORT

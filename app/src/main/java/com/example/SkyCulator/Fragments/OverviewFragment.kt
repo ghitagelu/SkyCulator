@@ -1,4 +1,4 @@
-package com.example.SkyDiver.Fragments
+package com.example.SkyCulator.Fragments
 
 
 import android.animation.LayoutTransition
@@ -18,9 +18,9 @@ import android.widget.Toast
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
-import com.example.SkyDiver.R
-import com.example.SkyDiver.StartingActivity
-import com.example.SkyDiver.databinding.FragmentOverviewBinding
+import com.example.SkyCulator.R
+import com.example.SkyCulator.StartingActivity
+import com.example.SkyCulator.databinding.FragmentOverviewBinding
 import kotlin.math.roundToInt
 
 

@@ -1,4 +1,4 @@
-package com.example.SkyDiver.FreeFallCalculations
+package com.example.SkyCulator.FreeFallCalculations
 
 class FreeFallCalculator {
 
