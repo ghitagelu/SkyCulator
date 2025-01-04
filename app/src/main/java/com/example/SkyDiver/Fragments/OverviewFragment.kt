@@ -855,8 +855,7 @@ class OverviewFragment : Fragment() {
         }
         canopy= totalWeight.toDouble()/(wingLoading.toDouble())
         val temp = (canopy *100).toInt().toString()
-
-                    binding.editNumberCanopy.setText(temp)
+        binding.editNumberCanopy.setText(temp)
         saveData()
     }
 //*Calculator values updater
