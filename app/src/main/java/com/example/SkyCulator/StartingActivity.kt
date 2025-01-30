@@ -1,28 +1,16 @@
 package com.example.SkyCulator
 
-
-import android.app.*
-import android.content.Intent
-import android.os.Build
+import PagerViewAdapter
 import android.os.Bundle
-import android.view.View
 import android.widget.ImageButton
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.viewpager.widget.PagerAdapter
-import androidx.viewpager.widget.ViewPager
-import com.example.SkyCulator.DataBaseHandler.ListItem
-import com.example.SkyCulator.DataBaseHandler.MindOrksDBOpenHelper
-import com.example.SkyCulator.ReminderBroadcast.ReminderBroadcast
-import com.example.SkyCulator.SafeClickListener.setSafeOnClickListener
+import androidx.viewpager2.widget.ViewPager2
 import com.example.SkyCulator.databinding.ActivityStartingBinding
-
 
 class StartingActivity : AppCompatActivity() {
 
     //Init navbar buttons and viewPager and pagerAdapter (created class in Adapter Package)
-    private lateinit var mViewPager: ViewPager
-    private lateinit var mPagerAdapter: PagerAdapter
     private lateinit var homeBtn: ImageButton
     private lateinit var listBtn: ImageButton
 //    private lateinit var addBtn: ImageButton
@@ -37,55 +25,49 @@ class StartingActivity : AppCompatActivity() {
         setContentView(view)
 
 //        setTheme(R.style.AppTheme_NoActionBarWithoutBackground)
-
-
-
-        mViewPager= binding.mViewPager
+        val viewPager: ViewPager2 = binding.viewPager
+        val adapter = PagerViewAdapter(this)
+        viewPager.adapter = adapter
 
         selectedImage = (1..8).random()
 
-        mPagerAdapter = PagerViewAdapter(supportFragmentManager)
-        mViewPager.adapter= mPagerAdapter
-        mViewPager.offscreenPageLimit = 2
+        // Initially load FragmentOne
+        viewPager.currentItem = 0
 
-        val REQUEST_amount = 0;
 
+// ViewPager handling icon change in Menu bar when different fragment is opened
+        viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+                // Action to perform when a page is selected
+                changinTabs(viewPager.currentItem)
+                // You can perform other actions here
+            }
+            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
+                super.onPageScrolled(position, positionOffset, positionOffsetPixels)
+                // Handle scroll state if needed
+            }
+            override fun onPageScrollStateChanged(state: Int) {
+                super.onPageScrollStateChanged(state)
+                // Handle changes in scroll state if needed
+            }
+        })
+
+// B U T T O N S   H A N D L I N G
         homeBtn = binding.homeBtn
         homeBtn.setOnClickListener {
 
-           mViewPager.currentItem =0
+           viewPager.currentItem =0
+            changinTabs(viewPager.currentItem)
         }
 
         listBtn = binding.listBtn
         listBtn.setOnClickListener {
             // TODO : FRAGMENT CHANGE - enable next line to allow changing to 2nd fragment when tap on button made
             // TODO : FRAGMENT CHANGE - switch this to "2" - will swipe left to change fragments
-//                        mViewPager.currentItem =1
-
-            val text = "Free fall speed calculator available on next update"
-            val duration = Toast.LENGTH_SHORT
-            val toast = Toast.makeText(applicationContext, text, duration)
-            toast.show()
+        viewPager.currentItem =1
+            changinTabs(viewPager.currentItem)
         }
-
-        //add page change listener
-        mViewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener{
-            override fun onPageScrollStateChanged(state: Int) {
-
-            }
-            override fun onPageScrolled(
-                position: Int,
-                positionOffset: Float,
-                positionOffsetPixels: Int
-            ) {
-            }
-            override fun onPageSelected(position: Int) {
-                changinTabs(position)
-            }
-        })
-
-        //Default nav bar selection INIT
-        mViewPager.currentItem = 0
     }
 
     public fun getImageSelecter():Int

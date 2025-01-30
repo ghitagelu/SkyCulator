@@ -1,30 +1,18 @@
-@file:Suppress("DEPRECATION")
-
-package com.example.SkyCulator
-
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentPagerAdapter
+import androidx.fragment.app.FragmentActivity
+import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.example.SkyCulator.Fragments.*
 
-internal class PagerViewAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
-    override fun getItem(position: Int): Fragment {
-        return when (position) {
-            0 -> {
-                OverviewFragment()
-            }
-            1 -> {
-                ListFragment()
-            }
 
-            else -> OverviewFragment()
-        }
+class PagerViewAdapter(fragmentActivity: FragmentActivity) : FragmentStateAdapter(fragmentActivity) {
+    override fun getItemCount(): Int = 1 // Number of fragments
+    override fun createFragment(position: Int): Fragment {
+        return when (position) {            
+            0 -> OverviewFragment()
+            1 -> ListFragment()
+	    else -> OverviewFragment()
+       }
     }
-
-    override fun getCount(): Int {
-        //TODO : FRAGMENT CHANGE - switch this to "2" - will swipe left to change fragments
-        return 1
-    }
-
+    
 }
 

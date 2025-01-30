@@ -11,6 +11,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name="com.example.SkyCulator.StartingActivity"
+            android:theme="@style/AppTheme.NoActionBarWithBackground"
             android:windowSoftInputMode="adjustPan"
             android:screenOrientation="sensorPortrait"
             tools:ignore="LockedOrientationActivity">
