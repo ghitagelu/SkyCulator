@@ -11,6 +11,7 @@ Features (So Far)<br>
 🚧 Codebase cleanup pending<br>
 <br>
 Future Plans<br>
+Free-fall speed difference calculation between instructor and student<br>
 UI/UX refinements<br>
 Additional risk factors<br>
 Performance optimizations<br>
