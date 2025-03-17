@@ -1,4 +1,4 @@
-#Skyculator
+# Skyculator
 Skyculator is an Android app designed to calculate the risk factor of a skydiver based on weight and parachute size. The app is currently in development and still evolving.
 
 🚧 Work in Progress
