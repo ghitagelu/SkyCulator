@@ -22,7 +22,7 @@ import com.example.SkyCulator.R
 import com.example.SkyCulator.StartingActivity
 import com.example.SkyCulator.databinding.FragmentOverviewBinding
 import kotlin.math.roundToInt
-
+import android.widget.EditText
 
 /**
  * A simple [Fragment] subclass.
@@ -76,7 +76,9 @@ class OverviewFragment : Fragment() {
             var weight: Int,
             var weight_tandem: Int,
             var equipment: Int,
+            var equipment_tandem: Int,
             var canopy: Int,
+            var canopy_tandem: Int,
             var unit_KG: Boolean,
             var unit_LBS: Boolean
         )
@@ -96,14 +98,26 @@ class OverviewFragment : Fragment() {
 //
                 binding.editNumberWeight.setText(weight.toString())
                 binding.editNumberWeightTandem.setText(weight_tandem.toString())
-                binding.editNumberEquipment.setText(equipment.toString())
-                binding.editNumberCanopy.setText(canopy.toString())
-                setCalculatorWingLoading(weight,weight_tandem,equipment,canopy,unit_KG)
+                if(tandem){
+                    binding.editNumberEquipment.setText(equipment_tandem.toString())
+                    binding.editNumberCanopy.setText(canopy_tandem.toString())
+                }else{
+                    binding.editNumberEquipment.setText(equipment.toString())
+                    binding.editNumberCanopy.setText(canopy.toString())
+                }
+
+                setCalculatorWingLoading(weight,weight_tandem,equipment,equipment_tandem,canopy,canopy_tandem,unit_KG)
 
                 binding.seekBarWeight.progress =weight
                 binding.seekBarWeightTandem.progress =weight_tandem
-                binding.seekBarEquipment.progress =equipment
-                binding.seekBarCanopy.progress =canopy
+
+                if(tandem){
+                    binding.seekBarEquipment.progress =equipment_tandem
+                    binding.seekBarCanopy.progress =canopy_tandem
+                }else{
+                    binding.seekBarEquipment.progress =equipment
+                    binding.seekBarCanopy.progress =canopy
+                }
 
                 handlingOfJumpsConstraintLayout()
                 InitIcons ()
@@ -195,7 +209,9 @@ class OverviewFragment : Fragment() {
                 shared_preferences_save.getInt("Weight",110),
                 shared_preferences_save.getInt("Weight_tandem",110),
                 shared_preferences_save.getInt("Equipment",10),
+                shared_preferences_save.getInt("Equipment_tandem",30),
                 shared_preferences_save.getInt("Canopy",178),
+                shared_preferences_save.getInt("Canopy_tandem",278),
                 unit_KG = shared_preferences_save.getBoolean("kg", true),
                 unit_LBS = shared_preferences_save.getBoolean("lbs", false)
             )
@@ -217,11 +233,14 @@ class OverviewFragment : Fragment() {
             //Kilograms
                 defaultValues.weight = convertLBStoKG(defaultValues.weight)
                 defaultValues.weight_tandem = convertLBStoKG(defaultValues.weight_tandem)
-                defaultValues.equipment = convertLBStoKG(defaultValues.equipment)
+
+                    defaultValues.equipment_tandem = convertLBStoKG(defaultValues.equipment_tandem)
+                    defaultValues.equipment = convertLBStoKG(defaultValues.equipment)
+
                 defaultValues.unit_KG = true
                 defaultValues.unit_LBS= false
                 defaultValues.setCalculatorValues()
-                setCalculatorWingLoading(defaultValues.weight,defaultValues.weight_tandem,defaultValues.equipment,defaultValues.canopy,defaultValues.unit_KG)
+                setCalculatorWingLoading(defaultValues.weight,defaultValues.weight_tandem,defaultValues.equipment,defaultValues.equipment_tandem,defaultValues.canopy,defaultValues.canopy_tandem,defaultValues.unit_KG)
 
             }
 
@@ -229,11 +248,15 @@ class OverviewFragment : Fragment() {
             //LBS
                 defaultValues.weight = convertKGtoLBS(defaultValues.weight)
                 defaultValues.weight_tandem = convertKGtoLBS(defaultValues.weight_tandem)
-                defaultValues.equipment = convertKGtoLBS(defaultValues.equipment)
+
+                    defaultValues.equipment_tandem = convertKGtoLBS(defaultValues.equipment_tandem)
+
+                    defaultValues.equipment = convertKGtoLBS(defaultValues.equipment)
+
                 defaultValues.unit_KG = false
                 defaultValues.unit_LBS= true
                 defaultValues.setCalculatorValues()
-                setCalculatorWingLoading(defaultValues.weight,defaultValues.weight_tandem,defaultValues.equipment,defaultValues.canopy,defaultValues.unit_KG)
+                setCalculatorWingLoading(defaultValues.weight,defaultValues.weight_tandem,defaultValues.equipment,defaultValues.equipment_tandem,defaultValues.canopy,defaultValues.canopy_tandem,defaultValues.unit_KG)
             }
             saveData()
         }
@@ -251,6 +274,7 @@ class OverviewFragment : Fragment() {
 
                     Toast.LENGTH_SHORT
                 ).show()
+
             }
             //show the weight_tandem constraintLayout
             expand_tandem()
@@ -278,7 +302,7 @@ class OverviewFragment : Fragment() {
                 binding.seekBarWeight.progress=value
                 defaultValues.weight = value
 
-                setCalculatorWingLoading(defaultValues.weight,defaultValues.weight_tandem,defaultValues.equipment,defaultValues.canopy,defaultValues.unit_KG)
+                setCalculatorWingLoading(defaultValues.weight,defaultValues.weight_tandem,defaultValues.equipment,defaultValues.equipment_tandem,defaultValues.canopy,defaultValues.canopy_tandem,defaultValues.unit_KG)
             }
         }
         //Weight_tandem :Text field handling
@@ -299,7 +323,7 @@ class OverviewFragment : Fragment() {
                 binding.seekBarWeightTandem.progress=value
                 defaultValues.weight_tandem = value
 
-                setCalculatorWingLoading(defaultValues.weight,defaultValues.weight_tandem,defaultValues.equipment,defaultValues.canopy,defaultValues.unit_KG)
+                setCalculatorWingLoading(defaultValues.weight,defaultValues.weight_tandem,defaultValues.equipment,defaultValues.equipment_tandem,defaultValues.canopy,defaultValues.canopy_tandem,defaultValues.unit_KG)
             }
         }
 
@@ -319,9 +343,16 @@ class OverviewFragment : Fragment() {
                 }
 
                 binding.seekBarEquipment.progress=value
-                defaultValues.equipment = value
 
-                setCalculatorWingLoading(defaultValues.weight,defaultValues.weight_tandem,defaultValues.equipment,defaultValues.canopy,defaultValues.unit_KG)
+                if(binding.checkBoxTandem.isChecked)
+                {
+                    defaultValues.equipment_tandem = value
+                }else{
+                    defaultValues.equipment = value
+                }
+
+
+                setCalculatorWingLoading(defaultValues.weight,defaultValues.weight_tandem,defaultValues.equipment,defaultValues.equipment_tandem,defaultValues.canopy,defaultValues.canopy_tandem,defaultValues.unit_KG)
             }
         }
 
@@ -341,7 +372,12 @@ class OverviewFragment : Fragment() {
                 }
 
                 binding.seekBarCanopy.progress=value
-                defaultValues.canopy = value
+                if(binding.checkBoxTandem.isChecked)
+                {
+                    defaultValues.canopy_tandem = value
+                }else{
+                    defaultValues.canopy = value
+                }
             }
 
         }
@@ -409,6 +445,7 @@ class OverviewFragment : Fragment() {
                 defaultValues.weight,
                 defaultValues.weight_tandem,
                 defaultValues.equipment,
+                defaultValues.equipment_tandem,
                 value,
                 defaultValues.unit_KG
             )
@@ -422,7 +459,7 @@ class OverviewFragment : Fragment() {
                     binding.editNumberWeight.setText(progress.toString())
                     binding.editNumberWeight.setSelection(binding.editNumberWeight.length())
                     clearFocusFromButtons()
-                    setCalculatorWingLoading(defaultValues.weight,defaultValues.weight_tandem,defaultValues.equipment,defaultValues.canopy,defaultValues.unit_KG)
+                    setCalculatorWingLoading(defaultValues.weight,defaultValues.weight_tandem,defaultValues.equipment,defaultValues.equipment_tandem,defaultValues.canopy,defaultValues.canopy_tandem,defaultValues.unit_KG)
                 }
                 HandlerUpdateIcons(0)
             }
@@ -436,7 +473,7 @@ class OverviewFragment : Fragment() {
                     binding.editNumberWeightTandem.setText(progress.toString())
                     binding.editNumberWeightTandem.setSelection(binding.editNumberWeightTandem.length())
                     clearFocusFromButtons()
-                    setCalculatorWingLoading(defaultValues.weight,defaultValues.weight_tandem,defaultValues.equipment,defaultValues.canopy,defaultValues.unit_KG)
+                    setCalculatorWingLoading(defaultValues.weight,defaultValues.weight_tandem,defaultValues.equipment,defaultValues.equipment_tandem,defaultValues.canopy,defaultValues.canopy_tandem,defaultValues.unit_KG)
                 }
                 HandlerUpdateIcons(4)
             }
@@ -451,7 +488,7 @@ class OverviewFragment : Fragment() {
                     binding.editNumberEquipment.setText(progress.toString())
                     binding.editNumberEquipment.setSelection(binding.editNumberEquipment.length())
                     clearFocusFromButtons()
-                    setCalculatorWingLoading(defaultValues.weight,defaultValues.weight_tandem,defaultValues.equipment,defaultValues.canopy,defaultValues.unit_KG)
+                    setCalculatorWingLoading(defaultValues.weight,defaultValues.weight_tandem,defaultValues.equipment,defaultValues.equipment_tandem,defaultValues.canopy,defaultValues.canopy_tandem,defaultValues.unit_KG)
                 }
                 HandlerUpdateIcons(1)
             }
@@ -466,7 +503,7 @@ class OverviewFragment : Fragment() {
                     binding.editNumberCanopy.setText(progress.toString())
                     binding.editNumberCanopy.setSelection(binding.editNumberCanopy.length())
                     clearFocusFromButtons()
-                    setCalculatorWingLoading(defaultValues.weight,defaultValues.weight_tandem,defaultValues.equipment,defaultValues.canopy,defaultValues.unit_KG)
+                    setCalculatorWingLoading(defaultValues.weight,defaultValues.weight_tandem,defaultValues.equipment,defaultValues.equipment_tandem,defaultValues.canopy,defaultValues.canopy_tandem,defaultValues.unit_KG)
                 }
                 HandlerUpdateIcons(2)
             }
@@ -490,62 +527,34 @@ class OverviewFragment : Fragment() {
 
 //Handling of +/- buttons for all values
 
-        fun updateValues()
-        {
-            when(valueToModify)
-            {
-                1->{
-                    var size :Int = Integer.parseInt(binding.editNumberWeight.text.toString())
-                    if(increaseValue)
-                    {
-                        size += onHoldTotalValue(size, increase = true, decrease = false)
-                    }else{
-                        size -=onHoldTotalValue(size, increase = false, decrease = true)
-                    }
-                    binding.editNumberWeight.setText(size.toString())
-                }
-                2->{
-                    var size :Int = Integer.parseInt(binding.editNumberEquipment.text.toString())
-                    if(increaseValue)
-                    {
-                        size += onHoldTotalValue(size, increase = true, decrease = false)
-                    }else{
-                        size -= onHoldTotalValue(size, increase = false, decrease = true)
-                    }
-                    binding.editNumberEquipment.setText(size.toString())
-                }
-                3->{
-                    var size :Int = Integer.parseInt(binding.editNumberCanopy.text.toString())
-                    if(increaseValue)
-                    {
-                        size += onHoldTotalValue(size, increase = true, decrease = false)
-                    }else{
-                        size -= onHoldTotalValue(size, increase = false, decrease = true)
-                    }
-                    binding.editNumberCanopy.setText(size.toString())
-                    setCalculatorWingLoading(defaultValues.weight,defaultValues.weight_tandem,defaultValues.equipment,defaultValues.canopy,defaultValues.unit_KG)
-                }
-                4->{
-                    if(increaseValue)
-                    {
-                        updateLoad(nochange = false, increase = true, decrease = false, onHold = true)
-                    }else{
-                        updateLoad(nochange = false, increase = false, decrease = true, onHold = true)
-                    }
-                }
-                5->{
-                    var size :Int = Integer.parseInt(binding.editNumberWeightTandem.text.toString())
-                    if(increaseValue)
-                    {
-                        size += onHoldTotalValue(size, increase = true, decrease = false)
-                    }else{
-                        size -=onHoldTotalValue(size, increase = false, decrease = true)
-                    }
-                    binding.editNumberWeightTandem.setText(size.toString())
-                }
+        fun updateValues() {
+            fun updateField(editText: EditText, defaultValue: Int? = null, isCanopy: Boolean = false) {
+                val currentValue = editText.text.toString().toIntOrNull() ?: return
+                val modifier = onHoldTotalValue(currentValue, increase = increaseValue, decrease = !increaseValue)
+                val newValue = if (increaseValue) currentValue + modifier else currentValue - modifier
+                editText.setText(newValue.toString())
 
+                if (isCanopy && defaultValue != null) {
+                    setCalculatorWingLoading(
+                        defaultValues.weight,
+                        defaultValues.weight_tandem,
+                        defaultValues.equipment,
+                        defaultValues.equipment_tandem,
+                        defaultValues.canopy,
+                        defaultValues.canopy_tandem,
+                        defaultValues.unit_KG
+                    )
+                }
+            }
+
+            when (valueToModify) {
+                1 -> updateField(binding.editNumberWeight)
+                2 -> updateField(binding.editNumberEquipment)
+                3 -> updateField(binding.editNumberCanopy, defaultValue = defaultValues.canopy, isCanopy = true)
+                4 -> updateLoad(nochange = false, increase = increaseValue, decrease = !increaseValue, onHold = true)
+                5 -> updateField(binding.editNumberWeightTandem)
                 else -> {
-                    //nothing
+                    // No action
                 }
             }
         }
@@ -681,7 +690,7 @@ class OverviewFragment : Fragment() {
             var size :Int = Integer.parseInt(binding.editNumberCanopy.text.toString())
             size -= 1
             binding.editNumberCanopy.setText(size.toString())
-            setCalculatorWingLoading(defaultValues.weight,defaultValues.weight_tandem,defaultValues.equipment,defaultValues.canopy,defaultValues.unit_KG)
+            setCalculatorWingLoading(defaultValues.weight,defaultValues.weight_tandem,defaultValues.equipment,defaultValues.equipment_tandem,defaultValues.canopy,defaultValues.canopy_tandem,defaultValues.unit_KG)
         }
         binding.buttonCanopyMinus.setOnTouchListener { _, event ->
             if (event.action == MotionEvent.ACTION_UP) {
@@ -701,7 +710,7 @@ class OverviewFragment : Fragment() {
             var size :Int = Integer.parseInt(binding.editNumberCanopy.text.toString())
             size += 1
             binding.editNumberCanopy.setText(size.toString())
-            setCalculatorWingLoading(defaultValues.weight,defaultValues.weight_tandem,defaultValues.equipment,defaultValues.canopy,defaultValues.unit_KG)
+            setCalculatorWingLoading(defaultValues.weight,defaultValues.weight_tandem,defaultValues.equipment,defaultValues.equipment_tandem,defaultValues.canopy,defaultValues.canopy_tandem,defaultValues.unit_KG)
         }
         binding.buttonCanopyPlus.setOnTouchListener { _, event ->
             if (event.action == MotionEvent.ACTION_UP) {
@@ -789,8 +798,16 @@ class OverviewFragment : Fragment() {
         val editor: SharedPreferences.Editor = shared_preferences_save.edit()
         editor.putInt("Weight",    binding.editNumberWeight.text.toString().toInt())
         editor.putInt("Weight_tandem", binding.editNumberWeightTandem.text.toString().toInt())
-        editor.putInt("Equipment", binding.editNumberEquipment.text.toString().toInt())
-        editor.putInt("Canopy",    binding.editNumberCanopy.text.toString().toInt())
+
+        if(binding.checkBoxTandem.isChecked){
+            editor.putInt("Equipment_tandem", binding.editNumberEquipment.text.toString().toInt())
+            editor.putInt("Canopy_tandem",    binding.editNumberCanopy.text.toString().toInt())
+        }
+        else{
+            editor.putInt("Equipment", binding.editNumberEquipment.text.toString().toInt())
+            editor.putInt("Canopy",    binding.editNumberCanopy.text.toString().toInt())
+        }
+
         editor.putBoolean("Tandem_checked", binding.checkBoxTandem.isChecked)
         editor.putBoolean("kg", binding.radioButtonKG.isChecked)
         editor.putBoolean("lbs", binding.radioButtonLBS.isChecked)
@@ -811,19 +828,28 @@ class OverviewFragment : Fragment() {
     }
     //*Functions used to convert kg/lbs
     //Updates the values of risk after modification of calculator values
-    private fun setCalculatorWingLoading(weight:Int, weight_tandem:Int, equipment: Int, canopy:Int, unit_KG:Boolean) {
+    private fun setCalculatorWingLoading(weight:Int, weightTandem:Int, equipment: Int,equipmentTandem: Int, canopy:Int,canopyTandem:Int, unit_KG:Boolean) {
 
         val wingLoading:Double
-        var totalWeight=weight+equipment
+        var totalWeight=weight
+
         if(binding.checkBoxTandem.isChecked)
         {
-            totalWeight += weight_tandem
-        }
-        if(unit_KG){
-            totalWeight= convertKGtoLBS(totalWeight)
+            totalWeight += weightTandem + equipmentTandem
+            if(unit_KG){
+                totalWeight= convertKGtoLBS(totalWeight)
+            }
+            wingLoading= totalWeight.toDouble()/canopyTandem.toDouble()
+        }else
+        {
+            totalWeight += equipment
+            if(unit_KG){
+                totalWeight= convertKGtoLBS(totalWeight)
+            }
+            wingLoading= totalWeight.toDouble()/canopy.toDouble()
+
         }
 
-        wingLoading= totalWeight.toDouble()/canopy.toDouble()
         val result = (wingLoading *100).toInt()
         binding.editNumberLoad.setText((result.toDouble()/100).toString())
         binding.seekBarLoad.progress = result
@@ -843,13 +869,18 @@ class OverviewFragment : Fragment() {
         saveData()
     }
     //Updates the value of canopy size after the modification of risk value
-    private fun setCalculatorWingSize(weight:Int, weight_tandem:Int, equipment: Int, wingLoading:Int, unit_KG:Boolean) {
+    private fun setCalculatorWingSize(weight:Int, weight_tandem:Int, equipment: Int,equipmentTandem: Int, wingLoading:Int, unit_KG:Boolean) {
         val canopy:Double
-        var totalWeight=weight+equipment
+
+        var totalWeight=weight
+
         if(binding.checkBoxTandem.isChecked)
         {
-            totalWeight += weight_tandem
+            totalWeight += weight_tandem + equipmentTandem
+        }else{
+            totalWeight += equipment
         }
+
         if(unit_KG){
             totalWeight= convertKGtoLBS(totalWeight)
         }
