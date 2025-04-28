@@ -23,6 +23,7 @@ import com.example.SkyCulator.StartingActivity
 import com.example.SkyCulator.databinding.FragmentOverviewBinding
 import kotlin.math.roundToInt
 import android.widget.EditText
+import androidx.core.content.ContextCompat
 
 /**
  * A simple [Fragment] subclass.
@@ -227,39 +228,63 @@ class OverviewFragment : Fragment() {
         defaultValues.setCalculatorValues()
 ////////////////////////////////////////////////////////////////////////////////////////////////////*I N I T I A L I S I N G ////////////////////////////////////////
 //Radio buttons handling
-        binding.radioGroup.setOnCheckedChangeListener { buttonView, isChecked ->
-
-            if(isChecked == binding.radioButtonKG.id) {
-            //Kilograms
-                defaultValues.weight = convertLBStoKG(defaultValues.weight)
-                defaultValues.weight_tandem = convertLBStoKG(defaultValues.weight_tandem)
-
+        binding.radioGroup.setOnCheckedChangeListener { group, checkedId ->
+            when (checkedId) {
+                binding.radioButtonKG.id -> {
+                    // Kilograms selected
+                    defaultValues.weight = convertLBStoKG(defaultValues.weight)
+                    defaultValues.weight_tandem = convertLBStoKG(defaultValues.weight_tandem)
                     defaultValues.equipment_tandem = convertLBStoKG(defaultValues.equipment_tandem)
                     defaultValues.equipment = convertLBStoKG(defaultValues.equipment)
 
-                defaultValues.unit_KG = true
-                defaultValues.unit_LBS= false
-                defaultValues.setCalculatorValues()
-                setCalculatorWingLoading(defaultValues.weight,defaultValues.weight_tandem,defaultValues.equipment,defaultValues.equipment_tandem,defaultValues.canopy,defaultValues.canopy_tandem,defaultValues.unit_KG)
+                    defaultValues.unit_KG = true
+                    defaultValues.unit_LBS = false
 
-            }
+//                    // UI Changes
+//                    binding.radioButtonKG.setBackgroundColor(ContextCompat.getColor(binding.root.context, R.color.selected_radio_color))
+//                    binding.radioButtonLBS.setBackgroundColor(ContextCompat.getColor(binding.root.context, R.color.unselected_radio_color))
 
-            if(isChecked == binding.radioButtonLBS.id) {
-            //LBS
-                defaultValues.weight = convertKGtoLBS(defaultValues.weight)
-                defaultValues.weight_tandem = convertKGtoLBS(defaultValues.weight_tandem)
+                    defaultValues.setCalculatorValues()
+                    setCalculatorWingLoading(
+                        defaultValues.weight,
+                        defaultValues.weight_tandem,
+                        defaultValues.equipment,
+                        defaultValues.equipment_tandem,
+                        defaultValues.canopy,
+                        defaultValues.canopy_tandem,
+                        defaultValues.unit_KG
+                    )
+                }
 
+                binding.radioButtonLBS.id -> {
+                    // Pounds selected
+                    defaultValues.weight = convertKGtoLBS(defaultValues.weight)
+                    defaultValues.weight_tandem = convertKGtoLBS(defaultValues.weight_tandem)
                     defaultValues.equipment_tandem = convertKGtoLBS(defaultValues.equipment_tandem)
-
                     defaultValues.equipment = convertKGtoLBS(defaultValues.equipment)
 
-                defaultValues.unit_KG = false
-                defaultValues.unit_LBS= true
-                defaultValues.setCalculatorValues()
-                setCalculatorWingLoading(defaultValues.weight,defaultValues.weight_tandem,defaultValues.equipment,defaultValues.equipment_tandem,defaultValues.canopy,defaultValues.canopy_tandem,defaultValues.unit_KG)
+                    defaultValues.unit_KG = false
+                    defaultValues.unit_LBS = true
+//
+//                    // UI Changes
+//                    binding.radioButtonKG.setBackgroundColor(ContextCompat.getColor(binding.root.context, R.drawable.button_states))
+//                    binding.radioButtonLBS.setBackgroundColor(ContextCompat.getColor(binding.root.context, R.drawable.button_states))
+
+                    defaultValues.setCalculatorValues()
+                    setCalculatorWingLoading(
+                        defaultValues.weight,
+                        defaultValues.weight_tandem,
+                        defaultValues.equipment,
+                        defaultValues.equipment_tandem,
+                        defaultValues.canopy,
+                        defaultValues.canopy_tandem,
+                        defaultValues.unit_KG
+                    )
+                }
             }
             saveData()
         }
+
 //*Radio buttons handling
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //Tandem checkbox handling
