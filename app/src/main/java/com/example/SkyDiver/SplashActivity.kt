@@ -1,4 +1,4 @@
-package com.example.SkyCulator
+package com.example.SkyDiver
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -6,7 +6,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
-import com.example.SkyCulator.databinding.ActivitySplashBinding
+import com.example.SkyDiver.databinding.ActivitySplashBinding
 
 class SplashActivity : AppCompatActivity() {
 

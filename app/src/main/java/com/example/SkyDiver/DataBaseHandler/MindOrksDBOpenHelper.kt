@@ -1,4 +1,4 @@
-package com.example.SkyCulator.DataBaseHandler
+package com.example.SkyDiver.DataBaseHandler
 
 import android.content.ContentValues
 import android.content.Context

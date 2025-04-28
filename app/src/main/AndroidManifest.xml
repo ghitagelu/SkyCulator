@@ -9,67 +9,50 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
-        <!-- StartingActivity -->
         <activity
-            android:name="com.example.SkyCulator.StartingActivity"
-            android:theme="@style/AppTheme.NoActionBarWithBackground"
+            android:name="com.example.SkyDiver.StartingActivity"
             android:windowSoftInputMode="adjustPan"
             android:screenOrientation="sensorPortrait"
-            tools:ignore="LockedOrientationActivity"
-            android:exported="true">
-        </activity>
+            tools:ignore="LockedOrientationActivity">
 
-        <!-- SplashActivity -->
+        </activity>
         <activity
-            android:name="com.example.SkyCulator.SplashActivity"
+            android:name="com.example.SkyDiver.SplashActivity"
             android:theme="@style/AppTheme.NoActionBarWithBackground"
             android:screenOrientation="sensorPortrait"
-            tools:ignore="LockedOrientationActivity"
-            android:exported="true">
+            tools:ignore="LockedOrientationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <!-- Add_PaymentReminder Activity -->
         <activity
-            android:name="com.example.SkyCulator.Add_PaymentReminder"
+            android:name="com.example.SkyDiver.Add_PaymentReminder"
             android:screenOrientation="sensorPortrait"
-            tools:ignore="LockedOrientationActivity"
-            android:exported="false" />
-
-        <!-- Add_IncomeOrExpense Activity -->
+            tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name="com.example.SkyCulator.Add_IncomeOrExpense"
+            android:name="com.example.SkyDiver.Add_IncomeOrExpense"
             android:screenOrientation="sensorPortrait"
-            tools:ignore="LockedOrientationActivity"
-            android:exported="false" />
-
-        <!-- ListOfItems Activity -->
+            tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name="com.example.SkyCulator.ListOfItems"
+            android:name="com.example.SkyDiver.ListOfItems"
             android:screenOrientation="sensorPortrait"
-            tools:ignore="LockedOrientationActivity"
-            android:exported="false" />
-
-        <!-- MainActivity (commented-out LAUNCHER) -->
+            tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name="com.example.SkyCulator.MainActivity"
+            android:name="com.example.SkyDiver.MainActivity"
             android:screenOrientation="sensorPortrait"
-            tools:ignore="LockedOrientationActivity"
-            android:exported="false">
+            tools:ignore="LockedOrientationActivity">
+
             <!-- <intent-filter> -->
             <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
             <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
             <!-- </intent-filter> -->
+
         </activity>
-
-        <!-- Receiver for notification -->
-        <receiver android:name="com.example.SkyCulator.ReminderBroadcast.ReminderBroadcast"
-            android:exported="false" />
-
+        <!--    Reciever for notification    -->
+        <receiver android:name="com.example.SkyDiver.ReminderBroadcast.ReminderBroadcast"/>
     </application>
 
 </manifest>

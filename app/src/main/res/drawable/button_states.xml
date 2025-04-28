@@ -2,7 +2,7 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item android:state_checked="true"
-        android:color="@color/tandem_checkbox_color"/> <!-- Checked -->
+        android:color="@color/selected_icons_color"/> <!-- Checked -->
     <item android:state_checked="false"
         android:color="@color/default_icons_color"/> <!-- NOT Checked -->
 

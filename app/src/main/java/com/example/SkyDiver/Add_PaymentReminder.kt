@@ -1,4 +1,4 @@
-package com.example.SkyCulator
+package com.example.SkyDiver
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

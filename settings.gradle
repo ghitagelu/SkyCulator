@@ -1,2 +1,2 @@
-rootProject.name='SkuCulator'
+rootProject.name='Income_Status'
 include ':app'

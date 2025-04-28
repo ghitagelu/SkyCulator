@@ -1,4 +1,4 @@
-package com.example.SkyCulator.ReminderBroadcast;
+package com.example.SkyDiver.ReminderBroadcast;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -7,7 +7,7 @@ import android.content.Intent;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
-import com.example.SkyCulator.R;
+import com.example.SkyDiver.R;
 
 public class ReminderBroadcast extends BroadcastReceiver {
 

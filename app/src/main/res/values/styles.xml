@@ -11,18 +11,6 @@
         <item name="android:shadowRadius">1</item>
     </style>
 
-    <style name="Radio_BlackTextFontWithWhiteBorder">
-        <item name="android:paddingLeft">4px</item>
-        <item name="android:paddingBottom">4px</item>
-        <item name="android:textColor">@color/font_text</item>
-        <item name="android:textSize">12sp</item>
-        <item name="android:shadowColor">@color/font_shadow</item>
-        <item name="android:shadowDx">1</item>
-        <item name="android:shadowDy">1</item>
-        <item name="android:shadowRadius">1</item>
-        <item name="android:button">@null</item> <!-- Remove default circle -->
-    </style>
-
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->

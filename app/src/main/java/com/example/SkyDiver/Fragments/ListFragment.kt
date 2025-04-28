@@ -1,4 +1,4 @@
-package com.example.SkyCulator.Fragments
+package com.example.SkyDiver.Fragments
 
 import android.animation.LayoutTransition
 import android.content.Context
@@ -16,11 +16,11 @@ import android.widget.SeekBar
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
-import com.example.SkyCulator.FreeFallCalculations.FreeFallCalculator
-import com.example.SkyCulator.FreeFallCalculations.calculateAcceleration
-import com.example.SkyCulator.R
-import com.example.SkyCulator.StartingActivity
-import com.example.SkyCulator.databinding.FragmentListBinding
+import com.example.SkyDiver.FreeFallCalculations.FreeFallCalculator
+import com.example.SkyDiver.FreeFallCalculations.calculateAcceleration
+import com.example.SkyDiver.R
+import com.example.SkyDiver.StartingActivity
+import com.example.SkyDiver.databinding.FragmentListBinding
 import kotlin.math.roundToInt
 
 

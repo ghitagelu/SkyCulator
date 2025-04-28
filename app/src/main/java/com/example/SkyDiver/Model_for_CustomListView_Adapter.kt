@@ -1,4 +1,4 @@
-package com.example.SkyCulator
+package com.example.SkyDiver
 
 import android.content.Context
 import android.view.LayoutInflater
