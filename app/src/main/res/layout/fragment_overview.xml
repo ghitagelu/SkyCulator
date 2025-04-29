@@ -32,7 +32,8 @@
             android:id="@+id/RadioConstraintLayout"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="2dp"
            >
 
             <RadioGroup
