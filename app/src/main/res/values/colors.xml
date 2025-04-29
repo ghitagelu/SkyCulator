@@ -26,6 +26,9 @@
         <color name="default_icons_color">#74666161</color>
         <!--    //Selected -->
         <color name="selected_icons_color">#4FFFFFFF</color>
+        <color name="tandem_checkbox_color">#7DE476</color>
+        <color name="radio_default_icons_color">#00323232</color>
+        <color name="radio_selected_default_icons_color">#61666161</color>
 
 <!--  J U M P  L E V E L-->
 <!--    0   -->
@@ -59,4 +62,9 @@
 
     <color name="starting_splash_background">#575555</color>
     <color name="best_blue">#3399CC</color>
+
+    <!--  R A D I O  B U T T O N S-->
+    <color name="selected_radio_color">#000000</color> <!-- Darker color for selected -->
+    <color name="unselected_radio_color">#808080</color> <!-- Lighter gray for unselected -->
+
 </resources>

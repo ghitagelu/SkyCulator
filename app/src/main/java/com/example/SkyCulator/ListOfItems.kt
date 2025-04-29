@@ -1,4 +1,4 @@
-package com.example.SkyDiver
+package com.example.SkyCulator
 
 import android.app.Activity
 import android.content.Intent
