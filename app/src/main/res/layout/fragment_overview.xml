@@ -16,15 +16,24 @@
         android:animateLayoutChanges="true"
         android:background="@color/navBar_color_transparent"
         android:splitMotionEvents="false">
-
+<androidx.cardview.widget.CardView
+    android:id="@+id/RadioCardView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="3dp"
+    app:cardBackgroundColor="#8DFFFFFF"
+    app:cardCornerRadius="15dp"
+    app:cardElevation="0dp"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    >
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/RadioConstraintLayout"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginTop="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+           >
 
             <RadioGroup
                 android:id="@+id/radioGroup"
@@ -37,26 +46,32 @@
 
                 <RadioButton
                     android:id="@+id/radioButtonKG"
-                    style="@style/BlackTextFontWithWhiteBorder"
+                    style="@style/Radio_BlackTextFontWithWhiteBorder"
                     android:layout_width="75dp"
                     android:layout_height="match_parent"
                     android:buttonTint="@drawable/button_states"
+                    android:background="@drawable/radio_button_background_selector"
                     android:checked="false"
+                    android:soundEffectsEnabled="false"
                     android:text="KG"
-                    android:textSize="20dp"
-                    android:soundEffectsEnabled="false"/>
+                    android:textSize="22dp"
+                    android:textStyle="bold"
+                    android:gravity="center_vertical|center_horizontal"/>
 
                 <RadioButton
                     android:id="@+id/radioButtonLBS"
-                    style="@style/BlackTextFontWithWhiteBorder"
+                    style="@style/Radio_BlackTextFontWithWhiteBorder"
                     android:layout_width="75dp"
                     android:layout_height="match_parent"
                     android:buttonTint="@drawable/button_states"
+                    android:background="@drawable/radio_button_background_selector"
                     android:checked="true"
+                    android:soundEffectsEnabled="false"
                     android:text="LBS"
                     android:textColorLink="@color/selected_icons_color"
-                    android:textSize="20dp"
-                    android:soundEffectsEnabled="false"/>
+                    android:textSize="22dp"
+                    android:textStyle="bold"
+                    android:gravity="center_vertical|center_horizontal" />
             </RadioGroup>
 
             <TextView
@@ -68,6 +83,7 @@
                 android:text="@string/units"
                 android:textAlignment="center"
                 android:textSize="25dp"
+                android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -77,345 +93,415 @@
                 style="@style/BlackTextFontWithWhiteBorder"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:soundEffectsEnabled="false"
                 android:layout_marginEnd="5dp"
                 android:buttonTint="@drawable/button_states"
                 android:checked="false"
+                android:soundEffectsEnabled="false"
                 android:text="@string/tandem"
-                android:textSize="20dp"
+                android:textSize="25dp"
+                android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/WeightConstraintLayout"
+        <androidx.cardview.widget.CardView
+            android:id="@+id/WeightCardView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
-            app:layout_constraintTop_toBottomOf="@+id/RadioConstraintLayout"
-            tools:layout_editor_absoluteX="0dp">
-
-            <TextView
-                android:id="@+id/textView_weight"
-                style="@style/BlackTextFontWithWhiteBorder"
-                android:layout_width="wrap_content"
-                android:layout_height="35dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="4dp"
-                android:paddingTop="5dp"
-                android:text="Weight"
-                android:textAlignment="center"
-                android:textSize="15dp"
-                app:layout_constraintBottom_toTopOf="@+id/seekBarWeight"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <Button
-                android:id="@+id/buttonWeightMinus"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:layout_marginTop="4dp"
-                android:background="@drawable/navigation_bar_shape"
-                android:backgroundTint="@color/selected_icons_color"
-                android:paddingTop="0dp"
-                android:text="-"
-                android:textAlignment="center"
-                android:textColor="@android:color/secondary_text_light"
-                android:textSize="25dp"
-                android:soundEffectsEnabled="false"
-                app:layout_constraintBottom_toTopOf="@+id/seekBarWeight"
-                app:layout_constraintEnd_toStartOf="@+id/editNumberWeight"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <EditText
-                android:id="@+id/editNumberWeight"
-                android:layout_width="100dp"
-                android:layout_height="35dp"
-                android:layout_marginTop="4dp"
-                android:background="@drawable/navigation_bar_shape"
-                android:backgroundTint="@color/selected_icons_color"
-                android:ems="10"
-                android:focusable="false"
-                android:includeFontPadding="false"
-                android:inputType="number"
-                android:longClickable="false"
-                android:paddingVertical="10dp"
-                android:textAlignment="center"
-                android:textSize="15dp"
-                app:layout_constraintBottom_toTopOf="@+id/seekBarWeight"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <Button
-                android:id="@+id/buttonWeightPlus"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:layout_marginTop="4dp"
-                android:background="@drawable/navigation_bar_shape"
-                android:backgroundTint="@color/selected_icons_color"
-                android:paddingTop="0dp"
-                android:text="+"
-                android:textAlignment="center"
-                android:textColor="@android:color/secondary_text_light"
-                android:textSize="25dp"
-                android:soundEffectsEnabled="false"
-                app:layout_constraintBottom_toTopOf="@+id/seekBarWeight"
-                app:layout_constraintStart_toEndOf="@+id/editNumberWeight"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/textViewWeightUnits"
-                style="@style/BlackTextFontWithWhiteBorder"
-                android:layout_width="wrap_content"
-                android:layout_height="35dp"
-                android:layout_marginTop="4dp"
-                android:layout_marginEnd="8dp"
-                android:paddingTop="5dp"
-                android:text=" kg"
-                android:textAlignment="center"
-                android:textSize="15dp"
-                app:layout_constraintBottom_toTopOf="@+id/seekBarWeight"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <SeekBar
-                android:id="@+id/seekBarWeight"
+            android:layout_margin="3dp"
+            app:cardBackgroundColor="#8DFFFFFF"
+            app:cardCornerRadius="15dp"
+            app:cardElevation="0dp"
+            app:layout_constraintTop_toBottomOf="@+id/RadioCardView"
+            tools:layout_editor_absoluteX="3dp">
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:max="265"
-                android:min="99"
-                android:progress="1"
-                android:progressDrawable="@drawable/seek_bar_calculator_fragment_color_0"
-                android:thumb="@drawable/ic_seek_bar_thumb_weight_0"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="8dp">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/WeightTandemConstraintLayout"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/WeightConstraintLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                app:layout_constraintTop_toTopOf="@+id/WeightCardView">
+
+                <TextView
+                    android:id="@+id/textView_weight"
+                    style="@style/BlackTextFontWithWhiteBorder"
+                    android:layout_width="wrap_content"
+                    android:layout_height="35dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="4dp"
+                    android:paddingTop="5dp"
+                    android:text="Weight"
+                    android:textAlignment="center"
+                    android:textSize="20dp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toTopOf="@+id/seekBarWeight"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <Button
+                    android:id="@+id/buttonWeightMinus"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/navigation_bar_shape"
+                    android:backgroundTint="@color/selected_icons_color"
+                    android:gravity="center"
+                    android:includeFontPadding="false"
+                    android:lineHeight="45sp"
+                    android:padding="0dp"
+                    android:text="-"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/secondary_text_light"
+                    android:textSize="45sp"
+                    app:layout_constraintBottom_toTopOf="@+id/seekBarWeight"
+                    app:layout_constraintEnd_toStartOf="@+id/editNumberWeight"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <EditText
+                    android:id="@+id/editNumberWeight"
+                    style="@style/BlackTextFontWithWhiteBorder"
+                    android:layout_width="100dp"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/navigation_bar_shape"
+                    android:backgroundTint="@color/selected_icons_color"
+                    android:ems="10"
+                    android:focusable="false"
+                    android:includeFontPadding="false"
+                    android:inputType="number"
+                    android:longClickable="false"
+                    android:paddingVertical="10dp"
+                    android:textAlignment="center"
+                    android:textSize="25dp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toTopOf="@+id/seekBarWeight"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.617"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.0" />
+
+                <Button
+                    android:id="@+id/buttonWeightPlus"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/navigation_bar_shape"
+                    android:backgroundTint="@color/selected_icons_color"
+                    android:gravity="center"
+                    android:includeFontPadding="false"
+                    android:lineHeight="45sp"
+                    android:padding="0dp"
+                    android:text="+"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/secondary_text_light"
+                    android:textSize="45sp"
+                    app:layout_constraintBottom_toTopOf="@+id/seekBarWeight"
+                    app:layout_constraintStart_toEndOf="@+id/editNumberWeight"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+                <TextView
+                    android:id="@+id/textViewWeightUnits"
+                    style="@style/BlackTextFontWithWhiteBorder"
+                    android:layout_width="wrap_content"
+                    android:layout_height="35dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginEnd="8dp"
+                    android:paddingTop="5dp"
+                    android:text=" kg"
+                    android:textAlignment="center"
+                    android:textSize="20dp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toTopOf="@+id/seekBarWeight"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <SeekBar
+                    android:id="@+id/seekBarWeight"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:max="265"
+                    android:min="99"
+                    android:progress="1"
+                    android:progressDrawable="@drawable/seek_bar_calculator_fragment_color_0"
+                    android:thumb="@drawable/ic_seek_bar_thumb_weight_0"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/WeightTandemConstraintLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                app:layout_constraintTop_toBottomOf="@+id/WeightConstraintLayout">
+
+                <TextView
+                    android:id="@+id/textView_weight_tandem"
+                    style="@style/BlackTextFontWithWhiteBorder"
+                    android:layout_width="wrap_content"
+                    android:layout_height="35dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="4dp"
+                    android:paddingTop="5dp"
+                    android:text="Weight"
+                    android:textAlignment="center"
+                    android:textSize="20dp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toTopOf="@+id/seekBarWeightTandem"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <Button
+                    android:id="@+id/buttonWeightTandemMinus"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/navigation_bar_shape"
+                    android:backgroundTint="@color/selected_icons_color"
+                    android:gravity="center"
+                    android:includeFontPadding="false"
+                    android:lineHeight="45sp"
+                    android:padding="0dp"
+                    android:text="-"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/secondary_text_light"
+                    android:textSize="45sp"
+                    app:layout_constraintBottom_toTopOf="@+id/seekBarWeightTandem"
+                    app:layout_constraintEnd_toStartOf="@+id/editNumberWeightTandem"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <EditText
+                    android:id="@+id/editNumberWeightTandem"
+                    style="@style/BlackTextFontWithWhiteBorder"
+                    android:layout_width="100dp"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/navigation_bar_shape"
+                    android:backgroundTint="@color/selected_icons_color"
+                    android:ems="10"
+                    android:focusable="false"
+                    android:includeFontPadding="false"
+                    android:inputType="number"
+                    android:longClickable="false"
+                    android:paddingVertical="10dp"
+                    android:textAlignment="center"
+                    android:textSize="25dp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toTopOf="@+id/seekBarWeightTandem"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.617"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.0" />
+
+                <Button
+                    android:id="@+id/buttonWeightTandemPlus"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/navigation_bar_shape"
+                    android:backgroundTint="@color/selected_icons_color"
+                    android:gravity="center"
+                    android:includeFontPadding="false"
+                    android:lineHeight="45sp"
+                    android:padding="0dp"
+                    android:text="+"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/secondary_text_light"
+                    android:textSize="45sp"
+                    app:layout_constraintBottom_toTopOf="@+id/seekBarWeightTandem"
+                    app:layout_constraintStart_toEndOf="@+id/editNumberWeightTandem"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/textViewWeightTandemUnits"
+                    style="@style/BlackTextFontWithWhiteBorder"
+                    android:layout_width="wrap_content"
+                    android:layout_height="35dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginEnd="8dp"
+                    android:paddingTop="5dp"
+                    android:text=" kg"
+                    android:textAlignment="center"
+                    android:textSize="20dp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toTopOf="@+id/seekBarWeightTandem"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <SeekBar
+                    android:id="@+id/seekBarWeightTandem"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:max="265"
+                    android:min="99"
+                    android:progress="1"
+                    android:progressDrawable="@drawable/seek_bar_calculator_fragment_color_0"
+                    android:thumb="@drawable/ic_seek_bar_thumb_weight_0"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/EquipmentCardView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="3dp"
+                app:cardBackgroundColor="#3BFFFFFF"
+                app:cardCornerRadius="15dp"
+                app:cardElevation="0dp"
+                app:layout_constraintTop_toBottomOf="@+id/WeightTandemConstraintLayout"
+                >
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/EquipmentConstraintLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:layout_editor_absoluteX="0dp"
+                    tools:layout_editor_absoluteY="313dp">
+
+                    <TextView
+                        android:id="@+id/textView_equipment"
+                        style="@style/BlackTextFontWithWhiteBorder"
+                        android:layout_width="wrap_content"
+                        android:layout_height="35dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="4dp"
+                        android:paddingTop="5dp"
+                        android:text="Equipment"
+                        android:textAlignment="center"
+                        android:textSize="20dp"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toTopOf="@+id/seekBarEquipment"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="1.0" />
+
+                    <Button
+                        android:id="@+id/buttonEquipmentMinus"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_marginTop="4dp"
+                        android:background="@drawable/navigation_bar_shape"
+                        android:backgroundTint="@color/selected_icons_color"
+                        android:gravity="center"
+                        android:includeFontPadding="false"
+                        android:lineHeight="45sp"
+                        android:padding="0dp"
+                        android:text="-"
+                        android:textAlignment="center"
+                        android:textColor="@android:color/secondary_text_light"
+                        android:textSize="45sp"
+                        app:layout_constraintBottom_toTopOf="@+id/seekBarEquipment"
+                        app:layout_constraintEnd_toStartOf="@+id/editNumberEquipment"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <EditText
+                        android:id="@+id/editNumberEquipment"
+                        style="@style/BlackTextFontWithWhiteBorder"
+                        android:layout_width="100dp"
+                        android:layout_height="50dp"
+                        android:layout_marginTop="4dp"
+                        android:background="@drawable/navigation_bar_shape"
+                        android:backgroundTint="@color/selected_icons_color"
+                        android:ems="10"
+                        android:focusable="false"
+                        android:includeFontPadding="false"
+                        android:inputType="number"
+                        android:longClickable="false"
+                        android:paddingHorizontal="10dp"
+                        android:paddingVertical="10dp"
+                        android:textAlignment="center"
+                        android:textSize="25dp"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toTopOf="@+id/seekBarEquipment"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.617"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.0" />
+
+                    <Button
+                        android:id="@+id/buttonEquipmentPlus"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_marginTop="4dp"
+                        android:background="@drawable/navigation_bar_shape"
+                        android:backgroundTint="@color/selected_icons_color"
+                        android:gravity="center"
+                        android:includeFontPadding="false"
+                        android:lineHeight="45sp"
+                        android:padding="0dp"
+                        android:text="+"
+                        android:textAlignment="center"
+                        android:textColor="@android:color/secondary_text_light"
+                        android:textSize="45sp"
+                        app:layout_constraintBottom_toTopOf="@+id/seekBarEquipment"
+                        app:layout_constraintStart_toEndOf="@+id/editNumberEquipment"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/textViewEquipmentUnits"
+                        style="@style/BlackTextFontWithWhiteBorder"
+                        android:layout_width="wrap_content"
+                        android:layout_height="35dp"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginEnd="8dp"
+                        android:paddingTop="5dp"
+                        android:text=" kg"
+                        android:textAlignment="center"
+                        android:textSize="20dp"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toTopOf="@+id/seekBarEquipment"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <SeekBar
+                        android:id="@+id/seekBarEquipment"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:max="55"
+                        android:min="10"
+                        android:progress="1"
+                        android:progressDrawable="@drawable/seek_bar_calculator_fragment_color_0"
+                        android:thumb="@drawable/ic_seek_bar_thumb_weight_1"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/CanopyCardView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
-
-            app:layout_constraintTop_toBottomOf="@+id/WeightConstraintLayout"
-            tools:layout_editor_absoluteX="0dp">
-
-            <TextView
-                android:id="@+id/textView_weight_tandem"
-                style="@style/BlackTextFontWithWhiteBorder"
-                android:layout_width="wrap_content"
-                android:layout_height="35dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="4dp"
-                android:paddingTop="5dp"
-                android:text="Weight"
-                android:textAlignment="center"
-                android:textSize="15dp"
-                app:layout_constraintBottom_toTopOf="@+id/seekBarWeightTandem"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <Button
-                android:id="@+id/buttonWeightTandemMinus"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:layout_marginTop="4dp"
-                android:background="@drawable/navigation_bar_shape"
-                android:backgroundTint="@color/selected_icons_color"
-                android:paddingTop="0dp"
-                android:text="-"
-                android:textAlignment="center"
-                android:textColor="@android:color/secondary_text_light"
-                android:textSize="25dp"
-                android:soundEffectsEnabled="false"
-                app:layout_constraintBottom_toTopOf="@+id/seekBarWeightTandem"
-                app:layout_constraintEnd_toStartOf="@+id/editNumberWeightTandem"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <EditText
-                android:id="@+id/editNumberWeightTandem"
-                android:layout_width="100dp"
-                android:layout_height="35dp"
-                android:layout_marginTop="4dp"
-                android:background="@drawable/navigation_bar_shape"
-                android:backgroundTint="@color/selected_icons_color"
-                android:ems="10"
-                android:focusable="false"
-                android:includeFontPadding="false"
-                android:inputType="number"
-                android:longClickable="false"
-                android:paddingVertical="10dp"
-                android:textAlignment="center"
-                android:textSize="15dp"
-                app:layout_constraintBottom_toTopOf="@+id/seekBarWeightTandem"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <Button
-                android:id="@+id/buttonWeightTandemPlus"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:layout_marginTop="4dp"
-                android:background="@drawable/navigation_bar_shape"
-                android:backgroundTint="@color/selected_icons_color"
-                android:paddingTop="0dp"
-                android:text="+"
-                android:textAlignment="center"
-                android:textColor="@android:color/secondary_text_light"
-                android:textSize="25dp"
-                android:soundEffectsEnabled="false"
-                app:layout_constraintBottom_toTopOf="@+id/seekBarWeightTandem"
-                app:layout_constraintStart_toEndOf="@+id/editNumberWeightTandem"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/textViewWeightTandemUnits"
-                style="@style/BlackTextFontWithWhiteBorder"
-                android:layout_width="wrap_content"
-                android:layout_height="35dp"
-                android:layout_marginTop="4dp"
-                android:layout_marginEnd="8dp"
-                android:paddingTop="5dp"
-                android:text=" kg"
-                android:textAlignment="center"
-                android:textSize="15dp"
-                app:layout_constraintBottom_toTopOf="@+id/seekBarWeightTandem"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <SeekBar
-                android:id="@+id/seekBarWeightTandem"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:max="265"
-                android:min="99"
-                android:progress="1"
-                android:progressDrawable="@drawable/seek_bar_calculator_fragment_color_0"
-                android:thumb="@drawable/ic_seek_bar_thumb_weight_0"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/EquipmentConstraintLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
-            app:layout_constraintTop_toBottomOf="@+id/WeightTandemConstraintLayout"
-            tools:layout_editor_absoluteX="0dp">
-
-            <TextView
-                android:id="@+id/textView_equipment"
-                style="@style/BlackTextFontWithWhiteBorder"
-                android:layout_width="wrap_content"
-                android:layout_height="35dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="4dp"
-                android:paddingTop="5dp"
-                android:text="Equipment"
-                android:textAlignment="center"
-                android:textSize="15dp"
-                app:layout_constraintBottom_toTopOf="@+id/seekBarEquipment"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="1.0" />
-
-            <Button
-                android:id="@+id/buttonEquipmentMinus"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:layout_marginTop="4dp"
-                android:background="@drawable/navigation_bar_shape"
-                android:backgroundTint="@color/selected_icons_color"
-                android:paddingTop="0dp"
-                android:text="-"
-                android:textAlignment="center"
-                android:textColor="@android:color/secondary_text_light"
-                android:textSize="25dp"
-                android:soundEffectsEnabled="false"
-                app:layout_constraintBottom_toTopOf="@+id/seekBarEquipment"
-                app:layout_constraintEnd_toStartOf="@+id/editNumberEquipment"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <EditText
-                android:id="@+id/editNumberEquipment"
-                android:layout_width="100dp"
-                android:layout_height="35dp"
-                android:layout_marginTop="4dp"
-                android:background="@drawable/navigation_bar_shape"
-                android:backgroundTint="@color/selected_icons_color"
-                android:ems="10"
-                android:focusable="false"
-                android:includeFontPadding="false"
-                android:inputType="number"
-                android:longClickable="false"
-                android:paddingVertical="10dp"
-                android:textAlignment="center"
-                android:textSize="15dp"
-                app:layout_constraintBottom_toTopOf="@+id/seekBarEquipment"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <Button
-                android:id="@+id/buttonEquipmentPlus"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:layout_marginTop="4dp"
-                android:background="@drawable/navigation_bar_shape"
-                android:backgroundTint="@color/selected_icons_color"
-                android:paddingTop="0dp"
-                android:text="+"
-                android:textAlignment="center"
-                android:textColor="@android:color/secondary_text_light"
-                android:textSize="25dp"
-                android:soundEffectsEnabled="false"
-                app:layout_constraintBottom_toTopOf="@+id/seekBarEquipment"
-                app:layout_constraintStart_toEndOf="@+id/editNumberEquipment"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/textViewEquipmentUnits"
-                style="@style/BlackTextFontWithWhiteBorder"
-                android:layout_width="wrap_content"
-                android:layout_height="35dp"
-                android:layout_marginTop="4dp"
-                android:layout_marginEnd="8dp"
-                android:paddingTop="5dp"
-                android:text=" kg"
-                android:textAlignment="center"
-                android:textSize="15dp"
-                app:layout_constraintBottom_toTopOf="@+id/seekBarEquipment"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <SeekBar
-                android:id="@+id/seekBarEquipment"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:max="55"
-                android:min="10"
-                android:progress="1"
-                android:progressDrawable="@drawable/seek_bar_calculator_fragment_color_0"
-                android:thumb="@drawable/ic_seek_bar_thumb_weight_1"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            android:layout_margin="3dp"
+            app:cardBackgroundColor="#8DFFFFFF"
+            app:cardCornerRadius="15dp"
+            app:cardElevation="0dp"
+            app:layout_constraintTop_toBottomOf="@+id/WeightCardView"
+            tools:layout_editor_absoluteX="3dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/Canopy_constraintLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
-            app:layout_constraintTop_toBottomOf="@+id/EquipmentConstraintLayout"
+            app:layout_constraintBottom_toTopOf="@+id/Load_constraintLayout"
             tools:layout_editor_absoluteX="0dp">
 
             <TextView
@@ -428,32 +514,36 @@
                 android:paddingTop="5dp"
                 android:text="Canopy"
                 android:textAlignment="center"
-                android:textSize="15dp"
+                android:textSize="20dp"
+                android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@+id/seekBarCanopy"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <Button
                 android:id="@+id/buttonCanopyMinus"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:layout_marginTop="4dp"
                 android:background="@drawable/navigation_bar_shape"
                 android:backgroundTint="@color/selected_icons_color"
-                android:paddingTop="0dp"
+                android:gravity="center"
+                android:includeFontPadding="false"
+                android:lineHeight="45sp"
+                android:padding="0dp"
                 android:text="-"
                 android:textAlignment="center"
                 android:textColor="@android:color/secondary_text_light"
-                android:textSize="25dp"
-                android:soundEffectsEnabled="false"
+                android:textSize="45sp"
                 app:layout_constraintBottom_toTopOf="@+id/seekBarCanopy"
                 app:layout_constraintEnd_toStartOf="@+id/editNumberCanopy"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <EditText
                 android:id="@+id/editNumberCanopy"
+                style="@style/BlackTextFontWithWhiteBorder"
                 android:layout_width="100dp"
-                android:layout_height="35dp"
+                android:layout_height="50dp"
                 android:layout_marginTop="4dp"
                 android:background="@drawable/navigation_bar_shape"
                 android:backgroundTint="@color/selected_icons_color"
@@ -464,25 +554,30 @@
                 android:longClickable="false"
                 android:paddingVertical="10dp"
                 android:textAlignment="center"
-                android:textSize="15dp"
+                android:textSize="25dp"
+                android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@+id/seekBarCanopy"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.617"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="1.0" />
 
             <Button
                 android:id="@+id/buttonCanopyPlus"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:layout_marginTop="4dp"
                 android:background="@drawable/navigation_bar_shape"
                 android:backgroundTint="@color/selected_icons_color"
-                android:paddingTop="0dp"
+                android:gravity="center"
+                android:includeFontPadding="false"
+                android:lineHeight="45sp"
+                android:padding="0dp"
                 android:text="+"
                 android:textAlignment="center"
                 android:textColor="@android:color/secondary_text_light"
-                android:textSize="25dp"
-                android:soundEffectsEnabled="false"
+                android:textSize="45sp"
                 app:layout_constraintBottom_toTopOf="@+id/seekBarCanopy"
                 app:layout_constraintStart_toEndOf="@+id/editNumberCanopy"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -497,7 +592,8 @@
                 android:paddingTop="5dp"
                 android:text=" sq ft"
                 android:textAlignment="center"
-                android:textSize="15dp"
+                android:textSize="20dp"
+                android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@+id/seekBarCanopy"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -517,13 +613,23 @@
                 app:layout_constraintStart_toStartOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
 
+        <androidx.cardview.widget.CardView
+            android:id="@+id/LoadCardView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="3dp"
+            app:cardBackgroundColor="#8DFFFFFF"
+            app:cardCornerRadius="15dp"
+            app:cardElevation="0dp"
+            app:layout_constraintTop_toBottomOf="@+id/CanopyCardView"
+            tools:layout_editor_absoluteX="3dp">
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/Load_constraintLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
-            app:layout_constraintTop_toBottomOf="@+id/Canopy_constraintLayout"
+            app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
             tools:layout_editor_absoluteX="0dp">
 
             <TextView
@@ -536,32 +642,36 @@
                 android:paddingTop="5dp"
                 android:text="Load"
                 android:textAlignment="center"
-                android:textSize="15dp"
+                android:textSize="20dp"
+                android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@+id/seekBarLoad"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <Button
                 android:id="@+id/buttonLoadMinus"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:layout_marginTop="4dp"
                 android:background="@drawable/navigation_bar_shape"
                 android:backgroundTint="@color/selected_icons_color"
-                android:paddingTop="0dp"
+                android:gravity="center"
+                android:includeFontPadding="false"
+                android:lineHeight="45sp"
+                android:padding="0dp"
                 android:text="-"
                 android:textAlignment="center"
                 android:textColor="@android:color/secondary_text_light"
-                android:textSize="25dp"
-                android:soundEffectsEnabled="false"
+                android:textSize="45sp"
                 app:layout_constraintBottom_toTopOf="@+id/seekBarLoad"
                 app:layout_constraintEnd_toStartOf="@+id/editNumberLoad"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <EditText
                 android:id="@+id/editNumberLoad"
+                style="@style/BlackTextFontWithWhiteBorder"
                 android:layout_width="100dp"
-                android:layout_height="35dp"
+                android:layout_height="50dp"
                 android:layout_marginTop="4dp"
                 android:background="@drawable/navigation_bar_shape"
                 android:backgroundTint="@color/selected_icons_color"
@@ -572,25 +682,30 @@
                 android:longClickable="false"
                 android:paddingVertical="10dp"
                 android:textAlignment="center"
-                android:textSize="15dp"
+                android:textSize="25dp"
+                android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@+id/seekBarLoad"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.617"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0" />
 
             <Button
                 android:id="@+id/buttonLoadPlus"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:layout_marginTop="4dp"
                 android:background="@drawable/navigation_bar_shape"
                 android:backgroundTint="@color/selected_icons_color"
-                android:paddingTop="0dp"
+                android:gravity="center"
+                android:includeFontPadding="false"
+                android:lineHeight="45sp"
+                android:padding="0dp"
                 android:text="+"
                 android:textAlignment="center"
                 android:textColor="@android:color/secondary_text_light"
-                android:textSize="25dp"
-                android:soundEffectsEnabled="false"
+                android:textSize="45sp"
                 app:layout_constraintBottom_toTopOf="@+id/seekBarLoad"
                 app:layout_constraintStart_toEndOf="@+id/editNumberLoad"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -610,26 +725,29 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+    </androidx.cardview.widget.CardView>
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/Jumps_constaintLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/Load_constraintLayout">
+            app:layout_constraintTop_toBottomOf="@+id/LoadCardView">
 
             <TextView
                 android:id="@+id/textViewJumpsLevel"
                 style="@style/BlackTextFontWithWhiteBorder"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:layout_marginTop="1dp"
                 android:gravity="center"
                 android:text="TextView"
                 android:textAlignment="center"
+                android:textSize="25sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintStart_toStartOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

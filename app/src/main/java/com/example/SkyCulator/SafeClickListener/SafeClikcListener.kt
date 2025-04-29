@@ -1,4 +1,4 @@
-package com.example.SkyDiver.SafeClickListener
+package com.example.SkyCulator.SafeClickListener
 
 import android.os.SystemClock
 import android.view.View
