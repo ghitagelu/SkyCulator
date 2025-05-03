@@ -16,6 +16,9 @@
     <color name="font_text">#CE000000</color>
     <color name="font_shadow">#8DFFFFFF</color>
 
+<!--  C A R D   V I E W  C O L O R -->
+<color name="card_color">#7AFFFFFF</color>
+
 <!--  B O T T O M     N A V     B A R  -->
     <!--    // NavBar color (navigation_bar_shape.xml) -->
         <color name="navBar_color">#B01472BD</color>
@@ -25,7 +28,7 @@
         <!--    //Default -->
         <color name="default_icons_color">#74666161</color>
         <!--    //Selected -->
-        <color name="selected_icons_color">#4FFFFFFF</color>
+        <color name="selected_icons_color">#7EFFFFFF</color>
         <color name="tandem_checkbox_color">#7DE476</color>
         <color name="radio_default_icons_color">#00323232</color>
         <color name="radio_selected_default_icons_color">#61666161</color>
