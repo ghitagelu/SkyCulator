@@ -592,18 +592,19 @@ class OverviewFragment : Fragment() {
             override fun onFinish() {}
         }
     /////////////////////////////////B U T T O N S //////////////////////////////////////////
+        val cancelCounterTouchListener = View.OnTouchListener { _, event ->
+            if (event.action == MotionEvent.ACTION_UP || event.action == MotionEvent.ACTION_CANCEL) {
+                weightCounter.cancel()
+            }
+            false
+        }
     //Weight
         //Weight -
+        binding.buttonWeightMinus.setOnTouchListener(cancelCounterTouchListener)
         binding.buttonWeightMinus.setOnClickListener {
             var size :Int = Integer.parseInt(binding.editNumberWeight.text.toString())
             size -= 1
             binding.editNumberWeight.setText(size.toString())
-        }
-        binding.buttonWeightMinus.setOnTouchListener { _, event ->
-            if (event.action == MotionEvent.ACTION_UP) {
-                weightCounter.cancel()
-            }
-            false
         }
         binding.buttonWeightMinus.setOnLongClickListener{
              valueToModify = 1
@@ -613,16 +614,11 @@ class OverviewFragment : Fragment() {
         }
 
         //Weight +
+        binding.buttonWeightPlus.setOnTouchListener(cancelCounterTouchListener)
         binding.buttonWeightPlus.setOnClickListener {
             var size :Int = Integer.parseInt(binding.editNumberWeight.text.toString())
             size += 1
             binding.editNumberWeight.setText(size.toString())
-        }
-        binding.buttonWeightPlus.setOnTouchListener { _, event ->
-            if (event.action == MotionEvent.ACTION_UP) {
-                weightCounter.cancel()
-            }
-            false
         }
         binding.buttonWeightPlus.setOnLongClickListener {
             valueToModify = 1
@@ -633,16 +629,11 @@ class OverviewFragment : Fragment() {
 
     //Weight_tandem
         //Weight_tandem -
+        binding.buttonWeightTandemMinus.setOnTouchListener(cancelCounterTouchListener)
         binding.buttonWeightTandemMinus.setOnClickListener {
             var size :Int = Integer.parseInt(binding.editNumberWeightTandem.text.toString())
             size -= 1
             binding.editNumberWeightTandem.setText(size.toString())
-        }
-        binding.buttonWeightTandemMinus.setOnTouchListener { _, event ->
-            if (event.action == MotionEvent.ACTION_UP) {
-                weightCounter.cancel()
-            }
-            false
         }
         binding.buttonWeightTandemMinus.setOnLongClickListener{
              valueToModify = 5
@@ -652,16 +643,11 @@ class OverviewFragment : Fragment() {
         }
 
         //Weight_tandem +
+        binding.buttonWeightTandemPlus.setOnTouchListener(cancelCounterTouchListener)
         binding.buttonWeightTandemPlus.setOnClickListener {
             var size :Int = Integer.parseInt(binding.editNumberWeightTandem.text.toString())
             size += 1
             binding.editNumberWeightTandem.setText(size.toString())
-        }
-        binding.buttonWeightTandemPlus.setOnTouchListener { _, event ->
-            if (event.action == MotionEvent.ACTION_UP) {
-                weightCounter.cancel()
-            }
-            false
         }
         binding.buttonWeightTandemPlus.setOnLongClickListener {
             valueToModify = 5
@@ -672,16 +658,11 @@ class OverviewFragment : Fragment() {
 
     //Equipment
         //Equipment -
+        binding.buttonEquipmentMinus.setOnTouchListener(cancelCounterTouchListener)
         binding.buttonEquipmentMinus.setOnClickListener {
             var size :Int = Integer.parseInt(binding.editNumberEquipment.text.toString())
             size -= 1
             binding.editNumberEquipment.setText(size.toString())
-        }
-        binding.buttonEquipmentMinus.setOnTouchListener { _, event ->
-            if (event.action == MotionEvent.ACTION_UP) {
-                weightCounter.cancel()
-            }
-            false
         }
         binding.buttonEquipmentMinus.setOnLongClickListener {
             valueToModify = 2
@@ -690,16 +671,11 @@ class OverviewFragment : Fragment() {
             return@setOnLongClickListener true
         }
         //Equipment +
+        binding.buttonEquipmentPlus.setOnTouchListener(cancelCounterTouchListener)
         binding.buttonEquipmentPlus.setOnClickListener {
             var size :Int = Integer.parseInt(binding.editNumberEquipment.text.toString())
             size += 1
             binding.editNumberEquipment.setText(size.toString())
-        }
-        binding.buttonEquipmentPlus.setOnTouchListener { _, event ->
-            if (event.action == MotionEvent.ACTION_UP) {
-                weightCounter.cancel()
-            }
-            false
         }
         binding.buttonEquipmentPlus.setOnLongClickListener {
             valueToModify = 2
@@ -710,18 +686,13 @@ class OverviewFragment : Fragment() {
 
     //Canopy
         //Canopy  -
+        binding.buttonCanopyMinus.setOnTouchListener(cancelCounterTouchListener)
         binding.buttonCanopyMinus.setOnClickListener {
 
             var size :Int = Integer.parseInt(binding.editNumberCanopy.text.toString())
             size -= 1
             binding.editNumberCanopy.setText(size.toString())
             setCalculatorWingLoading(defaultValues.weight,defaultValues.weight_tandem,defaultValues.equipment,defaultValues.equipment_tandem,defaultValues.canopy,defaultValues.canopy_tandem,defaultValues.unit_KG)
-        }
-        binding.buttonCanopyMinus.setOnTouchListener { _, event ->
-            if (event.action == MotionEvent.ACTION_UP) {
-                weightCounter.cancel()
-            }
-            false
         }
         binding.buttonCanopyMinus.setOnLongClickListener {
             valueToModify = 3
@@ -731,17 +702,12 @@ class OverviewFragment : Fragment() {
         }
 
         //Canopy  +
+        binding.buttonCanopyPlus.setOnTouchListener(cancelCounterTouchListener)
         binding.buttonCanopyPlus.setOnClickListener {
             var size :Int = Integer.parseInt(binding.editNumberCanopy.text.toString())
             size += 1
             binding.editNumberCanopy.setText(size.toString())
             setCalculatorWingLoading(defaultValues.weight,defaultValues.weight_tandem,defaultValues.equipment,defaultValues.equipment_tandem,defaultValues.canopy,defaultValues.canopy_tandem,defaultValues.unit_KG)
-        }
-        binding.buttonCanopyPlus.setOnTouchListener { _, event ->
-            if (event.action == MotionEvent.ACTION_UP) {
-                weightCounter.cancel()
-            }
-            false
         }
         binding.buttonCanopyPlus.setOnLongClickListener {
             valueToModify = 3
@@ -752,14 +718,9 @@ class OverviewFragment : Fragment() {
 
     //Load
         //Load -
+        binding.buttonLoadMinus.setOnTouchListener(cancelCounterTouchListener)
         binding.buttonLoadMinus.setOnClickListener {
             updateLoad(nochange = false, increase = false, decrease = true, onHold = false)
-        }
-        binding.buttonLoadMinus.setOnTouchListener { _, event ->
-            if (event.action == MotionEvent.ACTION_UP) {
-                weightCounter.cancel()
-            }
-            false
         }
         binding.buttonLoadMinus.setOnLongClickListener {
             valueToModify = 4
@@ -768,14 +729,9 @@ class OverviewFragment : Fragment() {
             return@setOnLongClickListener true
         }
         //Load +
+        binding.buttonLoadPlus.setOnTouchListener(cancelCounterTouchListener)
         binding.buttonLoadPlus.setOnClickListener {
             updateLoad(nochange = false, increase = true, decrease = false, onHold = false)
-        }
-        binding.buttonLoadPlus.setOnTouchListener { _, event ->
-            if (event.action == MotionEvent.ACTION_UP) {
-                weightCounter.cancel()
-            }
-            false
         }
         binding.buttonLoadPlus.setOnLongClickListener {
             valueToModify = 4
