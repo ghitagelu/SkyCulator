@@ -48,6 +48,10 @@ class ListFragment : Fragment() {
     ): View {
         Log.d("App stages", "Fragment List starting")
         shared_preferences_save2 =this.activity!!.getSharedPreferences("save_calculator_values", Context.MODE_PRIVATE)
+
+        // Inflate the layout for this fragment
+        _binding = FragmentListBinding.inflate(inflater, container, false)
+
         class SeekBarLimits(
             var seekBarWeight_min: Int,        var seekBarWeight_max: Int,
         )
@@ -557,11 +561,10 @@ class ListFragment : Fragment() {
         //Side Note:   android:animateLayoutChanges="true" needed aswell
         binding.MainConstraintLayout2.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
 
-        setBackground()
+//        setBackground()
 
 
-        // Inflate the layout for this fragment
-        _binding = FragmentListBinding.inflate(inflater, container, false)
+
         val view = binding.root
         return view
     }

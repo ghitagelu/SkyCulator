@@ -38,10 +38,22 @@ class StartingActivity : AppCompatActivity() {
         selectedImage = (1..8).random()
         viewPager.currentItem = 0
 
+
+        // ViewPager handling icon change in Menu bar when different fragment is opened
         viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
+                // Action to perform when a page is selected
                 changinTabs(viewPager.currentItem)
+                // You can perform other actions here
+            }
+            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
+                super.onPageScrolled(position, positionOffset, positionOffsetPixels)
+                // Handle scroll state if needed
+            }
+            override fun onPageScrollStateChanged(state: Int) {
+                super.onPageScrollStateChanged(state)
+                // Handle changes in scroll state if needed
             }
         })
 
