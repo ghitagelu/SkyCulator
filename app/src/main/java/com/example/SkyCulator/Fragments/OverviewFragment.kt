@@ -593,8 +593,15 @@ class OverviewFragment : Fragment() {
         }
     /////////////////////////////////B U T T O N S //////////////////////////////////////////
         val cancelCounterTouchListener = View.OnTouchListener { _, event ->
-            if (event.action == MotionEvent.ACTION_UP || event.action == MotionEvent.ACTION_CANCEL) {
-                weightCounter.cancel()
+            val activity = activity as? StartingActivity
+            when (event.action) {
+                MotionEvent.ACTION_DOWN -> {
+                    activity?.setViewPagerUserInputEnabled(false)  // Disable swipe while holding
+                }
+                MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
+                    activity?.setViewPagerUserInputEnabled(true)   // Re-enable swipe
+                    weightCounter.cancel()
+                }
             }
             false
         }

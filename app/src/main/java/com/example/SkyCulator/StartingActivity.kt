@@ -38,6 +38,9 @@ class StartingActivity : AppCompatActivity() {
         selectedImage = (1..8).random()
         viewPager.currentItem = 0
 
+        //Fragment swiping ( false = disabled )
+        viewPager.isUserInputEnabled = true
+
 
         // ViewPager handling icon change in Menu bar when different fragment is opened
         viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
@@ -56,6 +59,9 @@ class StartingActivity : AppCompatActivity() {
                 // Handle changes in scroll state if needed
             }
         })
+
+
+
 
         homeBtn = binding.homeBtn
         homeBtn.setOnClickListener {
@@ -93,5 +99,8 @@ class StartingActivity : AppCompatActivity() {
             homeBtn.setImageResource(R.drawable.ic_pie_chart_default_24dp)
             listBtn.setImageResource(R.drawable.ic_view_list_selected_24dp)
         }
+    }
+    fun setViewPagerUserInputEnabled(enabled: Boolean) {
+        binding.viewPager.isUserInputEnabled = enabled
     }
 }
