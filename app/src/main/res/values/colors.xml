@@ -18,6 +18,7 @@
 
 <!--  C A R D   V I E W  C O L O R -->
 <color name="card_color">#7AFFFFFF</color>
+<color name="card_color_load">#A8FFFFFF</color>
 
 <!--  B O T T O M     N A V     B A R  -->
     <!--    // NavBar color (navigation_bar_shape.xml) -->
