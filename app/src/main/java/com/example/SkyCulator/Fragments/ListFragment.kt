@@ -13,6 +13,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SeekBar
+import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
@@ -561,7 +562,7 @@ class ListFragment : Fragment() {
         //Side Note:   android:animateLayoutChanges="true" needed aswell
         binding.MainConstraintLayout2.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
 
-//        setBackground()
+        setBackground()
 
 
 
@@ -582,22 +583,21 @@ class ListFragment : Fragment() {
 
 
     //Set background
-    private fun setBackground()
-    {
-        when((activity as StartingActivity?)?.getImageSelecter())
-        {
-            1->binding.layoutMainForBackground2.background = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.clouds12, null)
-            2->binding.layoutMainForBackground2.background = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.clouds22, null)
-            3->binding.layoutMainForBackground2.background = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.clouds32, null)
-            4->binding.layoutMainForBackground2.background = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.clouds42, null)
-            5->binding.layoutMainForBackground2.background = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.clouds52, null)
-            6->binding.layoutMainForBackground2.background = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.clouds62, null)
-            7->binding.layoutMainForBackground2.background = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.clouds72, null)
-            8->binding.layoutMainForBackground2.background = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.clouds82, null)
-            else -> {
-                binding.layoutMainForBackground2.background = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.clouds12, null)
-            }
+    private fun setBackground() {
+        val resId = when ((activity as? StartingActivity)?.getImageSelecter()) {
+            1 -> R.drawable.clouds12
+            2 -> R.drawable.clouds22
+            3 -> R.drawable.clouds32
+            4 -> R.drawable.clouds42
+            5 -> R.drawable.clouds52
+            6 -> R.drawable.clouds62
+            7 -> R.drawable.clouds72
+            8 -> R.drawable.clouds82
+            else -> R.drawable.clouds11
         }
+
+        binding.layoutMainForBackground2.background =
+            ContextCompat.getDrawable(requireContext(), resId)
     }
     //Handling of on hold + and - buttons
     private fun onHoldTotalValue(size : Int, increase:Boolean, decrease: Boolean):Int

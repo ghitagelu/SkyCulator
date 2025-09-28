@@ -1022,23 +1022,22 @@ class OverviewFragment : Fragment() {
 //*Handling of on hold + and - buttons
 
 //Set background
-    private fun setBackground()
-    {
-        when((activity as StartingActivity?)?.getImageSelecter())
-        {
-            1->binding.layoutMainForBackground.background = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.clouds11, null)
-            2->binding.layoutMainForBackground.background = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.clouds21, null)
-            3->binding.layoutMainForBackground.background = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.clouds31, null)
-            4->binding.layoutMainForBackground.background = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.clouds41, null)
-            5->binding.layoutMainForBackground.background = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.clouds51, null)
-            6->binding.layoutMainForBackground.background = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.clouds61, null)
-            7->binding.layoutMainForBackground.background = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.clouds71, null)
-            8->binding.layoutMainForBackground.background = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.clouds81, null)
-            else -> {
-                binding.layoutMainForBackground.background = ResourcesCompat.getDrawable(activity!!.resources, R.drawable.clouds11, null)
-            }
-        }
+private fun setBackground() {
+    val resId = when ((activity as? StartingActivity)?.getImageSelecter()) {
+        1 -> R.drawable.clouds11
+        2 -> R.drawable.clouds21
+        3 -> R.drawable.clouds31
+        4 -> R.drawable.clouds41
+        5 -> R.drawable.clouds51
+        6 -> R.drawable.clouds61
+        7 -> R.drawable.clouds71
+        8 -> R.drawable.clouds81
+        else -> R.drawable.clouds11
     }
+
+    binding.layoutMainForBackground.background =
+        ContextCompat.getDrawable(requireContext(), resId)
+}
 
 //Handling of seek bar thumbs icons updating on certain progress
     private fun InitIcons ()
